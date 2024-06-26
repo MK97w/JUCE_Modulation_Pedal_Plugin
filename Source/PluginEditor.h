@@ -30,16 +30,9 @@ private:
     // access the processor object that created it.
     Modulation_Pedal_PluginAudioProcessor& audioProcessor;
 
-    juce::CustomizedLook::Knob leftKnob;
-    juce::CustomizedLook::Knob rightKnob_1;
-    juce::CustomizedLook::Knob rightKnob_2;
-    juce::CustomizedLook::Knob rightKnob_3;
-    juce::CustomizedLook::Knob rightKnob_4;
-    juce::CustomizedLook::Knob rightKnob_5;
-
-    juce::CustomizedLook::FootswitchButton leftFootswitch;
-    juce::CustomizedLook::FootswitchButton midFootswitch;
-    juce::CustomizedLook::FootswitchButton rightFootswitch;
+    juce::CustomizedLook::Knob leftKnob, rightKnob_1, rightKnob_2, rightKnob_3, rightKnob_4, rightKnob_5;
+    juce::CustomizedLook::FootswitchButton leftFootswitch, midFootswitch, rightFootswitch;
+    juce::Label rate,depth,level,param1,param2,fs1,fs2,fs3;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (Modulation_Pedal_PluginAudioProcessorEditor)
 };

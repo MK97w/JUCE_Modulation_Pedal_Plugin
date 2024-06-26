@@ -21,7 +21,7 @@ namespace juce
     void CustomizedLook::FootswitchButton::mouseDown(const MouseEvent& event)
     {
         isDown = true;
-        sendChangeMessage();
+        //sendChangeMessage();
         redraw();
     }
     void CustomizedLook::FootswitchButton::mouseUp(const MouseEvent& event)
@@ -76,8 +76,5 @@ namespace juce
             img.getWidth(),
             img.getWidth());
     }
-
-
-
 
 }

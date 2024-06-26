@@ -34,7 +34,7 @@ Modulation_Pedal_PluginAudioProcessorEditor::Modulation_Pedal_PluginAudioProcess
     setSize (960, 540);
 
     leftKnob.setLookAndFeel(&leftKnob);
-    leftKnob.setRange(0.0f, 10.0f);
+    leftKnob.setRange(0.0f, 20.0f,5.0f);
     addAndMakeVisible(leftKnob);
     leftKnob.setSliderStyle(juce::Slider::SliderStyle::RotaryVerticalDrag);
     leftKnob.setTextBoxStyle(juce::Slider::NoTextBox, true, 90, 90);
@@ -73,6 +73,41 @@ Modulation_Pedal_PluginAudioProcessorEditor::Modulation_Pedal_PluginAudioProcess
     addAndMakeVisible(midFootswitch);
     addAndMakeVisible(rightFootswitch);
 
+
+    rate.setText("RATE/VALUE", juce::dontSendNotification);
+    rate.setFont(juce::Font(16.0f,juce::Font::bold));
+    rate.setColour(juce::Label::textColourId, juce::Colours::black);
+    rate.setJustificationType(juce::Justification::centred);
+    addAndMakeVisible(rate);
+
+
+    depth.setText("DEPTH", juce::dontSendNotification);
+    depth.setFont(juce::Font(16.0f, juce::Font::bold));
+    depth.setColour(juce::Label::textColourId, juce::Colours::black);
+    depth.setJustificationType(juce::Justification::centred);
+    addAndMakeVisible(depth);
+
+
+    level.setText("LEVEL", juce::dontSendNotification);
+    level.setFont(juce::Font(16.0f, juce::Font::bold));
+    level.setColour(juce::Label::textColourId, juce::Colours::black);
+    level.setJustificationType(juce::Justification::centred);
+    addAndMakeVisible(level);
+
+    param1.setText("PARAM 1", juce::dontSendNotification);
+    param1.setFont(juce::Font(16.0f, juce::Font::bold));
+    param1.setColour(juce::Label::textColourId, juce::Colours::black);
+    param1.setJustificationType(juce::Justification::centred);
+    addAndMakeVisible(param1);
+
+    param2.setText("PARAM 2", juce::dontSendNotification);
+    param2.setFont(juce::Font(16.0f, juce::Font::bold));
+    param2.setColour(juce::Label::textColourId, juce::Colours::black);
+    param2.setJustificationType(juce::Justification::centred);
+    addAndMakeVisible(param2);
+
+
+
 }
 
 Modulation_Pedal_PluginAudioProcessorEditor::~Modulation_Pedal_PluginAudioProcessorEditor()
@@ -106,6 +141,13 @@ void Modulation_Pedal_PluginAudioProcessorEditor::resized()
     rightKnob_3.setBounds(725, 50, 90, 90);
     rightKnob_4.setBounds(625, 160, 90, 90);
     rightKnob_5.setBounds(725, 160, 90, 90);
+
+    rate.setBounds(525, 0, 90, 90);
+    depth.setBounds(625, 0, 90, 90);
+    level.setBounds(725, 0, 90, 90);
+    param1.setBounds(625, 110, 90, 90);
+    param2.setBounds(725, 110, 90, 90);
+
 
     leftFootswitch.setBounds(155,420,90,90);
     midFootswitch.setBounds(430, 420, 90, 90);
