@@ -15,7 +15,8 @@
 //==============================================================================
 /**
 */
-class Modulation_Pedal_PluginAudioProcessorEditor  : public juce::AudioProcessorEditor
+class Modulation_Pedal_PluginAudioProcessorEditor  : public juce::AudioProcessorEditor,
+                                                     public juce::Slider::Listener
 {
 public:
     Modulation_Pedal_PluginAudioProcessorEditor (Modulation_Pedal_PluginAudioProcessor&);
@@ -24,6 +25,7 @@ public:
     //==============================================================================
     void paint (juce::Graphics&) override;
     void resized() override;
+    void valueChanged(juce::Slider* slider) override;
 
 private:
     // This reference is provided as a quick way for your editor to

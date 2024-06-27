@@ -153,7 +153,10 @@ void Modulation_Pedal_PluginAudioProcessor::processBlock (juce::AudioBuffer<floa
     for (int channel = 0; channel < totalNumInputChannels; ++channel)
     {
         auto* channelData = buffer.getWritePointer (channel);
-
+        for (int sample = 0; sample < buffer.getNumSamples(); ++sample)
+        {
+            channelData[sample] = channelData[sample] * juce::Decibels::decibelsToGain(mGain);
+        }
         // ..do something to the data...
     }
 }

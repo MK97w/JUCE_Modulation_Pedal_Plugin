@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <JUCERPROJECT id="FFrzIl" name="Modulation_Pedal_Plugin" projectType="audioplug"
-              useAppConfig="0" addUsingNamespaceToJuceHeader="0" jucerFormatVersion="1">
+              useAppConfig="0" addUsingNamespaceToJuceHeader="0" jucerFormatVersion="1"
+              displaySplashScreen="1">
   <MAINGROUP id="yT3KEy" name="Modulation_Pedal_Plugin">
     <GROUP id="{C407C8E2-906D-EE75-48A6-A8F1506E3842}" name="Assets">
       <GROUP id="{B34CEA6D-A728-7C6A-EDD6-69B97D3A5A20}" name="footswitches">

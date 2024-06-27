@@ -34,7 +34,10 @@ Modulation_Pedal_PluginAudioProcessorEditor::Modulation_Pedal_PluginAudioProcess
     setSize (960, 540);
 
     leftKnob.setLookAndFeel(&leftKnob);
-    leftKnob.setRange(0.0f, 20.0f,5.0f);
+    //leftKnob.setRange(0.0f, 20.0f,5.0f); temporarly disabled step size.
+    leftKnob.setRange(-60.0f, 0.0f, 0.01f);
+    leftKnob.setValue(-20.0f);
+    leftKnob.addListener(this);
     addAndMakeVisible(leftKnob);
     leftKnob.setSliderStyle(juce::Slider::SliderStyle::RotaryVerticalDrag);
     leftKnob.setTextBoxStyle(juce::Slider::NoTextBox, true, 90, 90);
@@ -142,14 +145,23 @@ void Modulation_Pedal_PluginAudioProcessorEditor::resized()
     rightKnob_4.setBounds(625, 160, 90, 90);
     rightKnob_5.setBounds(725, 160, 90, 90);
 
-    rate.setBounds(525, 0, 90, 90);
+   /* rate.setBounds(525, 0, 90, 90);
     depth.setBounds(625, 0, 90, 90);
     level.setBounds(725, 0, 90, 90);
     param1.setBounds(625, 110, 90, 90);
     param2.setBounds(725, 110, 90, 90);
-
+*/
 
     leftFootswitch.setBounds(155,420,90,90);
     midFootswitch.setBounds(430, 420, 90, 90);
     rightFootswitch.setBounds(705, 420, 90, 90);
+}
+
+
+void Modulation_Pedal_PluginAudioProcessorEditor::valueChanged(juce::Slider* slider)
+{
+    if (slider == &leftKnob)
+    {
+        audioProcessor.mGain = leftKnob.getValue();
+    }
 }
