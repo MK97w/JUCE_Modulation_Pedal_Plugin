@@ -158,10 +158,11 @@ void Modulation_Pedal_PluginAudioProcessorEditor::resized()
 }
 
 
-void Modulation_Pedal_PluginAudioProcessorEditor::valueChanged(juce::Slider* slider)
+void Modulation_Pedal_PluginAudioProcessorEditor::sliderValueChanged(juce::Slider* slider)
 {
     if (slider == &leftKnob)
     {
         audioProcessor.mGain = leftKnob.getValue();
     }
+        
 }
