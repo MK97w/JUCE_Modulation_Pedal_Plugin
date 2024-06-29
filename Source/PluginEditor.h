@@ -12,6 +12,7 @@
 #include "PluginProcessor.h"
 #include "CustomLookAndFeel.h"
 
+
 //==============================================================================
 /**
 */
@@ -35,6 +36,34 @@ private:
     juce::CustomizedLook::Knob leftKnob, rightKnob_1, rightKnob_2, rightKnob_3, rightKnob_4, rightKnob_5;
     juce::CustomizedLook::FootswitchButton leftFootswitch, midFootswitch, rightFootswitch;
     juce::Label rate,depth,level,param1,param2,fs1,fs2,fs3;
+
+    class CustomFontLookAndFeel : public juce::LookAndFeel_V4
+    {
+    public:
+        CustomFontLookAndFeel()
+        {
+            // without this custom Fonts won't work!!
+            LookAndFeel::setDefaultLookAndFeel(this);
+
+            // This can be used as one way of setting a default font
+            // setDefaultSansSerifTypeface (getCustomFont().getTypeface());
+        }
+
+        static const juce::Font getCustomFont()
+        {
+            static auto typeface = juce::Typeface::createSystemTypefaceFor(BinaryData::munro_ttf, BinaryData::munro_ttfSize);
+            return juce::Font(typeface);
+        }
+
+        /*juce::Typeface::Ptr getTypefaceForFont(const juce::Font& f) override  --> Problem in JUCE 8??
+        {
+            // This can be used to fully change/inject fonts.
+            // For example: return different TTF/OTF based on weight of juce::Font (bold/italic/etc)
+            return getCustomFont().getTypeface();
+        }*/
+    private:
+    } customFontLookAndFeel;
+
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (Modulation_Pedal_PluginAudioProcessorEditor)
 };

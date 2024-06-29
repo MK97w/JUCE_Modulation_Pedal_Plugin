@@ -130,7 +130,8 @@ void Modulation_Pedal_PluginAudioProcessorEditor::paint (juce::Graphics& g)
     g.fillAll (getLookAndFeel().findColour (juce::ResizableWindow::backgroundColourId));
     g.drawImage(juce::ImageCache::getFromMemory(BinaryData::pedal_base_png, BinaryData::pedal_base_pngSize), getLocalBounds().toFloat());
     g.setColour (juce::Colours::white);
-    g.setFont (juce::FontOptions (15.0f));
+    g.setFont (CustomFontLookAndFeel::getCustomFont().withHeight(20.0f));
+    g.drawText("Hello, JUCE!", 250, 10, 200, 200, juce::Justification::centred);
 }
 
 void Modulation_Pedal_PluginAudioProcessorEditor::resized()
