@@ -5,6 +5,9 @@
               displaySplashScreen="1">
   <MAINGROUP id="yT3KEy" name="Modulation_Pedal_Plugin">
     <GROUP id="{C407C8E2-906D-EE75-48A6-A8F1506E3842}" name="Assets">
+      <GROUP id="{309629EF-4112-444B-7313-B5A0E325330A}" name="fonts">
+        <FILE id="pDbyq4" name="munro.ttf" compile="0" resource="1" file="Assets/fonts/munro.ttf"/>
+      </GROUP>
       <GROUP id="{B34CEA6D-A728-7C6A-EDD6-69B97D3A5A20}" name="footswitches">
         <FILE id="F1DWyQ" name="left_footswitch_idle.png" compile="0" resource="1"
               file="Assets/footswitches/left_footswitch_idle.png"/>
