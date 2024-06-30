@@ -131,7 +131,19 @@ void Modulation_Pedal_PluginAudioProcessorEditor::paint (juce::Graphics& g)
     g.drawImage(juce::ImageCache::getFromMemory(BinaryData::pedal_base_png, BinaryData::pedal_base_pngSize), getLocalBounds().toFloat());
     g.setColour (juce::Colours::white);
     g.setFont (CustomFontLookAndFeel::getCustomFont().withHeight(20.0f));
-    g.drawText("Hello, JUCE!", 250, 10, 200, 200, juce::Justification::centred);
+    juce::String text = "DELAY ";//somehow i need one more char to fit the text in the box
+    auto m = CustomFontLookAndFeel::getCustomFont().getStringWidth(text);
+    g.drawText(text, 285, 89, CustomFontLookAndFeel::getCustomFont().getStringWidth(text), 20, juce::Justification::centredLeft);
+
+
+    /*
+    * Pixel area of display 
+    * 
+    *  (285,89)*------------*(470,89)
+    *          |            |
+    *          |            | 
+    * (285,200)*------------*(470,200)
+    */
 }
 
 void Modulation_Pedal_PluginAudioProcessorEditor::resized()
