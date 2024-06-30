@@ -130,19 +130,81 @@ void Modulation_Pedal_PluginAudioProcessorEditor::paint (juce::Graphics& g)
     g.fillAll (getLookAndFeel().findColour (juce::ResizableWindow::backgroundColourId));
     g.drawImage(juce::ImageCache::getFromMemory(BinaryData::pedal_base_png, BinaryData::pedal_base_pngSize), getLocalBounds().toFloat());
     g.setColour (juce::Colours::white);
-    g.setFont (CustomFontLookAndFeel::getCustomFont().withHeight(20.0f));
-    juce::String text = "DELAY ";//somehow i need one more char to fit the text in the box
-    auto m = CustomFontLookAndFeel::getCustomFont().getStringWidth(text);
-    g.drawText(text, 285, 89, CustomFontLookAndFeel::getCustomFont().getStringWidth(text), 20, juce::Justification::centredLeft);
 
+/*
+    juce::String text2 = "RATE:";
+    auto font = CustomFontLookAndFeel::getCustomFont().withHeight(20.0f);
+    int textWidth = font.getStringWidth(text2);
+    int textHeight = 20; 
+
+    g.setColour(juce::Colours::lightgrey); 
+    // Draw the bounding box
+    // Adjust the x, y, width, and height as needed
+    g.fillRect(285, 130, (472-285), textHeight);
+
+    // Now set the color for the text
+    g.setColour(juce::Colours::black); // Change this to your desired text color
+    g.setFont(font);
+
+    // Draw the text over the bounding box
+    g.drawText(text2, 285, 120, textWidth, textHeight, juce::Justification::centredLeft);
+*/
+   int outerLeft = 285, outerTop = 89, outerRight = 472, outerBottom = 200;
+   int innerLeft = outerLeft + 4;
+   int innerTop = outerTop + 5;
+   int innerRight = outerRight - 4;
+   int innerBottom = outerBottom - 5;
+   int innerWidth = innerRight - innerLeft;
+   int innerHeight = innerBottom - innerTop;
+   g.setColour(juce::Colours::lightgrey);
+   float cornerSize = 5.0f; 
+   g.drawRoundedRectangle(juce::Rectangle<float>(innerLeft, innerTop, innerWidth, innerHeight), cornerSize, 2.0f);
+
+   g.setFont(CustomFontLookAndFeel::getCustomFont().withHeight(18.0f));
+   juce::String text = "TREMOLO";
+   auto m = CustomFontLookAndFeel::getCustomFont().getStringWidth(text);
+   g.drawText(text, innerLeft, innerTop+1, (innerRight - innerLeft), 20, juce::Justification::horizontallyCentred);
+
+   juce::String text2 = "DEPTH:";
+   auto font = CustomFontLookAndFeel::getCustomFont().withHeight(18.0f);
+   int textWidth = font.getStringWidth(text2);
+   int textHeight = 18;
+
+   g.setColour(juce::Colours::lightgrey);
+   g.fillRect(innerLeft+1, innerTop+19, (innerRight - innerLeft), textHeight);
+
+   // Now set the color for the text
+   g.setColour(juce::Colours::black); // Change this to your desired text color
+   g.setFont(font);
+
+   // Draw the text over the bounding box
+   g.drawText(text2, innerLeft+4, innerTop+19, textWidth, textHeight, juce::Justification::centredLeft);
+
+
+   juce::String text3 = "EFFECT LEVEL:";
+
+   int textWidth2 = font.getStringWidth(text3);
+   g.setColour(juce::Colours::lightgrey);
+   g.drawText(text3, innerLeft + 4, innerTop + 40, textWidth2, textHeight, juce::Justification::centredLeft);
+
+   juce::String text4 = "WAVEFORM:";
+
+   int textWidth3 = font.getStringWidth(text4);
+   g.setColour(juce::Colours::lightgrey);
+   g.drawText(text4, innerLeft + 4, innerTop + 61, textWidth3, textHeight, juce::Justification::centredLeft);
+   
+   juce::String text5 = "DIRECT LEVEL:";
+   int textWidth4 = font.getStringWidth(text5);
+   g.setColour(juce::Colours::lightgrey);
+   g.drawText(text5, innerLeft + 4, innerTop + 82, textWidth4, textHeight, juce::Justification::centredLeft);
 
     /*
     * Pixel area of display 
     * 
-    *  (285,89)*------------*(470,89)
+    *  (285,89)*------------*(472,89)
     *          |            |
     *          |            | 
-    * (285,200)*------------*(470,200)
+    * (285,200)*------------*(472,200)
     */
 }
 
