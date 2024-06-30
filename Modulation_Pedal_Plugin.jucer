@@ -31,6 +31,12 @@
               file="Assets/right_side_knob/right_side_knob.png"/>
       </GROUP>
       <FILE id="pRZYLx" name="pedal_base.png" compile="0" resource="1" file="Assets/pedal_base.png"/>
+      <FILE id="Wi6REk" name="pedal_base_darkblue_lcd.png" compile="0" resource="1"
+            file="Assets/pedal_base_darkblue_lcd.png"/>
+      <FILE id="veaE4u" name="pedal_base_darkestblue_lcd.png" compile="0"
+            resource="1" file="Assets/pedal_base_darkestblue_lcd.png"/>
+      <FILE id="LbDAHf" name="pedal_base_maxblue_lcd.png" compile="0" resource="1"
+            file="Assets/pedal_base_maxblue_lcd.png"/>
     </GROUP>
     <GROUP id="{70D114C3-5627-9D96-54E6-587272A970C3}" name="Source">
       <FILE id="oldZeP" name="CustomLookAndFeel.cpp" compile="1" resource="0"

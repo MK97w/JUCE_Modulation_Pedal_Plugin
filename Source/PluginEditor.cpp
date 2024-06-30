@@ -128,7 +128,7 @@ void Modulation_Pedal_PluginAudioProcessorEditor::paint (juce::Graphics& g)
 {
     // (Our component is opaque, so we must completely fill the background with a solid colour)
     g.fillAll (getLookAndFeel().findColour (juce::ResizableWindow::backgroundColourId));
-    g.drawImage(juce::ImageCache::getFromMemory(BinaryData::pedal_base_png, BinaryData::pedal_base_pngSize), getLocalBounds().toFloat());
+    g.drawImage(juce::ImageCache::getFromMemory(BinaryData::pedal_base_darkestblue_lcd_png, BinaryData::pedal_base_darkestblue_lcd_pngSize), getLocalBounds().toFloat());
     g.setColour (juce::Colours::white);
 
 /*
@@ -149,6 +149,12 @@ void Modulation_Pedal_PluginAudioProcessorEditor::paint (juce::Graphics& g)
     // Draw the text over the bounding box
     g.drawText(text2, 285, 120, textWidth, textHeight, juce::Justification::centredLeft);
 */
+
+
+    //010A55 d<rk
+    //010633 mid
+    //060B1F darkest
+
    int outerLeft = 285, outerTop = 89, outerRight = 472, outerBottom = 200;
    int innerLeft = outerLeft + 4;
    int innerTop = outerTop + 5;
