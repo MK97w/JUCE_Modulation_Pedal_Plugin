@@ -47,12 +47,14 @@ Modulation_Pedal_PluginAudioProcessorEditor::Modulation_Pedal_PluginAudioProcess
     addAndMakeVisible(rightKnob_1);
     rightKnob_1.setSliderStyle(juce::Slider::SliderStyle::RotaryVerticalDrag);
     rightKnob_1.setTextBoxStyle(juce::Slider::NoTextBox, true, 90, 90);
+    rightKnob_1.addListener(this);
 
     rightKnob_2.setLookAndFeel(&rightKnob_2);
     rightKnob_2.setRange(0.0f, 10.0f);
     addAndMakeVisible(rightKnob_2);
     rightKnob_2.setSliderStyle(juce::Slider::SliderStyle::RotaryVerticalDrag);
     rightKnob_2.setTextBoxStyle(juce::Slider::NoTextBox, true, 90, 90);
+    rightKnob_2.addListener(this);
 
     rightKnob_3.setLookAndFeel(&rightKnob_3);
     rightKnob_3.setRange(0.0f, 10.0f);
@@ -131,26 +133,6 @@ void Modulation_Pedal_PluginAudioProcessorEditor::paint (juce::Graphics& g)
     g.drawImage(juce::ImageCache::getFromMemory(BinaryData::pedal_base_darkestblue_lcd_png, BinaryData::pedal_base_darkestblue_lcd_pngSize), getLocalBounds().toFloat());
     g.setColour (juce::Colours::white);
 
-/*
-    juce::String text2 = "RATE:";
-    auto font = CustomFontLookAndFeel::getCustomFont().withHeight(20.0f);
-    int textWidth = font.getStringWidth(text2);
-    int textHeight = 20; 
-
-    g.setColour(juce::Colours::lightgrey); 
-    // Draw the bounding box
-    // Adjust the x, y, width, and height as needed
-    g.fillRect(285, 130, (472-285), textHeight);
-
-    // Now set the color for the text
-    g.setColour(juce::Colours::black); // Change this to your desired text color
-    g.setFont(font);
-
-    // Draw the text over the bounding box
-    g.drawText(text2, 285, 120, textWidth, textHeight, juce::Justification::centredLeft);
-*/
-
-
     //010A55 d<rk
     //010633 mid
     //060B1F darkest
@@ -175,34 +157,54 @@ void Modulation_Pedal_PluginAudioProcessorEditor::paint (juce::Graphics& g)
    auto font = CustomFontLookAndFeel::getCustomFont().withHeight(18.0f);
    int textWidth = font.getStringWidth(text2);
    int textHeight = 18;
+   if (set1)
+   {
+       g.setColour(juce::Colours::lightgrey);
+       g.fillRect(innerLeft + 1, innerTop + 19, (innerRight - innerLeft), textHeight);
 
-   g.setColour(juce::Colours::lightgrey);
-   g.fillRect(innerLeft+1, innerTop+19, (innerRight - innerLeft), textHeight);
+       g.setColour(juce::Colours::black);
+       g.setFont(font);
+       g.drawText(text2, innerLeft + 4, innerTop + 19, textWidth, textHeight, juce::Justification::centredLeft);
+       set1 = false;
+   }
+   else
+   {
+       g.setColour(juce::Colours::lightgrey);
+       g.setFont(font);
+       g.drawText(text2, innerLeft + 4, innerTop + 19, textWidth, textHeight, juce::Justification::centredLeft);
 
-   // Now set the color for the text
-   g.setColour(juce::Colours::black); // Change this to your desired text color
-   g.setFont(font);
-
-   // Draw the text over the bounding box
-   g.drawText(text2, innerLeft+4, innerTop+19, textWidth, textHeight, juce::Justification::centredLeft);
-
-
+   }
    juce::String text3 = "EFFECT LEVEL:";
-
    int textWidth2 = font.getStringWidth(text3);
-   g.setColour(juce::Colours::lightgrey);
-   g.drawText(text3, innerLeft + 4, innerTop + 40, textWidth2, textHeight, juce::Justification::centredLeft);
+
+   if (set2)
+   {
+       g.setColour(juce::Colours::lightgrey);
+       g.fillRect(innerLeft + 1, innerTop + 37, (innerRight - innerLeft), textHeight);
+
+       g.setColour(juce::Colours::black);
+       g.setFont(font);
+       g.drawText(text3, innerLeft + 4, innerTop + 37, textWidth, textHeight, juce::Justification::centredLeft);
+       set2 = false;
+   }
+   else
+   {
+       g.setColour(juce::Colours::lightgrey);
+       g.setFont(font);
+       g.drawText(text3, innerLeft + 4, innerTop + 37, textWidth2, textHeight, juce::Justification::centredLeft);
+
+   }
+
 
    juce::String text4 = "WAVEFORM:";
-
    int textWidth3 = font.getStringWidth(text4);
    g.setColour(juce::Colours::lightgrey);
-   g.drawText(text4, innerLeft + 4, innerTop + 61, textWidth3, textHeight, juce::Justification::centredLeft);
+   g.drawText(text4, innerLeft + 4, innerTop + 55, textWidth3, textHeight, juce::Justification::centredLeft);
    
    juce::String text5 = "DIRECT LEVEL:";
    int textWidth4 = font.getStringWidth(text5);
    g.setColour(juce::Colours::lightgrey);
-   g.drawText(text5, innerLeft + 4, innerTop + 82, textWidth4, textHeight, juce::Justification::centredLeft);
+   g.drawText(text5, innerLeft + 4, innerTop + 73, textWidth4, textHeight, juce::Justification::centredLeft);
 
     /*
     * Pixel area of display 
@@ -243,7 +245,23 @@ void Modulation_Pedal_PluginAudioProcessorEditor::sliderValueChanged(juce::Slide
 {
     if (slider == &leftKnob)
     {
-        audioProcessor.mGain = leftKnob.getValue();
+        //set1 = true;
+        //repaint();
+        //audioProcessor.mGain = leftKnob.getValue();
+        //DBG(audioProcessor.mGain);
+    }
+    if (slider == &rightKnob_1)
+    {
+        set1 = true;
+        set2 = false;
+        repaint();
+    }
+    if (slider == &rightKnob_2)
+    {
+        //audioProcessor.mGain = leftKnob.getValue();
+        set2 = true;
+        set1 = false;
+        repaint();
     }
         
 }
