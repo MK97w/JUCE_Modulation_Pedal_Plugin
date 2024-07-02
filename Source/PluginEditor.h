@@ -36,7 +36,7 @@ private:
     juce::CustomizedLook::Knob leftKnob, rightKnob_1, rightKnob_2, rightKnob_3, rightKnob_4, rightKnob_5;
     juce::CustomizedLook::FootswitchButton leftFootswitch, midFootswitch, rightFootswitch;
     juce::Label rate,depth,level,param1,param2,fs1,fs2,fs3;
-    bool set1{ false }, set2{ false };
+    bool set1{ false }, set2{ false }, skip{ false };
 
     class CustomFontLookAndFeel : public juce::LookAndFeel_V4
     {

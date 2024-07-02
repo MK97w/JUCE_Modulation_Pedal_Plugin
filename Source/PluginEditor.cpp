@@ -128,6 +128,13 @@ Modulation_Pedal_PluginAudioProcessorEditor::~Modulation_Pedal_PluginAudioProces
 //==============================================================================
 void Modulation_Pedal_PluginAudioProcessorEditor::paint (juce::Graphics& g)
 {
+
+    if (skip)
+    {
+        skip = false;
+        return;
+    }
+
     // (Our component is opaque, so we must completely fill the background with a solid colour)
     g.fillAll (getLookAndFeel().findColour (juce::ResizableWindow::backgroundColourId));
     g.drawImage(juce::ImageCache::getFromMemory(BinaryData::pedal_base_darkestblue_lcd_png, BinaryData::pedal_base_darkestblue_lcd_pngSize), getLocalBounds().toFloat());
@@ -165,7 +172,8 @@ void Modulation_Pedal_PluginAudioProcessorEditor::paint (juce::Graphics& g)
        g.setColour(juce::Colours::black);
        g.setFont(font);
        g.drawText(text2, innerLeft + 4, innerTop + 19, textWidth, textHeight, juce::Justification::centredLeft);
-       set1 = false;
+       //if(skip)
+        //set1 = false;
    }
    else
    {
@@ -185,7 +193,7 @@ void Modulation_Pedal_PluginAudioProcessorEditor::paint (juce::Graphics& g)
        g.setColour(juce::Colours::black);
        g.setFont(font);
        g.drawText(text3, innerLeft + 4, innerTop + 37, textWidth, textHeight, juce::Justification::centredLeft);
-       set2 = false;
+      // set2 = false;
    }
    else
    {
@@ -241,6 +249,7 @@ void Modulation_Pedal_PluginAudioProcessorEditor::resized()
 }
 
 
+
 void Modulation_Pedal_PluginAudioProcessorEditor::sliderValueChanged(juce::Slider* slider)
 {
     if (slider == &leftKnob)
@@ -253,6 +262,7 @@ void Modulation_Pedal_PluginAudioProcessorEditor::sliderValueChanged(juce::Slide
     if (slider == &rightKnob_1)
     {
         set1 = true;
+        skip = false;
         set2 = false;
         repaint();
     }
@@ -260,6 +270,7 @@ void Modulation_Pedal_PluginAudioProcessorEditor::sliderValueChanged(juce::Slide
     {
         //audioProcessor.mGain = leftKnob.getValue();
         set2 = true;
+        skip = false;
         set1 = false;
         repaint();
     }
