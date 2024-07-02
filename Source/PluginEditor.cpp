@@ -41,13 +41,17 @@ Modulation_Pedal_PluginAudioProcessorEditor::Modulation_Pedal_PluginAudioProcess
     addAndMakeVisible(leftKnob);
     leftKnob.setSliderStyle(juce::Slider::SliderStyle::RotaryVerticalDrag);
     leftKnob.setTextBoxStyle(juce::Slider::NoTextBox, true, 90, 90);
+    auto m = leftKnob.getTextBoxPosition();
+    auto n = leftKnob.getTextBoxHeight();
+    auto k = leftKnob.getTextBoxWidth();
 
     rightKnob_1.setLookAndFeel(&rightKnob_1);
-    rightKnob_1.setRange(0.0f, 10.0f);
+    rightKnob_1.setRange(0.0f, 100.0f,1.0f);
     addAndMakeVisible(rightKnob_1);
     rightKnob_1.setSliderStyle(juce::Slider::SliderStyle::RotaryVerticalDrag);
     rightKnob_1.setTextBoxStyle(juce::Slider::NoTextBox, true, 90, 90);
     rightKnob_1.addListener(this);
+
 
     rightKnob_2.setLookAndFeel(&rightKnob_2);
     rightKnob_2.setRange(0.0f, 10.0f);
@@ -77,41 +81,6 @@ Modulation_Pedal_PluginAudioProcessorEditor::Modulation_Pedal_PluginAudioProcess
     addAndMakeVisible(leftFootswitch);
     addAndMakeVisible(midFootswitch);
     addAndMakeVisible(rightFootswitch);
-
-
-    rate.setText("RATE/VALUE", juce::dontSendNotification);
-    rate.setFont(juce::Font(16.0f,juce::Font::bold));
-    rate.setColour(juce::Label::textColourId, juce::Colours::black);
-    rate.setJustificationType(juce::Justification::centred);
-    addAndMakeVisible(rate);
-
-
-    depth.setText("DEPTH", juce::dontSendNotification);
-    depth.setFont(juce::Font(16.0f, juce::Font::bold));
-    depth.setColour(juce::Label::textColourId, juce::Colours::black);
-    depth.setJustificationType(juce::Justification::centred);
-    addAndMakeVisible(depth);
-
-
-    level.setText("LEVEL", juce::dontSendNotification);
-    level.setFont(juce::Font(16.0f, juce::Font::bold));
-    level.setColour(juce::Label::textColourId, juce::Colours::black);
-    level.setJustificationType(juce::Justification::centred);
-    addAndMakeVisible(level);
-
-    param1.setText("PARAM 1", juce::dontSendNotification);
-    param1.setFont(juce::Font(16.0f, juce::Font::bold));
-    param1.setColour(juce::Label::textColourId, juce::Colours::black);
-    param1.setJustificationType(juce::Justification::centred);
-    addAndMakeVisible(param1);
-
-    param2.setText("PARAM 2", juce::dontSendNotification);
-    param2.setFont(juce::Font(16.0f, juce::Font::bold));
-    param2.setColour(juce::Label::textColourId, juce::Colours::black);
-    param2.setJustificationType(juce::Justification::centred);
-    addAndMakeVisible(param2);
-
-
 
 }
 
@@ -172,8 +141,6 @@ void Modulation_Pedal_PluginAudioProcessorEditor::paint (juce::Graphics& g)
        g.setColour(juce::Colours::black);
        g.setFont(font);
        g.drawText(text2, innerLeft + 4, innerTop + 19, textWidth, textHeight, juce::Justification::centredLeft);
-       //if(skip)
-        //set1 = false;
    }
    else
    {
@@ -182,9 +149,9 @@ void Modulation_Pedal_PluginAudioProcessorEditor::paint (juce::Graphics& g)
        g.drawText(text2, innerLeft + 4, innerTop + 19, textWidth, textHeight, juce::Justification::centredLeft);
 
    }
+
    juce::String text3 = "EFFECT LEVEL:";
    int textWidth2 = font.getStringWidth(text3);
-
    if (set2)
    {
        g.setColour(juce::Colours::lightgrey);
@@ -192,8 +159,7 @@ void Modulation_Pedal_PluginAudioProcessorEditor::paint (juce::Graphics& g)
 
        g.setColour(juce::Colours::black);
        g.setFont(font);
-       g.drawText(text3, innerLeft + 4, innerTop + 37, textWidth, textHeight, juce::Justification::centredLeft);
-      // set2 = false;
+       g.drawText(text3, innerLeft + 4, innerTop + 37, textWidth2, textHeight, juce::Justification::centredLeft);
    }
    else
    {
