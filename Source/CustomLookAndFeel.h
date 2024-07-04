@@ -32,7 +32,6 @@ namespace juce
         struct Knob : Slider, LookAndFeel_V4
         {
             Knob(Image sourceImage);
-            juce::Slider::SliderLayout getSliderLayout(Slider&) override;
             void drawRotarySlider(Graphics&, int x, int y, int width, int height, float sliderPosProportional, float rotaryStartAngle, float rotaryEndAngle, Slider&);
             Image img;
         };

@@ -49,7 +49,7 @@ Modulation_Pedal_PluginAudioProcessorEditor::Modulation_Pedal_PluginAudioProcess
     rightKnob_1.setRange(0.0f, 100.0f,1.0f);
     addAndMakeVisible(rightKnob_1);
     rightKnob_1.setSliderStyle(juce::Slider::SliderStyle::RotaryVerticalDrag);
-    //rightKnob_1.setTextBoxStyle(juce::Slider::TextBoxBelow, true, 90, 90);
+    rightKnob_1.setTextBoxStyle(juce::Slider::NoTextBox, true, 90, 90);
     rightKnob_1.addListener(this);
 
 
@@ -82,6 +82,10 @@ Modulation_Pedal_PluginAudioProcessorEditor::Modulation_Pedal_PluginAudioProcess
     addAndMakeVisible(midFootswitch);
     addAndMakeVisible(rightFootswitch);
 
+
+    depth.setText("0", juce::dontSendNotification);
+    depth.setFont(CustomFontLookAndFeel::getCustomFont().withHeight(18.0f));
+    addAndMakeVisible(depth);
 }
 
 Modulation_Pedal_PluginAudioProcessorEditor::~Modulation_Pedal_PluginAudioProcessorEditor()
@@ -208,7 +212,7 @@ void Modulation_Pedal_PluginAudioProcessorEditor::resized()
     param1.setBounds(625, 110, 90, 90);
     param2.setBounds(725, 110, 90, 90);
 */
-
+    depth.setBounds(0, 0, 50 , 50);
     leftFootswitch.setBounds(155,420,90,90);
     midFootswitch.setBounds(430, 420, 90, 90);
     rightFootswitch.setBounds(705, 420, 90, 90);
@@ -230,6 +234,7 @@ void Modulation_Pedal_PluginAudioProcessorEditor::sliderValueChanged(juce::Slide
         set1 = true;
         skip = false;
         set2 = false;
+        depth.setText(juce::String(slider->getValue()), juce::dontSendNotification);
         repaint();
     }
     if (slider == &rightKnob_2)
