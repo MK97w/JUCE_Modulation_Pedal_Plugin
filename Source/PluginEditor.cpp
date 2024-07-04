@@ -54,7 +54,7 @@ Modulation_Pedal_PluginAudioProcessorEditor::Modulation_Pedal_PluginAudioProcess
 
 
     rightKnob_2.setLookAndFeel(&rightKnob_2);
-    rightKnob_2.setRange(0.0f, 10.0f);
+    rightKnob_2.setRange(0.0f, 100.0f, 1.0f);
     addAndMakeVisible(rightKnob_2);
     rightKnob_2.setSliderStyle(juce::Slider::SliderStyle::RotaryVerticalDrag);
     rightKnob_2.setTextBoxStyle(juce::Slider::NoTextBox, true, 90, 90);
@@ -86,6 +86,10 @@ Modulation_Pedal_PluginAudioProcessorEditor::Modulation_Pedal_PluginAudioProcess
     depth.setText("0", juce::dontSendNotification);
     depth.setFont(CustomFontLookAndFeel::getCustomFont().withHeight(18.0f));
     addAndMakeVisible(depth);
+
+    level.setText("0", juce::dontSendNotification);
+    level.setFont(CustomFontLookAndFeel::getCustomFont().withHeight(18.0f));
+    addAndMakeVisible(level);
 }
 
 Modulation_Pedal_PluginAudioProcessorEditor::~Modulation_Pedal_PluginAudioProcessorEditor()
@@ -199,12 +203,12 @@ void Modulation_Pedal_PluginAudioProcessorEditor::resized()
     // This is generally where you'll want to lay out the positions of any
     // subcomponents in your editor..
 
-    //leftKnob.setBounds(155,115,90,90);
+    leftKnob.setBounds(155,115,90,90);
     rightKnob_1.setBounds(525, 50, 90, 90);
-    //rightKnob_2.setBounds(625, 50, 90, 90);
-    //rightKnob_3.setBounds(725, 50, 90, 90);
-    //rightKnob_4.setBounds(625, 160, 90, 90);
-    //rightKnob_5.setBounds(725, 160, 90, 90);
+    rightKnob_2.setBounds(625, 50, 90, 90);
+    rightKnob_3.setBounds(725, 50, 90, 90);
+    rightKnob_4.setBounds(625, 160, 90, 90);
+    rightKnob_5.setBounds(725, 160, 90, 90);
 
    /* rate.setBounds(525, 0, 90, 90);
     depth.setBounds(625, 0, 90, 90);
@@ -212,7 +216,8 @@ void Modulation_Pedal_PluginAudioProcessorEditor::resized()
     param1.setBounds(625, 110, 90, 90);
     param2.setBounds(725, 110, 90, 90);
 */
-    depth.setBounds(0, 0, 50 , 50);
+    depth.setBounds(440, 113, 18 * 3, 18);
+    level.setBounds(440, 113+18, 18 * 3, 18);
     leftFootswitch.setBounds(155,420,90,90);
     midFootswitch.setBounds(430, 420, 90, 90);
     rightFootswitch.setBounds(705, 420, 90, 90);
@@ -235,6 +240,8 @@ void Modulation_Pedal_PluginAudioProcessorEditor::sliderValueChanged(juce::Slide
         skip = false;
         set2 = false;
         depth.setText(juce::String(slider->getValue()), juce::dontSendNotification);
+        depth.setColour(juce::Label::textColourId, juce::Colours::black);
+        level.setColour(juce::Label::textColourId, juce::Colours::white);
         repaint();
     }
     if (slider == &rightKnob_2)
@@ -243,6 +250,9 @@ void Modulation_Pedal_PluginAudioProcessorEditor::sliderValueChanged(juce::Slide
         set2 = true;
         skip = false;
         set1 = false;
+        level.setText(juce::String(slider->getValue()), juce::dontSendNotification);
+        depth.setColour(juce::Label::textColourId, juce::Colours::white);
+        level.setColour(juce::Label::textColourId, juce::Colours::black);
         repaint();
     }
         
