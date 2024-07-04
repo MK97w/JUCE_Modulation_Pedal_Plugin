@@ -76,21 +76,4 @@ namespace juce
             img.getWidth(),
             img.getWidth());
     }
-
-    Slider::SliderLayout CustomizedLook::Knob::getSliderLayout(Slider& slider) 
-    {
-        Slider::SliderLayout layout;
-        layout.sliderBounds = slider.getLocalBounds(); // Default slider bounds
-
-        // Customize the textbox position and size
-        // Example: Place the textbox below the slider, occupying the full width and 20% of the slider's height
-        auto textBoxHeight = layout.sliderBounds.getHeight() * 0.2;
-        layout.textBoxBounds = Rectangle<int>(layout.sliderBounds.getX(),
-            layout.sliderBounds.getBottom() - textBoxHeight,
-            layout.sliderBounds.getWidth(),
-            textBoxHeight);
-
-        return layout;
-    }
-
 }

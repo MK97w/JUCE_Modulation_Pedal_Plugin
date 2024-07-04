@@ -49,7 +49,7 @@ Modulation_Pedal_PluginAudioProcessorEditor::Modulation_Pedal_PluginAudioProcess
     rightKnob_1.setRange(0.0f, 100.0f,1.0f);
     addAndMakeVisible(rightKnob_1);
     rightKnob_1.setSliderStyle(juce::Slider::SliderStyle::RotaryVerticalDrag);
-    rightKnob_1.setTextBoxStyle(juce::Slider::NoTextBox, true, 90, 90);
+    //rightKnob_1.setTextBoxStyle(juce::Slider::TextBoxBelow, true, 90, 90);
     rightKnob_1.addListener(this);
 
 
@@ -195,12 +195,12 @@ void Modulation_Pedal_PluginAudioProcessorEditor::resized()
     // This is generally where you'll want to lay out the positions of any
     // subcomponents in your editor..
 
-    leftKnob.setBounds(155,115,90,90);
+    //leftKnob.setBounds(155,115,90,90);
     rightKnob_1.setBounds(525, 50, 90, 90);
-    rightKnob_2.setBounds(625, 50, 90, 90);
-    rightKnob_3.setBounds(725, 50, 90, 90);
-    rightKnob_4.setBounds(625, 160, 90, 90);
-    rightKnob_5.setBounds(725, 160, 90, 90);
+    //rightKnob_2.setBounds(625, 50, 90, 90);
+    //rightKnob_3.setBounds(725, 50, 90, 90);
+    //rightKnob_4.setBounds(625, 160, 90, 90);
+    //rightKnob_5.setBounds(725, 160, 90, 90);
 
    /* rate.setBounds(525, 0, 90, 90);
     depth.setBounds(625, 0, 90, 90);
