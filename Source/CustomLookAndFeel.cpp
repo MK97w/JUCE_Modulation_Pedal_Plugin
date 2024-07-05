@@ -11,10 +11,8 @@
 #include "CustomLookAndFeel.h"
 namespace juce
 {
-    CustomizedLook::FootswitchButton::FootswitchButton(Image idleImage, Image pressedImage)
+    CustomizedLook::FootswitchButton::FootswitchButton(Image idleImage, Image pressedImage) : idle(idleImage), pressed(pressedImage)
     {
-        idle = idleImage;
-        pressed = pressedImage;
         redraw();
     }
 
@@ -37,7 +35,7 @@ namespace juce
             setImages(true, true, true,
                 pressed, 1.0, juce::Colours::transparentWhite,
                 pressed, 1.0, juce::Colours::transparentWhite, //this is for overimage
-                pressed, 1.0, juce::Colours::transparentWhite, //this is for when buttondown but ˆust add mouselistener
+                pressed, 1.0, juce::Colours::transparentWhite, //this is for when buttondown but Ë†ust add mouselistener
                 0.0);
         }
         else
@@ -45,7 +43,7 @@ namespace juce
             setImages(true, true, true,
                 idle, 1.0, juce::Colours::transparentWhite,
                 idle, 1.0, juce::Colours::transparentWhite, //this is for overimage
-                idle, 1.0, juce::Colours::transparentWhite, //this is for when buttondown but ˆust add mouselistener
+                idle, 1.0, juce::Colours::transparentWhite, //this is for when buttondown but Ë†ust add mouselistener
                 0.0);
         }
         repaint();
