@@ -105,13 +105,6 @@ Modulation_Pedal_PluginAudioProcessorEditor::~Modulation_Pedal_PluginAudioProces
 //==============================================================================
 void Modulation_Pedal_PluginAudioProcessorEditor::paint (juce::Graphics& g)
 {
-
-    if (skip)
-    {
-        skip = false;
-        return;
-    }
-
     // (Our component is opaque, so we must completely fill the background with a solid colour)
     g.fillAll (getLookAndFeel().findColour (juce::ResizableWindow::backgroundColourId));
     g.drawImage(juce::ImageCache::getFromMemory(BinaryData::pedal_base_darkestblue_lcd_png, BinaryData::pedal_base_darkestblue_lcd_pngSize), getLocalBounds().toFloat());

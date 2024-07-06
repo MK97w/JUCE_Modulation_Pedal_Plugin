@@ -52,6 +52,8 @@
               file="Source/OLEDLookAndFeel.cpp"/>
         <FILE id="LCED79" name="OLEDLookAndFeel.h" compile="0" resource="0"
               file="Source/OLEDLookAndFeel.h"/>
+        <FILE id="oxSZcT" name="OLEDPage.cpp" compile="1" resource="0" file="Source/OLEDPage.cpp"/>
+        <FILE id="IT5Dpd" name="OLEDPage.h" compile="0" resource="0" file="Source/OLEDPage.h"/>
       </GROUP>
       <FILE id="oldZeP" name="CustomLookAndFeel.cpp" compile="1" resource="0"
             file="Source/CustomLookAndFeel.cpp"/>

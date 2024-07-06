@@ -15,9 +15,17 @@ namespace juce
 {
     class Knob : Slider, LookAndFeel_V4
     {
+    public:
         Knob(Image sourceImage);
-        void drawRotarySlider(Graphics&, int x, int y, int width, int height, 
-                              float sliderPosProportional,float rotaryStartAngle, float rotaryEndAngle, Slider&);
+        void drawRotarySlider(Graphics& g,
+            int x,
+            int y,
+            int width,
+            int height,
+            float sliderPosProportional,
+            float rotaryStartAngle,
+            float rotaryEndAngle,
+            Slider& slider);
         Image img;
     };
-}
+} 
