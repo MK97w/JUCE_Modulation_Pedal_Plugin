@@ -7,47 +7,52 @@
 
   ==============================================================================
 */
-
 #include "OLEDPage.h"
 
-// OLEDPage implementation
 OLEDPage::OLEDPage()
 {
- 
-   //customFont = CustomFontLookAndFeel::getCustomFont();
+    // Assuming CustomFontLookAndFeel::getCustomFont() is accessible and appropriate here
+    // customFont = CustomFontLookAndFeel::getCustomFont();
 }
 
-void OLEDPage::initializeLabels(size_t count) 
+void OLEDPage::initializeLabels(size_t count)
 {
-    labels.clear();
-    for (size_t i = 0; i < count; ++i) 
+    labels.clear(true); // Clear existing labels and delete them
+    for (size_t i = 0; i < count; ++i)
     {
-        labels.emplace_back();
-        addAndMakeVisible(labels.back());
+        auto* label = new juce::Label();
+        labels.add(label);
+        addAndMakeVisible(label);
+        // If customFont is initialized properly, you can set it here
+        // label->setFont(customFont);
     }
 }
 
-void OLEDPage::setLabel(size_t index, const juce::String& text) 
+void OLEDPage::setLabel(size_t index, const juce::String& text)
 {
-    if (index < labels.size()) {
-        labels[index].setText(text, juce::dontSendNotification);
+    auto* label = labels[index];
+    if (label != nullptr)
+    {
+        label->setText(text, juce::dontSendNotification);
     }
 }
 
 juce::String OLEDPage::getLabel(size_t index) const
 {
-    if (index < labels.size()) 
+    auto* label = labels[index];
+    if (label != nullptr)
     {
-        return labels[index].getText();
+        return label->getText();
     }
     return {};
 }
 
-void OLEDPage::setLabelFont(size_t index, const juce::Font& font) 
+void OLEDPage::setLabelFont(size_t index, const juce::Font& font)
 {
-    if (index < labels.size()) 
+    auto* label = labels[index];
+    if (label != nullptr)
     {
-        labels[index].setFont(font);
+        label->setFont(font);
     }
 }
 
@@ -55,29 +60,32 @@ void OLEDPage::setLabelFont(size_t index, const juce::Font& font)
 SimpleEditPage::SimpleEditPage() 
 {
     initializeLabels(9); // 5 text labels + 4 slider value labels
-    sliderValues.resize(4, 0.0); // Initialize slider values
+    sliderValues.resize(4* static_cast<int>(sizeof(simpleEditPageContent)), 0.0); // Initialize slider values
 }
 
-void SimpleEditPage::paint(juce::Graphics& g) 
+void SimpleEditPage::paint(juce::Graphics& g)
 {
-    // Example of drawing a rectangle around labels
-    // You can adapt the painting code from PluginEditor.cpp
     g.setColour(juce::Colours::lightgrey);
-    for (auto& label : labels) {
-        auto bounds = label.getBounds().toFloat().expanded(5.0f);
+    for (auto* label : labels)
+    {
+        auto bounds = label->getBounds().toFloat().expanded(5.0f);
         g.drawRoundedRectangle(bounds, 5.0f, 2.0f);
     }
 }
 
-void SimpleEditPage::updateSliderValue(size_t index, double value) 
+void SimpleEditPage::updateSliderValue(size_t index, double value)
 {
-    if (index < sliderValues.size()) 
+    if (index < sliderValues.size())
     {
         sliderValues[index] = value;
         // Assuming the last 4 labels are for slider values
-        if (index + 5 < labels.size()) 
+        if (index + 5 < static_cast<size_t>(labels.size()))
         {
-            labels[index + 5].setText(juce::String(value, 2), juce::dontSendNotification);
+            auto* label = labels[static_cast<int>(index) + 5];
+            if (label != nullptr)
+            {
+                label->setText(juce::String(value, 2), juce::dontSendNotification);
+            }
         }
     }
 }
@@ -90,3 +98,23 @@ double SimpleEditPage::getSliderValue(size_t index) const
     }
     return 0.0;
 }
+
+void SimpleEditPage::setPageContentTo(EffectType type)
+{
+	auto content = simpleEditPageContent.find(type); 
+	if (content != simpleEditPageContent.end())
+	{
+		for (size_t i = 0; i < content->second.size(); ++i)
+		{
+			setLabel(i, content->second[i]);
+		}
+	}
+}
+
+// Static member definition and initialization
+const std::unordered_map<SimpleEditPage::EffectType, std::array<juce::String, 4>> SimpleEditPage::simpleEditPageContent =
+{
+    {SimpleEditPage::EffectType::Tremolo, {"Tremolo 1", "Tremolo 2", "Tremolo 3", "Tremolo 4"}},
+    {SimpleEditPage::EffectType::Flanger, {"Flanger 1", "Flanger 2", "Flanger 3", "Flanger 4"}},
+    {SimpleEditPage::EffectType::Phaser, {"Phaser 1", "Phaser 2", "Phaser 3", "Phaser 4"}}
+};

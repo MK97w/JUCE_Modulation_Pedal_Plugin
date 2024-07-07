@@ -11,6 +11,8 @@
 #pragma once
 
 #include <JuceHeader.h>
+#include <unordered_map>
+#include <array>
 
 class OLEDPage : public juce::Component 
 {
@@ -23,7 +25,7 @@ public:
     void setLabelFont(size_t index, const juce::Font& font);
 
 protected:
-    std::vector<juce::Label> labels;
+    juce::OwnedArray<juce::Label> labels;
     juce::Font customFont;
 
     // Utility method to initialize labels
@@ -36,15 +38,25 @@ public:
     SimpleEditPage();
     virtual ~SimpleEditPage() = default;
 
+    enum class EffectType
+    {
+        Tremolo,
+        Flanger,
+        Phaser
+    };
+
     // Method to draw a rectangle around labels
     void paint(juce::Graphics& g) override;
 
     // Additional methods for SimpleEditPage
     void updateSliderValue(size_t index, double value);
     double getSliderValue(size_t index) const;
+    void setPageContentTo(EffectType type);
 
 private:
     std::vector<double> sliderValues; // Stores slider values
+    const static std::unordered_map<EffectType, std::array<juce::String,4>> simpleEditPageContent;
+
 };
 
 
