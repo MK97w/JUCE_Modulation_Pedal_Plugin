@@ -7,39 +7,53 @@
 
   ==============================================================================
 */
+
 #pragma once
 
 #include <JuceHeader.h>
 
-namespace juce
+class OLEDPage : public juce::Component 
 {
-    class OLEDPage
-    {
-    public:
-        OLEDPage();
-        void setFont(const Font& font);
-        void addLabel(const String& text, const Rectangle<int>& bounds);
-        void clearLabels();
-        void addToComponent(Component& parent);
+public:
+    OLEDPage();
+    virtual ~OLEDPage() = default;
 
-    private:
-        juce::OwnedArray<Label> labels;
+    void setLabel(size_t index, const juce::String& text);
+    juce::String getLabel(size_t index) const;
+    void setLabelFont(size_t index, const juce::Font& font);
+
+protected:
+    std::vector<juce::Label> labels;
+    juce::Font customFont;
+
+    // Utility method to initialize labels
+    void initializeLabels(size_t count);
+};
+
+class SimpleEditPage : public OLEDPage 
+{
+public:
+    SimpleEditPage();
+    virtual ~SimpleEditPage() = default;
+
+    // Method to draw a rectangle around labels
+    void paint(juce::Graphics& g) override;
+
+    // Additional methods for SimpleEditPage
+    void updateSliderValue(size_t index, double value);
+    double getSliderValue(size_t index) const;
+
+private:
+    std::vector<double> sliderValues; // Stores slider values
+};
 
 
-    public:
-         class CustomFontLookAndFeel : public juce::LookAndFeel_V4
-         {
-         public:
-            CustomFontLookAndFeel()
-            {
-                LookAndFeel::setDefaultLookAndFeel(this);
-            }
-            static const juce::Font getCustomFont()
-            {
-                static auto typeface = juce::Typeface::createSystemTypefaceFor(BinaryData::munro_ttf, BinaryData::munro_ttfSize);
-                return juce::Font(typeface);
-            }
-          private:
-          }customFontLookAndFeel;
-    };
-}
+
+
+
+
+
+
+
+
+
