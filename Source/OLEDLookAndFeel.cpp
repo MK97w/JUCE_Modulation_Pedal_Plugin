@@ -9,8 +9,3 @@
 */
 
 #include "OLEDLookAndFeel.h"
-
-namespace juce
-{
-
-}

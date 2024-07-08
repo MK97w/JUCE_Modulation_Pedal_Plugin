@@ -11,11 +11,8 @@
 #pragma once
 
 #include <JuceHeader.h>
-
-namespace juce
+   
+class OLEDScreen : public juce::Component
 {
-    class OLEDScreen : public juce::Component
-    {
 
-    };
-}
+};

@@ -15,7 +15,7 @@ OLEDPage::OLEDPage()
     // customFont = CustomFontLookAndFeel::getCustomFont();
 }
 
-void OLEDPage::initializeLabels(size_t count)
+void OLEDPage::initializeLabels(size_t count, const std::vector<juce::Rectangle<int>>& positions)
 {
     labels.clear(true); // Clear existing labels and delete them
     for (size_t i = 0; i < count; ++i)
@@ -25,6 +25,11 @@ void OLEDPage::initializeLabels(size_t count)
         addAndMakeVisible(label);
         // If customFont is initialized properly, you can set it here
         // label->setFont(customFont);
+
+        if (i < positions.size())
+        {
+            label->setBounds(positions[i]);
+        }
     }
 }
 
@@ -59,8 +64,16 @@ void OLEDPage::setLabelFont(size_t index, const juce::Font& font)
 // SimpleEditPage implementation
 SimpleEditPage::SimpleEditPage() 
 {
-    initializeLabels(9); // 5 text labels + 4 slider value labels
-    sliderValues.resize(4* static_cast<int>(sizeof(simpleEditPageContent)), 0.0); // Initialize slider values
+    std::vector<juce::Rectangle<int>> positions = 
+    {
+        {10, 10, 100, 20}, {10, 40, 100, 20}, 
+        {10, 70, 100, 20}, {10, 100, 100, 20}, 
+        {10, 130, 100, 20},{120, 10, 100, 20}, 
+        {120, 40, 100, 20}, {120, 70, 100, 20}, 
+        {120, 100, 100, 20}
+    };
+    initializeLabels(9, positions); // 5 text labels + 4 slider value labels
+    sliderValues.resize(4 * static_cast<int>(simpleEditPageContent.size()), 0.0);
 }
 
 void SimpleEditPage::paint(juce::Graphics& g)
@@ -94,7 +107,7 @@ double SimpleEditPage::getSliderValue(size_t index) const
 {
     if (index < sliderValues.size())
     {
-        return sliderValues[index];
+        return sliderValues[index];// must use some knd of modulo of Effecttype so i can get values for each page
     }
     return 0.0;
 }

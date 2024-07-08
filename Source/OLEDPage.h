@@ -23,13 +23,12 @@ public:
     void setLabel(size_t index, const juce::String& text);
     juce::String getLabel(size_t index) const;
     void setLabelFont(size_t index, const juce::Font& font);
+    void initializeLabels(size_t count, const std::vector<juce::Rectangle<int>>& positions);
+
 
 protected:
     juce::OwnedArray<juce::Label> labels;
     juce::Font customFont;
-
-    // Utility method to initialize labels
-    void initializeLabels(size_t count);
 };
 
 class SimpleEditPage : public OLEDPage 
@@ -56,6 +55,7 @@ public:
 private:
     std::vector<double> sliderValues; // Stores slider values
     const static std::unordered_map<EffectType, std::array<juce::String,4>> simpleEditPageContent;
+    constexpr static float fontSize{18.0f};
 
 };
 
