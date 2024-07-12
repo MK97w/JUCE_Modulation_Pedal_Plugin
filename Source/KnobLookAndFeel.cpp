@@ -10,16 +10,14 @@
 
 #include "KnobLookAndFeel.h"
 
-namespace juce
-{
-    Knob::Knob(Image sourceImage) : img(sourceImage) {};
+    Knob::Knob(juce::Image sourceImage) : img(sourceImage) {};
 
-    void Knob::drawRotarySlider(Graphics& g, int x, int y, int width, int height, float sliderPosProportional, float rotaryStartAngle, float rotaryEndAngle, Slider& s)
+    void Knob::drawRotarySlider(juce::Graphics& g, int x, int y, int width, int height, float sliderPosProportional, float rotaryStartAngle, float rotaryEndAngle, Slider& s)
     {
         const double rotation = (s.getValue() - s.getMinimum()) / (s.getMaximum() - s.getMinimum());
         const int frames = img.getHeight() / img.getWidth();
         const int frameId = (int)ceil(rotation * ((double)frames - 1.0));
-        const float radius = jmin(width / 2.0f, height / 2.0f);
+        const float radius = juce::jmin(width / 2.0f, height / 2.0f);
         const float centerX = x + width * 0.5f;
         const float centerY = y + height * 0.5f;
         const float rx = centerX - radius - 1.0f;
@@ -35,4 +33,3 @@ namespace juce
             img.getWidth(),
             img.getWidth());
     }
-}

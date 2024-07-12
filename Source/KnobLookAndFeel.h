@@ -11,21 +11,18 @@
 #pragma once
 #include <JuceHeader.h>
 
-namespace juce
+class Knob : juce::Slider, juce::LookAndFeel_V4
 {
-    class Knob : Slider, LookAndFeel_V4
-    {
-    public:
-        Knob(Image sourceImage);
-        void drawRotarySlider(Graphics& g,
-            int x,
-            int y,
-            int width,
-            int height,
-            float sliderPosProportional,
-            float rotaryStartAngle,
-            float rotaryEndAngle,
-            Slider& slider);
-        Image img;
-    };
-} 
+public:
+    Knob(juce::Image sourceImage);
+    void drawRotarySlider(juce::Graphics& g,
+        int x,
+        int y,
+        int width,
+        int height,
+        float sliderPosProportional,
+        float rotaryStartAngle,
+        float rotaryEndAngle,
+        juce::Slider& slider);
+    juce::Image img;
+};

@@ -10,43 +10,41 @@
 
 #include "FootswitchLookAndFeel.h"
 
-namespace juce
+FootswitchButton::FootswitchButton(juce::Image idleImage, juce::Image pressedImage) : idle(idleImage), pressed(pressedImage)
 {
-    FootswitchButton::FootswitchButton(Image idleImage, Image pressedImage) : idle(idleImage), pressed(pressedImage)
-    {
-        redraw();
-    }
+    redraw();    
+}
 
-    void FootswitchButton::mouseDown(const MouseEvent& event)
-    {
-        isDown = true;
-        //sendChangeMessage();
-        redraw();
-    }
-    void FootswitchButton::mouseUp(const MouseEvent& event)
-    {
-        isDown = false;
-        redraw();
-    }
+void FootswitchButton::mouseDown(const juce::MouseEvent& event)
+{
+    isDown = true;
+    //sendChangeMessage();
+    redraw();
+}
+    
+void FootswitchButton::mouseUp(const juce::MouseEvent& event)
+{
+    isDown = false;
+    redraw();   
+}
 
-    void FootswitchButton::redraw()
+void FootswitchButton::redraw()
+{
+    if (isDown)
     {
-        if (isDown)
-        {
-            setImages(true, true, true,
-                pressed, 1.0, Colours::transparentWhite,
-                pressed, 1.0, Colours::transparentWhite, //this is for overimage
-                pressed, 1.0, Colours::transparentWhite, //this is for when buttondown but ˆust add mouselistener
-                0.0);
-        }
-        else
-        {
-            setImages(true, true, true,
-                idle, 1.0, Colours::transparentWhite,
-                idle, 1.0, Colours::transparentWhite, //this is for overimage
-                idle, 1.0, Colours::transparentWhite, //this is for when buttondown but ˆust add mouselistener
-                0.0);
-        }
-        repaint();
+        setImages(true, true, true,
+            pressed, 1.0, juce::Colours::transparentWhite,
+            pressed, 1.0, juce::Colours::transparentWhite, //this is for overimage
+            pressed, 1.0, juce::Colours::transparentWhite, //this is for when buttondown but ˆust add mouselistener
+            0.0);   
     }
+    else
+    {
+        setImages(true, true, true,
+            idle, 1.0, juce::Colours::transparentWhite,            
+            idle, 1.0, juce::Colours::transparentWhite, //this is for overimage         
+            idle, 1.0, juce::Colours::transparentWhite, //this is for when buttondown but ˆust add mouselistener   
+            0.0);
+    }
+    repaint();
 }

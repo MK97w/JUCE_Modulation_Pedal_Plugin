@@ -12,19 +12,15 @@
 
 #include <JuceHeader.h>
 
-namespace juce
+class FootswitchButton :public juce::ImageButton, public juce::ChangeBroadcaster
 {
+public:
+   FootswitchButton(juce::Image idleImage, juce::Image pressedImage);
+   void mouseDown(const juce::MouseEvent& event) override;
+   void mouseUp(const juce::MouseEvent& event) override;
+   void redraw();
 
-  class FootswitchButton :public ImageButton, public ChangeBroadcaster
-  {
-   public:
-       FootswitchButton(Image idleImage, Image pressedImage);
-       void mouseDown(const MouseEvent& event) override;
-       void mouseUp(const MouseEvent& event) override;
-       void redraw();
-
-   private:
-       Image idle, pressed;
-       bool isDown = false;
-  };
-}
+private:
+   juce::Image idle, pressed;
+   bool isDown = false;
+};
