@@ -32,8 +32,3 @@ void Pedal::paint(juce::Graphics& g)
 }
 
 
-void Pedal::paintInBounds( juce::Graphics& g )
-{
-    paint(g);
-}
-

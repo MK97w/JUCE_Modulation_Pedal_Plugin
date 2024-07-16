@@ -24,7 +24,7 @@ Modulation_Pedal_PluginAudioProcessorEditor::~Modulation_Pedal_PluginAudioProces
 //==============================================================================
 void Modulation_Pedal_PluginAudioProcessorEditor::paint (juce::Graphics& g)
 {
-    modulationPedal.paintInBounds(g);
+    modulationPedal.paint(g);
 }
 
 void Modulation_Pedal_PluginAudioProcessorEditor::resized()

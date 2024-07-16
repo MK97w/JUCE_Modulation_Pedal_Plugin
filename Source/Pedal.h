@@ -20,11 +20,11 @@ class Pedal : public juce::Component
 public:
     Pedal();
     ~Pedal() = default;
-    void paintInBounds(juce::Graphics& g);
+    void paint(juce::Graphics& g) override;
     juce::Rectangle<int> getBounds() { return pedalBounds; };
 
 private:
-    void paint(juce::Graphics& g) override;
+    
     juce::Image pedalBaseImage;
     juce::Rectangle<int> pedalBounds;
 
