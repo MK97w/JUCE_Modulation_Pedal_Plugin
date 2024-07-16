@@ -13,7 +13,7 @@
 Modulation_Pedal_PluginAudioProcessorEditor::Modulation_Pedal_PluginAudioProcessorEditor(Modulation_Pedal_PluginAudioProcessor& p)
     : AudioProcessorEditor(&p), audioProcessor(p)
 {
-	setSize(960, 540); //Set size will be called after the pedal is created and given thw arguments of png size
+	setSize(modulationPedal.getBounds().getWidth(), modulationPedal.getBounds().getHeight()); //Set size will be called after the pedal is created and given thw arguments of png size
 }
 
 Modulation_Pedal_PluginAudioProcessorEditor::~Modulation_Pedal_PluginAudioProcessorEditor()
@@ -24,11 +24,7 @@ Modulation_Pedal_PluginAudioProcessorEditor::~Modulation_Pedal_PluginAudioProces
 //==============================================================================
 void Modulation_Pedal_PluginAudioProcessorEditor::paint (juce::Graphics& g)
 {
-    g.fillAll(getLookAndFeel().findColour(juce::ResizableWindow::backgroundColourId));
-
-    g.setColour(juce::Colours::white);
-    g.setFont(juce::FontOptions(15.0f));
-    g.drawFittedText("Time to clean up the code!", getLocalBounds(), juce::Justification::centred, 1);
+    modulationPedal.paintInBounds(g);
 }
 
 void Modulation_Pedal_PluginAudioProcessorEditor::resized()
