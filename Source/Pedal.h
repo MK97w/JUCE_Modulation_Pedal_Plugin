@@ -21,6 +21,7 @@ public:
     Pedal();
     ~Pedal() = default;
     void paint(juce::Graphics& g) override;
+    void resized() override;
     juce::Rectangle<int> getBounds() { return pedalBounds; };
 
 private:
@@ -28,9 +29,8 @@ private:
     juce::Image pedalBaseImage;
     juce::Rectangle<int> pedalBounds;
 
-
+   std::array<std::unique_ptr<FootswitchButton>, 3> footswitches; 
    // std::array<Knob, 6> knobs; // Array of 6 knobs
-    std::array<FootswitchButton, 3> footswitches; // Array of 3 footswitches
   //  OLEDLookAndFeel OLEDDisplay; // An instance of the OLED display class
 };
 

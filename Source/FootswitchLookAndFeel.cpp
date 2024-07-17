@@ -10,7 +10,9 @@
 
 #include "FootswitchLookAndFeel.h"
 
-FootswitchButton::FootswitchButton(juce::Image idleImage, juce::Image pressedImage) : idle(idleImage), pressed(pressedImage)
+FootswitchButton::FootswitchButton(juce::Image idleImage, juce::Image pressedImage) 
+ : idle(idleImage),
+   pressed(pressedImage)
 {
     redraw();    
 }

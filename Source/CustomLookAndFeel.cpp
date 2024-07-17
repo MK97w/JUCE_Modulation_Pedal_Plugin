@@ -13,7 +13,7 @@ namespace juce
 {
     CustomizedLook::FootswitchButton::FootswitchButton(Image idleImage, Image pressedImage) : idle(idleImage), pressed(pressedImage)
     {
-        redraw();
+        //redraw();
     }
 
     void CustomizedLook::FootswitchButton::mouseDown(const MouseEvent& event)
