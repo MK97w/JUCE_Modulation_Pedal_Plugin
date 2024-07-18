@@ -22,9 +22,6 @@ Pedal::Pedal()
     {
         throw std::runtime_error("Failed to load pedal base image.");
     }
-
-    pedalBounds.setSize(pedalBaseImage.getWidth(), pedalBaseImage.getHeight());
-
    
     footswitches[0] = std::make_unique<FootswitchButton>(juce::ImageCache::getFromMemory(BinaryData::left_footswitch_idle_png, BinaryData::left_footswitch_idle_pngSize),
                    juce::ImageCache::getFromMemory(BinaryData::left_footswitch_pressed_png, BinaryData::left_footswitch_idle_pngSize));
@@ -37,6 +34,8 @@ Pedal::Pedal()
 
     for (const auto& footswitch : footswitches)
         addAndMakeVisible(*footswitch);
+
+    pedalBounds.setSize(pedalBaseImage.getWidth(), pedalBaseImage.getHeight());
 
 
 }

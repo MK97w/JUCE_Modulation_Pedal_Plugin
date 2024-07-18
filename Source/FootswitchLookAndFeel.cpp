@@ -14,7 +14,7 @@ FootswitchButton::FootswitchButton(juce::Image idleImage, juce::Image pressedIma
  : idle(idleImage),
    pressed(pressedImage)
 {
-    redraw();    
+    //redraw();    
 }
 
 void FootswitchButton::mouseDown(const juce::MouseEvent& event)
