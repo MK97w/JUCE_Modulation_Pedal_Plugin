@@ -30,9 +30,11 @@ Modulation_Pedal_PluginAudioProcessorEditor::Modulation_Pedal_PluginAudioProcess
         addAndMakeVisible(*footswitch);*/
 
     //setSize(800, 600);
+   
     setSize(modulationPedal.getBounds().getWidth(),
         modulationPedal.getBounds().getHeight());
 
+    addAndMakeVisible(modulationPedal.leftFootswitch);
 }
 
 Modulation_Pedal_PluginAudioProcessorEditor::~Modulation_Pedal_PluginAudioProcessorEditor()
@@ -44,7 +46,7 @@ Modulation_Pedal_PluginAudioProcessorEditor::~Modulation_Pedal_PluginAudioProces
 void Modulation_Pedal_PluginAudioProcessorEditor::paint (juce::Graphics& g)
 {
     DBG("check 2");
-    //modulationPedal.paint(g);
+    modulationPedal.paint(g);
 }
 
 void Modulation_Pedal_PluginAudioProcessorEditor::resized()
