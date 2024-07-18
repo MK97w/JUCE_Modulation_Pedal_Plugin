@@ -16,6 +16,10 @@ FootswitchButton::FootswitchButton(juce::Image idleImage, juce::Image pressedIma
 {
     //redraw();    
 }
+FootswitchButton::~FootswitchButton()
+{
+    DBG("death");
+}
 
 void FootswitchButton::mouseDown(const juce::MouseEvent& event)
 {
