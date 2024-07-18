@@ -23,12 +23,13 @@ public:
     void paint(juce::Graphics& g) override;
     void resized() override;
     juce::Rectangle<int> getBounds() { return pedalBounds; };
-    FootswitchButton leftFootswitch;
+   
 
 private:
     
     juce::Image pedalBaseImage;
     juce::Rectangle<int> pedalBounds;
+    std::unique_ptr<FootswitchButton> leftFootswitch;
 
     
    //std::array<std::unique_ptr<FootswitchButton>, 3> footswitches; 

@@ -24,9 +24,14 @@ Pedal::Pedal()
     }
 
     pedalBounds.setSize(pedalBaseImage.getWidth(), pedalBaseImage.getHeight());
-    leftFootswitch.setImg(juce::ImageCache::getFromMemory(BinaryData::left_footswitch_idle_png, BinaryData::left_footswitch_idle_pngSize),
-        juce::ImageCache::getFromMemory(BinaryData::left_footswitch_pressed_png, BinaryData::left_footswitch_idle_pngSize));
+
+    leftFootswitch = std::make_unique<FootswitchButton>(juce::ImageCache::getFromMemory(BinaryData::left_footswitch_idle_png,
+		BinaryData::left_footswitch_idle_pngSize),
+		juce::ImageCache::getFromMemory(BinaryData::left_footswitch_pressed_png,
+			BinaryData::left_footswitch_pressed_pngSize));
     
+    addAndMakeVisible(*leftFootswitch);
+
   
 }
 
@@ -37,5 +42,5 @@ void Pedal::paint(juce::Graphics& g)
 
 void Pedal::resized()
 {
-    leftFootswitch.setBounds(155, 420, 90, 90);
+    leftFootswitch->setBounds(155, 420, 90, 90);
 }
