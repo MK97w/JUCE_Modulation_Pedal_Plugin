@@ -76,9 +76,12 @@ void Pedal::initializeKnobs()
 											BinaryData::right_side_knob_pngSize));
         
        
+        //knobs[0]->setLookAndFeel(knobs[0].get());
+        knob.get()->setLookAndFeel(knob.get());
         knob->setRange(0.0f, 100.0f, 1.0f);
         knob->setSliderStyle(juce::Slider::SliderStyle::RotaryVerticalDrag);
         knob->setTextBoxStyle(juce::Slider::NoTextBox, true, 90, 90);
+        knob->setValue(0.0f);
         addAndMakeVisible(*knob);
     }		
    

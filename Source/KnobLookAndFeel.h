@@ -11,7 +11,7 @@
 #pragma once
 #include <JuceHeader.h>
 
-class Knob : public juce::Slider, juce::LookAndFeel_V4
+class Knob : public juce::Slider, public juce::LookAndFeel_V4
 {
 public:
     Knob(juce::Image sourceImage);
