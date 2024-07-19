@@ -11,16 +11,11 @@
 #include "FootswitchLookAndFeel.h"
 
 FootswitchButton::FootswitchButton(juce::Image idleImage, juce::Image pressedImage)
-    : idle(idleImage),
-    pressed(pressedImage)
+: idle(idleImage),
+  pressed(pressedImage)
 {
     redraw();    
 }
-FootswitchButton::~FootswitchButton()
-{
-    DBG("death");
-}
-
 
 void FootswitchButton::mouseDown(const juce::MouseEvent& event)
 {

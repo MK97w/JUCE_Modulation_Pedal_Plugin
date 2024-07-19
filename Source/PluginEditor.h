@@ -30,6 +30,5 @@ public:
 private:
     Modulation_Pedal_PluginAudioProcessor& audioProcessor;
     Pedal modulationPedal;
-    //std::array<std::unique_ptr<FootswitchButton>, 3> footswitch_test;
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (Modulation_Pedal_PluginAudioProcessorEditor)
 };
