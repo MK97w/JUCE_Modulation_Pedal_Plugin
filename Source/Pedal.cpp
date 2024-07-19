@@ -64,12 +64,45 @@ void Pedal::resizeFootswitches()
     footswitches[1]->setBounds(430, 420, 90, 90);
     footswitches[2]->setBounds(705, 420, 90, 90);
 }
+void Pedal::initializeKnobs()
+{
+    for (auto& knob : knobs)
+    {
+        if (&knob == &knobs.front()) // i need to use & because it compares the addresses. If i didnt use & it would compare the object themselves
+            knob = std::make_unique<Knob>(juce::ImageCache::getFromMemory(BinaryData::left_side_knob_png,
+                                            BinaryData::left_side_knob_pngSize));
+        else
+            knob = std::make_unique<Knob>(juce::ImageCache::getFromMemory(BinaryData::right_side_knob_png,
+											BinaryData::right_side_knob_pngSize));
+        
+       
+        knob->setRange(0.0f, 100.0f, 1.0f);
+        knob->setSliderStyle(juce::Slider::SliderStyle::RotaryVerticalDrag);
+        knob->setTextBoxStyle(juce::Slider::NoTextBox, true, 90, 90);
+        addAndMakeVisible(*knob);
+    }		
+   
+}
+
+void Pedal::resizeKnobs()
+{
+    //this should be relational with image size and wrt each other so that i can iterate through and set bounds
+    knobs[0]->setBounds(155, 115, 90, 90);
+    knobs[1]->setBounds(525, 50, 90, 90);
+    knobs[2]->setBounds(625, 50, 90, 90);
+    knobs[3]->setBounds(725, 50, 90, 90);
+    knobs[4]->setBounds(625, 160, 90, 90);
+    knobs[5]->setBounds(725, 160, 90, 90);
+}
+
 
 void Pedal::initializeComponents()
 {
     initializeFootswitches();
+    initializeKnobs();
 }
 void Pedal::resizeComponents()
 {
     resizeFootswitches();
+    resizeKnobs();
 }

@@ -28,12 +28,16 @@ public:
 
 private:
    void initializeFootswitches();
+   void initializeKnobs();
    void initializeComponents();
    void resizeComponents();
    void resizeFootswitches();
+   void resizeKnobs();
+
    juce::Image pedalBaseImage;
    juce::Rectangle<int> pedalBounds; 
-   std::array<std::unique_ptr<FootswitchButton>, 3> footswitches; 
+   std::array<std::unique_ptr<FootswitchButton>, 3> footswitches; // this looks fine but maybe i should find a way to give them a name or individulize them
+   std::array<std::unique_ptr<Knob>, 6> knobs;
 
 
 
