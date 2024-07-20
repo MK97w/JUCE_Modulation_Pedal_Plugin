@@ -41,7 +41,8 @@ public:
     {
         Tremolo,
         Flanger,
-        Phaser
+        Phaser,
+        Vibrato
     };
 
     // Method to draw a rectangle around labels
@@ -54,7 +55,7 @@ public:
 
 private:
     std::vector<double> sliderValues; // Stores slider values
-    const static std::unordered_map<EffectType, std::array<juce::String,4>> simpleEditPageContent;
+    const static std::unordered_map<EffectType, std::array<juce::String,5>> simpleEditPageContent;
     constexpr static float fontSize{18.0f};
 
 };

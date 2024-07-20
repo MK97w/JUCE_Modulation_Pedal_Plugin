@@ -18,9 +18,8 @@ Pedal::Pedal()
   pedalBounds(0, 0, 0, 0)
 {
     if (pedalBaseImage.isNull())
-    {
         throw std::runtime_error("Failed to load pedal base image.");
-    }
+
     pedalBounds.setSize(pedalBaseImage.getWidth(), pedalBaseImage.getHeight());
     initializeComponents();
 }
@@ -75,8 +74,6 @@ void Pedal::initializeKnobs()
             knob = std::make_unique<Knob>(juce::ImageCache::getFromMemory(BinaryData::right_side_knob_png,
 											BinaryData::right_side_knob_pngSize));
         
-       
-        //knobs[0]->setLookAndFeel(knobs[0].get());
         knob.get()->setLookAndFeel(knob.get());
         knob->setRange(0.0f, 100.0f, 1.0f);
         knob->setSliderStyle(juce::Slider::SliderStyle::RotaryVerticalDrag);

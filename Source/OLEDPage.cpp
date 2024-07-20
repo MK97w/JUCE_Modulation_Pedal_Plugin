@@ -125,9 +125,10 @@ void SimpleEditPage::setPageContentTo(EffectType type)
 }
 
 // Static member definition and initialization
-const std::unordered_map<SimpleEditPage::EffectType, std::array<juce::String, 4>> SimpleEditPage::simpleEditPageContent =
+const std::unordered_map<SimpleEditPage::EffectType, std::array<juce::String, 5>> SimpleEditPage::simpleEditPageContent =
 {
-    {SimpleEditPage::EffectType::Tremolo, {"Tremolo 1", "Tremolo 2", "Tremolo 3", "Tremolo 4"}},
-    {SimpleEditPage::EffectType::Flanger, {"Flanger 1", "Flanger 2", "Flanger 3", "Flanger 4"}},
-    {SimpleEditPage::EffectType::Phaser, {"Phaser 1", "Phaser 2", "Phaser 3", "Phaser 4"}}
+    {SimpleEditPage::EffectType::Flanger, {"FLANGER", "DEPTH:", "EFFECT LEVEL:", "RESONANCE:","MANUAL:"}},
+    {SimpleEditPage::EffectType::Phaser, {"PHASER", "DEPTH:", "EFFECT LEVEL:", "RESONANCE:","MANUAL:"}},
+    {SimpleEditPage::EffectType::Vibrato, {"VIBRATO", "DEPTH:", "EFFECT LEVEL:", "COLOR:","DIRECT LEVEL:"}},
+    {SimpleEditPage::EffectType::Tremolo, {"TREMOLO", "DEPTH:", "EFFECT LEVEL:", "WAVEFORM:","DIRECT LEVEL:"}},
 };
