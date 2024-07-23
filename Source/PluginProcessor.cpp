@@ -19,7 +19,7 @@ Modulation_Pedal_PluginAudioProcessor::Modulation_Pedal_PluginAudioProcessor()
                       #endif
                        .withOutput ("Output", juce::AudioChannelSet::stereo(), true)
                      #endif
-                       )
+                       ),pedalAPVTS(*this, nullptr, "PARAMETERS", createPedalParameterLayout())
 #endif
 {
 }
@@ -153,10 +153,6 @@ void Modulation_Pedal_PluginAudioProcessor::processBlock (juce::AudioBuffer<floa
     for (int channel = 0; channel < totalNumInputChannels; ++channel)
     {
         auto* channelData = buffer.getWritePointer (channel);
-        for (int sample = 0; sample < buffer.getNumSamples(); ++sample)
-        {
-            channelData[sample] = channelData[sample] * juce::Decibels::decibelsToGain(mGain);
-        }
         // ..do something to the data...
     }
 }
@@ -191,4 +187,27 @@ void Modulation_Pedal_PluginAudioProcessor::setStateInformation (const void* dat
 juce::AudioProcessor* JUCE_CALLTYPE createPluginFilter()
 {
     return new Modulation_Pedal_PluginAudioProcessor();
+}
+
+
+
+juce::AudioProcessorValueTreeState::ParameterLayout 
+Modulation_Pedal_PluginAudioProcessor::createPedalParameterLayout()
+{
+    std::vector<std::unique_ptr<juce::RangedAudioParameter>> params;
+
+    // Flanger Set 1
+    params.push_back(std::make_unique<juce::AudioParameterFloat>("flangerDepth", "Flanger Depth", 0.0f, 1.0f, 0.5f));
+    params.push_back(std::make_unique<juce::AudioParameterFloat>("flangerEffectLevel", "Flanger Effect Level", 0.0f, 1.0f, 0.5f));
+    params.push_back(std::make_unique<juce::AudioParameterFloat>("flangerResonance", "Flanger Resonance", 0.0f, 1.0f, 0.5f));
+    params.push_back(std::make_unique<juce::AudioParameterFloat>("flangerManual", "Flanger Manual", 0.0f, 1.0f, 0.5f));
+
+    // Flanger Set 
+    params.push_back(std::make_unique<juce::AudioParameterFloat>("flangerType", "Flanger Type", 0.0f, 1.0f, 0.5f));
+    params.push_back(std::make_unique<juce::AudioParameterFloat>("flangerRate", "Flanger Rate", 0.0f, 1.0f, 0.5f));
+    params.push_back(std::make_unique<juce::AudioParameterFloat>("flangerBPM", "Flanger BPM", 0.0f, 1.0f, 0.5f));
+    params.push_back(std::make_unique<juce::AudioParameterFloat>("flangerNote", "Flanger Note", 0.0f, 1.0f, 0.5f));
+
+    return { params.begin(), params.end() };
+
 }
