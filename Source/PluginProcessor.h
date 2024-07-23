@@ -53,10 +53,17 @@ public:
     void getStateInformation (juce::MemoryBlock& destData) override;
     void setStateInformation (const void* data, int sizeInBytes) override;
 
-    float mGain{ 0.5 };
+    juce::AudioProcessorValueTreeState pedalAPVTS;
 
 
 private:
+
+    juce::AudioProcessorValueTreeState::ParameterLayout createPedalParameterLayout();
+
+
+
+
+
     //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (Modulation_Pedal_PluginAudioProcessor)
 };
