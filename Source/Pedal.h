@@ -18,7 +18,7 @@
 class Pedal : public juce::Component
 {
 public:
-   Pedal();
+   Pedal(juce::AudioProcessorValueTreeState& apvts);
    ~Pedal() = default;
    void paint(juce::Graphics& g) override;
    void resized() override;
@@ -41,7 +41,7 @@ private:
 
 
 
-
+   juce::AudioProcessorValueTreeState& apvts;
 
 };
 

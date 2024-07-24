@@ -12,10 +12,11 @@
 #include <stdexcept> 
 #include <memory> 
 
-Pedal::Pedal()
+Pedal::Pedal(juce::AudioProcessorValueTreeState& apvts)
 : pedalBaseImage(juce::ImageCache::getFromMemory(BinaryData::pedal_base_darkestblue_lcd_png,
-                                                BinaryData::pedal_base_darkestblue_lcd_pngSize)),
-  pedalBounds(0, 0, 0, 0)
+                BinaryData::pedal_base_darkestblue_lcd_pngSize)),
+  pedalBounds(0, 0, 0, 0),
+  apvts(apvts)
 {
     if (pedalBaseImage.isNull())
         throw std::runtime_error("Failed to load pedal base image.");
