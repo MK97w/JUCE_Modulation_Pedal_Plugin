@@ -41,7 +41,7 @@ private:
 
 
 
-   juce::AudioProcessorValueTreeState& apvts;
+   juce::AudioProcessorValueTreeState& pedalAPVTS;
 
 };
 

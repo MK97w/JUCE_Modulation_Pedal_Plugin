@@ -16,18 +16,21 @@ Pedal::Pedal(juce::AudioProcessorValueTreeState& apvts)
 : pedalBaseImage(juce::ImageCache::getFromMemory(BinaryData::pedal_base_darkestblue_lcd_png,
                 BinaryData::pedal_base_darkestblue_lcd_pngSize)),
   pedalBounds(0, 0, 0, 0),
-  apvts(apvts)
+  pedalAPVTS(apvts)
 {
     if (pedalBaseImage.isNull())
         throw std::runtime_error("Failed to load pedal base image.");
 
     pedalBounds.setSize(pedalBaseImage.getWidth(), pedalBaseImage.getHeight());
+    auto xmlState = pedalAPVTS.state.toXmlString();
+    DBG(xmlState);
     initializeComponents();
 }
 
 void Pedal::paint(juce::Graphics& g)
 {
 	g.drawImage(pedalBaseImage, pedalBounds.toFloat());
+
 }
 
 void Pedal::resized()
