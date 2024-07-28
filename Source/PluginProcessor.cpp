@@ -209,5 +209,4 @@ Modulation_Pedal_PluginAudioProcessor::createPedalParameterLayout()
     params.push_back(std::make_unique<juce::AudioParameterFloat>("flangerNote", "Flanger Note", 0.0f, 1.0f, 0.5f));
 
     return { params.begin(), params.end() };
-
 }
