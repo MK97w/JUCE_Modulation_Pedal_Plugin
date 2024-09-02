@@ -30,5 +30,9 @@ public:
 private:
     Modulation_Pedal_PluginAudioProcessor& audioProcessor;
     Pedal modulationPedal;
+
+
+
+
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (Modulation_Pedal_PluginAudioProcessorEditor)
 };

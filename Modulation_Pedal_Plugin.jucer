@@ -45,10 +45,7 @@
             resource="1" file="Backups/PluginEditor_HeaderBackup.txt"/>
     </GROUP>
     <GROUP id="{70D114C3-5627-9D96-54E6-587272A970C3}" name="Source">
-      <GROUP id="{2C6DE8A7-8C9B-A953-21EF-2103B305F2DB}" name="DSP">
-        <FILE id="Gv2wk7" name="Flanger.cpp" compile="1" resource="0" file="Source/Flanger.cpp"/>
-        <FILE id="FYniLP" name="Flanger.h" compile="0" resource="0" file="Source/Flanger.h"/>
-      </GROUP>
+      <GROUP id="{2C6DE8A7-8C9B-A953-21EF-2103B305F2DB}" name="DSP"/>
       <GROUP id="{3547FAD4-83C2-9C37-E9D3-CF60769AE208}" name="GUI">
         <GROUP id="{3D096238-A13A-FBE4-F5C1-ACAA67965E46}" name="OLEDPanel">
           <FILE id="lDvDr8" name="OLEDLookAndFeel.cpp" compile="1" resource="0"
