@@ -53,14 +53,25 @@ public:
     void getStateInformation (juce::MemoryBlock& destData) override;
     void setStateInformation (const void* data, int sizeInBytes) override;
 
-    juce::AudioProcessorValueTreeState pedalAPVTS;
+    //juce::AudioProcessorValueTreeState pedalAPVTS;
+    juce::AudioProcessorValueTreeState params;
 
 
 private:
+    void fillBuffer(juce::AudioBuffer<float>& buffer, int channel);
+    void feedbackBuffer(juce::AudioBuffer<float>& buffer, int channel);
+    void readFromBuffer(juce::AudioBuffer<float>& buffer, juce::AudioBuffer<float>& delayBuffer, int channel);
+    void updateBufferPositions(juce::AudioBuffer<float>& buffer, juce::AudioBuffer<float>& delayBuffer);
+
+    juce::AudioProcessorValueTreeState::ParameterLayout createParameters();
+
+    //juce::AudioProcessorValueTreeState params;
     juce::AudioBuffer<float> delayBuffer;
+    juce::LinearSmoothedValue<float> delayInMillis[2]{ 0.0f };
+    juce::LinearSmoothedValue<float> feedback[2]{ 0.0f };
     int writePosition{ 0 };
 
-    juce::AudioProcessorValueTreeState::ParameterLayout createPedalParameterLayout();
+    //juce::AudioProcessorValueTreeState::ParameterLayout createPedalParameterLayout();
 
 
     //==============================================================================

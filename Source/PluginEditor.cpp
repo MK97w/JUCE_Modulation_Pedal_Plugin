@@ -11,7 +11,7 @@
 
 //==============================================================================
 Modulation_Pedal_PluginAudioProcessorEditor::Modulation_Pedal_PluginAudioProcessorEditor(Modulation_Pedal_PluginAudioProcessor& p)
-    : AudioProcessorEditor(&p), audioProcessor(p), modulationPedal(p.pedalAPVTS)
+    : AudioProcessorEditor(&p), audioProcessor(p) ,modulationPedal(p.params)
 { 
     setSize(modulationPedal.getBounds().getWidth(),
         modulationPedal.getBounds().getHeight());
