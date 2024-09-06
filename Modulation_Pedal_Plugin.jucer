@@ -2,7 +2,7 @@
 
 <JUCERPROJECT id="FFrzIl" name="Modulation_Pedal_Plugin" projectType="audioplug"
               useAppConfig="0" addUsingNamespaceToJuceHeader="0" jucerFormatVersion="1"
-              displaySplashScreen="1">
+              displaySplashScreen="1" companyName="aaaa">
   <MAINGROUP id="yT3KEy" name="Modulation_Pedal_Plugin">
     <GROUP id="{C407C8E2-906D-EE75-48A6-A8F1506E3842}" name="Assets">
       <GROUP id="{309629EF-4112-444B-7313-B5A0E325330A}" name="fonts">
