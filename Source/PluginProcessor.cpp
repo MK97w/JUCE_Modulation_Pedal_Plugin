@@ -273,8 +273,8 @@ bool Modulation_Pedal_PluginAudioProcessor::hasEditor() const
 
 juce::AudioProcessorEditor* Modulation_Pedal_PluginAudioProcessor::createEditor()
 {
-    //return new Modulation_Pedal_PluginAudioProcessorEditor (*this);
-    return new juce::GenericAudioProcessorEditor(*this);
+    return new Modulation_Pedal_PluginAudioProcessorEditor (*this);
+    //return new juce::GenericAudioProcessorEditor(*this);
 }
 
 //==============================================================================

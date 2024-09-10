@@ -24,12 +24,16 @@ Pedal::Pedal(juce::AudioProcessorValueTreeState& apvts)
     pedalBounds.setSize(pedalBaseImage.getWidth(), pedalBaseImage.getHeight());
     auto xmlState = pedalAPVTS.state.toXmlString();
     DBG(xmlState);
+    updateParamsString();
     initializeComponents();
 }
 
 void Pedal::paint(juce::Graphics& g)
 {
 	g.drawImage(pedalBaseImage, pedalBounds.toFloat());
+    g.setColour(juce::Colours::white);
+    g.setFont(15.0f);
+    g.drawFittedText(paramsString, getLocalBounds(), juce::Justification::centred, 10);
 
 }
 
@@ -109,4 +113,24 @@ void Pedal::resizeComponents()
 {
     resizeFootswitches();
     resizeKnobs();
+}
+
+void Pedal::updateParamsString()
+{
+    paramsString.clear();
+    paramsString.clear();
+    auto& params = pedalAPVTS.state;
+    for (int i = 0; i < params.getNumChildren(); ++i)
+    {
+        juce::ValueTree param = params.getChild(i);
+        if (param.isValid())
+        {
+            juce::String paramID = param.getProperty("id").toString();
+            auto* parameter = pedalAPVTS.getParameter(paramID);
+            if (parameter != nullptr)
+            {
+                paramsString += parameter->getName(100) + ": " + parameter->getCurrentValueAsText() + "\n";
+            }
+        }
+    }
 }

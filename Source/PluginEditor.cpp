@@ -17,6 +17,7 @@ Modulation_Pedal_PluginAudioProcessorEditor::Modulation_Pedal_PluginAudioProcess
         modulationPedal.getBounds().getHeight());
 
     addAndMakeVisible(modulationPedal);
+    
 }
 
 Modulation_Pedal_PluginAudioProcessorEditor::~Modulation_Pedal_PluginAudioProcessorEditor()
@@ -34,4 +35,3 @@ void Modulation_Pedal_PluginAudioProcessorEditor::resized()
 {
     modulationPedal.setBounds(getLocalBounds());
 }
-

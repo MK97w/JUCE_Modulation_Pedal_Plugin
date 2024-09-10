@@ -43,6 +43,9 @@ private:
 
    juce::AudioProcessorValueTreeState& pedalAPVTS;
 
+   juce::String paramsString;
+   void updateParamsString();
+
 };
 
 /*
