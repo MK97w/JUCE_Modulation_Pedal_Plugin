@@ -30,9 +30,10 @@ Pedal::Pedal(juce::AudioProcessorValueTreeState& apvts)
 
 void Pedal::paint(juce::Graphics& g)
 {
+    g.setFont(customFontLookAndFeel.getCustomFont());
 	g.drawImage(pedalBaseImage, pedalBounds.toFloat());
     g.setColour(juce::Colours::white);
-    g.setFont(15.0f);
+    g.setFont(20.0f);
     g.drawFittedText(paramsString, getLocalBounds(), juce::Justification::centred, 10);
 
 }
