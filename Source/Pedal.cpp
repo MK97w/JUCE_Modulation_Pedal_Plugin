@@ -30,11 +30,21 @@ Pedal::Pedal(juce::AudioProcessorValueTreeState& apvts)
 
 void Pedal::paint(juce::Graphics& g)
 {
+    int outerLeft = 285, outerTop = 89, outerRight = 472, outerBottom = 200;
+    int innerLeft = outerLeft + 4;
+    int innerTop = outerTop + 5;
+    int innerRight = outerRight - 4;
+    int innerBottom = outerBottom - 5;
+    int innerWidth = innerRight - innerLeft;
+    int innerHeight = innerBottom - innerTop;
+    float cornerSize = 5.0f;
+    g.setColour(juce::Colours::lightgrey);
+    g.drawImage(pedalBaseImage, pedalBounds.toFloat());
+    g.drawRoundedRectangle(juce::Rectangle<float>(innerLeft, innerTop, innerWidth, innerHeight), cornerSize, 2.0f);
     g.setFont(customFontLookAndFeel.getCustomFont());
-	g.drawImage(pedalBaseImage, pedalBounds.toFloat());
-    g.setColour(juce::Colours::white);
-    g.setFont(20.0f);
-    g.drawFittedText(paramsString, getLocalBounds(), juce::Justification::centred, 10);
+    //g.setColour(juce::Colours::white);
+    g.setFont(18.0f);
+    g.drawText(paramsString, innerLeft + 4, innerTop + 19, 20 ,20,juce::Justification::centredLeft, 20);
 
 }
 
