@@ -19,7 +19,7 @@ class Pedal : public juce::Component
 {
 public:
    Pedal(juce::AudioProcessorValueTreeState& apvts);
-   ~Pedal() = default;
+   ~Pedal();
    void paint(juce::Graphics& g) override;
    void resized() override;
    juce::Rectangle<int> getBounds() { return pedalBounds; };
@@ -57,6 +57,11 @@ private:
 
            // This can be used as one way of setting a default font
            // setDefaultSansSerifTypeface (getCustomFont().getTypeface());
+       }
+       ~CustomFontLookAndFeel()
+       {
+           // without this custom Fonts won't work!!
+           LookAndFeel::setDefaultLookAndFeel(nullptr);
        }
 
        static const juce::Font getCustomFont()

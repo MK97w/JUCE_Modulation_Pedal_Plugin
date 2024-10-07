@@ -28,6 +28,12 @@ Pedal::Pedal(juce::AudioProcessorValueTreeState& apvts)
     initializeComponents();
 }
 
+
+Pedal::~Pedal()
+{
+	customFontLookAndFeel.setDefaultLookAndFeel(nullptr);
+}
+
 void Pedal::paint(juce::Graphics& g)
 {
     int outerLeft = 285, outerTop = 89, outerRight = 472, outerBottom = 200;
