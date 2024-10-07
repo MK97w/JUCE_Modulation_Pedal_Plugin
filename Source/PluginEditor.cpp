@@ -22,7 +22,7 @@ Modulation_Pedal_PluginAudioProcessorEditor::Modulation_Pedal_PluginAudioProcess
 
 Modulation_Pedal_PluginAudioProcessorEditor::~Modulation_Pedal_PluginAudioProcessorEditor()
 {
-
+	setLookAndFeel(nullptr);
 }
 
 //==============================================================================

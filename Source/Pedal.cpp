@@ -49,8 +49,18 @@ void Pedal::paint(juce::Graphics& g)
     g.drawRoundedRectangle(juce::Rectangle<float>(innerLeft, innerTop, innerWidth, innerHeight), cornerSize, 2.0f);
     g.setFont(customFontLookAndFeel.getCustomFont());
     //g.setColour(juce::Colours::white);
-    g.setFont(18.0f);
-    g.drawText(paramsString, innerLeft + 4, innerTop + 19, 20 ,20,juce::Justification::centredLeft, 20);
+   /* g.setFont(18.0f);
+    g.drawText(paramsString, innerLeft + 4, innerTop + 19, 20 ,20,juce::Justification::centredLeft, 20);*/
+
+    g.setFont(18.5f);
+    juce::StringArray lines;
+    lines.addLines(paramsString);
+
+    int lineHeight = g.getCurrentFont().getHeight();
+    for (int i = 0; i < lines.size(); ++i)
+    {
+        g.drawText(lines[i], innerLeft + 4, innerTop + 19 + i * lineHeight, innerWidth, lineHeight, juce::Justification::centredLeft);
+    }
 
 }
 
