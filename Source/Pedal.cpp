@@ -55,11 +55,20 @@ void Pedal::paint(juce::Graphics& g)
     g.setFont(18.5f);
     juce::StringArray lines;
     lines.addLines(paramsString);
-
+    DBG(lines.size());
     int lineHeight = g.getCurrentFont().getHeight();
-    for (int i = 0; i < lines.size(); ++i)
+    for (int i = 0; i < 4; ++i)
     {
-        g.drawText(lines[i], innerLeft + 4, innerTop + 19 + i * lineHeight, innerWidth, lineHeight, juce::Justification::centredLeft);
+        juce::String line = lines[i];
+        int colonIndex = line.indexOfChar(':');
+        if (colonIndex != -1)
+        {
+            juce::String paramName = line.substring(0, colonIndex + 1);
+            juce::String paramValue = line.substring(colonIndex + 1).trim();
+
+            g.drawText(paramName, innerLeft + 4, innerTop + 19 + i * lineHeight, innerWidth, lineHeight, juce::Justification::centredLeft);
+            g.drawText(paramValue, innerRight - 35, innerTop + 19 + i * lineHeight, innerWidth, lineHeight, juce::Justification::centredLeft);
+        }
     }
 
 }
@@ -144,9 +153,12 @@ void Pedal::resizeComponents()
 
 void Pedal::updateParamsString()
 {
-    paramsString.clear();
+
     paramsString.clear();
     auto& params = pedalAPVTS.state;
+
+    // Calculate the maximum width of parameter names
+    int maxWidth = 0;
     for (int i = 0; i < params.getNumChildren(); ++i)
     {
         juce::ValueTree param = params.getChild(i);
@@ -156,7 +168,26 @@ void Pedal::updateParamsString()
             auto* parameter = pedalAPVTS.getParameter(paramID);
             if (parameter != nullptr)
             {
-                paramsString += parameter->getName(100) + ": " + parameter->getCurrentValueAsText() + "\n";
+                int width = parameter->getName(100).length();
+                if (width > maxWidth)
+                    maxWidth = width;
+            }
+        }
+    }
+
+    // Store parameter names and values
+    for (int i = 0; i < params.getNumChildren(); ++i)
+    {
+        juce::ValueTree param = params.getChild(i);
+        if (param.isValid())
+        {
+            juce::String paramID = param.getProperty("id").toString();
+            auto* parameter = pedalAPVTS.getParameter(paramID);
+            if (parameter != nullptr)
+            {
+                juce::String paramName = parameter->getName(100);
+                juce::String paramValue = parameter->getCurrentValueAsText();
+                paramsString += paramName + ": " + paramValue + "\n";
             }
         }
     }
