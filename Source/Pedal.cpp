@@ -46,12 +46,15 @@ void Pedal::paint(juce::Graphics& g)
     float cornerSize = 5.0f;
     g.setColour(juce::Colours::lightgrey);
     g.drawImage(pedalBaseImage, pedalBounds.toFloat());
-    g.drawRoundedRectangle(juce::Rectangle<float>(innerLeft, innerTop, innerWidth, innerHeight), cornerSize, 2.0f);
+    g.drawRoundedRectangle(juce::Rectangle<float>(innerLeft, innerTop, innerWidth, innerHeight), cornerSize, 2.0f); //simple edit page
     g.setFont(customFontLookAndFeel.getCustomFont());
     //g.setColour(juce::Colours::white);
    /* g.setFont(18.0f);
     g.drawText(paramsString, innerLeft + 4, innerTop + 19, 20 ,20,juce::Justification::centredLeft, 20);*/
-
+    g.setFont(18.5f);
+    juce::String text = "TREMOLO";
+    auto m = CustomFontLookAndFeel::getCustomFont().getStringWidth(text);
+    g.drawText(text, innerLeft, innerTop + 1, (innerRight - innerLeft), 20, juce::Justification::horizontallyCentred);
     g.setFont(18.5f);
     juce::StringArray lines;
     lines.addLines(paramsString);
@@ -66,8 +69,8 @@ void Pedal::paint(juce::Graphics& g)
             juce::String paramName = line.substring(0, colonIndex + 1);
             juce::String paramValue = line.substring(colonIndex + 1).trim();
 
-            g.drawText(paramName, innerLeft + 4, innerTop + 19 + i * lineHeight, innerWidth, lineHeight, juce::Justification::centredLeft);
-            g.drawText(paramValue, innerRight - 35, innerTop + 19 + i * lineHeight, innerWidth, lineHeight, juce::Justification::centredLeft);
+            g.drawText(paramName, innerLeft + 6, innerTop + 22 + i * lineHeight, innerWidth, lineHeight, juce::Justification::centredLeft);
+            g.drawText(paramValue, innerRight - 35, innerTop + 22 + i * lineHeight, innerWidth, lineHeight, juce::Justification::centredLeft);
         }
     }
 
