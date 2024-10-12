@@ -44,13 +44,18 @@ void Pedal::paint(juce::Graphics& g)
     int innerWidth = innerRight - innerLeft;
     int innerHeight = innerBottom - innerTop;
     float cornerSize = 5.0f;
+
+
+
     g.setColour(juce::Colours::lightgrey);
     g.drawImage(pedalBaseImage, pedalBounds.toFloat());
-    g.drawRoundedRectangle(juce::Rectangle<float>(innerLeft, innerTop, innerWidth, innerHeight), cornerSize, 2.0f); //simple edit page
+
+
+
+
+    //PREVIOUSLY USED FOR SIMPLE EDIT PAGE
+    /*g.drawRoundedRectangle(juce::Rectangle<float>(innerLeft, innerTop, innerWidth, innerHeight), cornerSize, 2.0f); //simple edit page
     g.setFont(customFontLookAndFeel.getCustomFont());
-    //g.setColour(juce::Colours::white);
-   /* g.setFont(18.0f);
-    g.drawText(paramsString, innerLeft + 4, innerTop + 19, 20 ,20,juce::Justification::centredLeft, 20);*/
     g.setFont(18.5f);
     juce::String text = "TREMOLO";
     auto m = CustomFontLookAndFeel::getCustomFont().getStringWidth(text);
@@ -72,8 +77,50 @@ void Pedal::paint(juce::Graphics& g)
             g.drawText(paramName, innerLeft + 6, innerTop + 22 + i * lineHeight, innerWidth, lineHeight, juce::Justification::centredLeft);
             g.drawText(paramValue, innerRight - 35, innerTop + 22 + i * lineHeight, innerWidth, lineHeight, juce::Justification::centredLeft);
         }
-    }
+    }*/
 
+    //FULL EDIT PAGE
+
+    int scrollBarWidth = 5;
+    int scrollBarHeight = 85;
+    int scrollBarX = outerRight-5;
+    int scrollBarY = outerTop + 28;
+    g.setColour(juce::Colours::white);
+    g.drawRect(scrollBarX, scrollBarY, scrollBarWidth, scrollBarHeight); 
+
+    // Whiten 1/3 of the scroll bar
+    int whiteHeight = scrollBarHeight / 3;
+    g.setColour(juce::Colours::white);
+    g.fillRect(scrollBarX, scrollBarY, scrollBarWidth, whiteHeight);
+    g.drawLine(outerLeft, outerTop + 22, outerRight, outerTop + 22, 2.0f);
+    auto ft = customFontLookAndFeel.getCustomFont().boldened();
+    ft.setExtraKerningFactor(0.1f);
+    g.setFont(ft);
+    g.setFont(15.5f);
+    juce::String text = "PATCH ";
+    g.drawText(text, outerLeft+2, outerTop+2, 8, 20, juce::Justification::left);
+    g.setFont(customFontLookAndFeel.getCustomFont());
+    g.setFont(16.5f);
+    juce::String text2 = "[VIBRATO] ";
+    g.drawText(text2, outerLeft + 130, outerTop + 2, 20, 20, juce::Justification::left);
+    g.setFont(18.0f);
+    juce::StringArray lines;
+    lines.addLines(paramsString);
+    DBG(lines.size());
+    int lineHeight = g.getCurrentFont().getHeight();
+    for (int i = 0; i < 5; ++i)
+    {
+        juce::String line = lines[i];
+        int colonIndex = line.indexOfChar(':');
+        if (colonIndex != -1)
+        {
+            juce::String paramName = line.substring(0, colonIndex + 1);
+            juce::String paramValue = line.substring(colonIndex + 1).trim();
+
+            g.drawText(paramName, outerLeft + 4, outerTop + 24 + i * lineHeight, innerWidth, lineHeight, juce::Justification::centredLeft);
+            g.drawText(paramValue, innerRight - 35, outerTop + 24 + i * lineHeight, innerWidth, lineHeight, juce::Justification::centredLeft);
+        }
+    }
 }
 
 void Pedal::resized()
