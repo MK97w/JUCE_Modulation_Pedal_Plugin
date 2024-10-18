@@ -194,11 +194,13 @@ void Pedal::initializeComponents()
 {
     initializeFootswitches();
     initializeKnobs();
+	initializeButtons();
 }
 void Pedal::resizeComponents()
 {
     resizeFootswitches();
     resizeKnobs();
+    resizeButtons();
 }
 
 void Pedal::updateParamsString()
@@ -241,4 +243,19 @@ void Pedal::updateParamsString()
             }
         }
     }
+}
+
+void Pedal::initializeButtons()
+{
+    upButton.setButtonText("up");
+    downButton.setButtonText("down");
+
+    addAndMakeVisible(upButton);
+    addAndMakeVisible(downButton);
+}
+
+void Pedal::resizeButtons()
+{
+    upButton.setBounds(525, 160, 50, 30); // Adjust the position and size as needed
+    downButton.setBounds(525, 200, 50, 30); // Adjust the position and size as needed
 }

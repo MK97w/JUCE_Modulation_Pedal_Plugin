@@ -33,13 +33,15 @@ private:
    void resizeComponents();
    void resizeFootswitches();
    void resizeKnobs();
+   void initializeButtons(); // Add this line
+   void resizeButtons(); // Add this line
 
    juce::Image pedalBaseImage;
    juce::Rectangle<int> pedalBounds; 
    std::array<std::unique_ptr<FootswitchButton>, 3> footswitches; // this looks fine but maybe i should find a way to give them a name or individulize them
    std::array<std::unique_ptr<Knob>, 6> knobs;
 
-
+   juce::TextButton upButton, downButton;
 
    juce::AudioProcessorValueTreeState& pedalAPVTS;
 
