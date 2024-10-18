@@ -33,8 +33,12 @@ private:
    void resizeComponents();
    void resizeFootswitches();
    void resizeKnobs();
-   void initializeButtons(); // Add this line
-   void resizeButtons(); // Add this line
+   void initializeButtons(); 
+   void resizeButtons(); 
+   void downButtonClicked(); 
+   void upButtonClicked(); 
+
+
 
    juce::Image pedalBaseImage;
    juce::Rectangle<int> pedalBounds; 
@@ -47,6 +51,13 @@ private:
 
    juce::String paramsString;
    void updateParamsString();
+
+
+   int apvtsElemSize = 0;
+   int currentAPVTSIndex = 0;
+   int maxElemtoDisplay = 5;
+
+
 
 
    class CustomFontLookAndFeel : public juce::LookAndFeel_V4

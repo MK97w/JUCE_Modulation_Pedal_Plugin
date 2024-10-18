@@ -26,6 +26,8 @@ Pedal::Pedal(juce::AudioProcessorValueTreeState& apvts)
     DBG(xmlState);
     updateParamsString();
     initializeComponents();
+	apvtsElemSize = pedalAPVTS.state.getNumChildren();
+	DBG(apvtsElemSize);
 }
 
 
@@ -106,11 +108,11 @@ void Pedal::paint(juce::Graphics& g)
     g.setFont(18.0f);
     juce::StringArray lines;
     lines.addLines(paramsString);
-    DBG(lines.size());
+   // DBG(lines.size());
     int lineHeight = g.getCurrentFont().getHeight();
-    for (int i = 0; i < 5; ++i)
+    for (int i = 0; i < maxElemtoDisplay ; ++i )
     {
-        juce::String line = lines[i];
+        juce::String line = lines[i+currentAPVTSIndex];
         int colonIndex = line.indexOfChar(':');
         if (colonIndex != -1)
         {
@@ -250,6 +252,9 @@ void Pedal::initializeButtons()
     upButton.setButtonText("up");
     downButton.setButtonText("down");
 
+    downButton.onClick = [this]() { downButtonClicked(); };
+    upButton.onClick = [this]() { upButtonClicked(); }; 
+
     addAndMakeVisible(upButton);
     addAndMakeVisible(downButton);
 }
@@ -258,4 +263,28 @@ void Pedal::resizeButtons()
 {
     upButton.setBounds(525, 160, 50, 30); // Adjust the position and size as needed
     downButton.setBounds(525, 200, 50, 30); // Adjust the position and size as needed
+}
+
+void Pedal::downButtonClicked()
+{
+   // apvtsElemSize-currentAPVTSIndex = maxElemtoDisplay
+
+
+    if (currentAPVTSIndex < apvtsElemSize-1)
+        currentAPVTSIndex += 1;
+    else
+		currentAPVTSIndex = apvtsElemSize - 1;
+    DBG(currentAPVTSIndex);
+    repaint();
+}
+
+void Pedal::upButtonClicked()
+{
+    if (currentAPVTSIndex > 0)
+    if (currentAPVTSIndex > 0)
+        currentAPVTSIndex -= 1;
+    else
+        currentAPVTSIndex = 0;
+    DBG(currentAPVTSIndex);
+    repaint();
 }
