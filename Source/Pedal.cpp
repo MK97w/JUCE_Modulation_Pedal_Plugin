@@ -11,6 +11,7 @@
 #include "Pedal.h"
 #include <stdexcept> 
 #include <memory> 
+#include <iostream> 
 
 Pedal::Pedal(juce::AudioProcessorValueTreeState& apvts)
 : pedalBaseImage(juce::ImageCache::getFromMemory(BinaryData::pedal_base_darkestblue_lcd_png,
@@ -267,33 +268,48 @@ void Pedal::resizeButtons()
 
 void Pedal::downButtonClicked()
 {
-
+    DBG("Down");
+    DBG("APVTS Index: ");  DBG(currentAPVTSIndex);
     if (currentAPVTSIndex < apvtsElemSize - 1)
     {
         currentAPVTSIndex += 1;
-        if (currentAPVTSIndex + maxElemtoDisplay <= apvtsElemSize) 
+        if (currentAPVTSIndex < maxElemtoDisplay)
         {
-            displayOffset += 1;
-            repaint();
+            DBG(" New APVTS Index: ");  DBG(currentAPVTSIndex);
+            //paint the indexed parameter
+            //repaint();
         }
         else
-            displayOffset = apvtsElemSize - maxElemtoDisplay;
+        {
+            if(maxElemtoDisplay + displayOffset < apvtsElemSize)
+                displayOffset += 1;
+            DBG("New APVTS Index: ");  DBG(currentAPVTSIndex);
+            DBG("displayOffset: ");  DBG(displayOffset);           
+			repaint();
+        }
     }
-    else
-		currentAPVTSIndex = apvtsElemSize - 1;
 }
 
-void Pedal::upButtonClicked()
+void Pedal::upButtonClicked() 
 {
+    DBG("Up");
+    DBG("APVTS Index: ");  DBG(currentAPVTSIndex);
     if (currentAPVTSIndex > 0)
     {
         currentAPVTSIndex -= 1;
-        if (displayOffset > 0)
+        if (currentAPVTSIndex >= displayOffset)
         {
-            displayOffset -= 1;
+            DBG(" New APVTS Index: ");  DBG(currentAPVTSIndex);
+            //paint the indexed parameter
+            //repaint();
+        }
+        else
+        {
+            if ( displayOffset > 0 )
+                displayOffset -= 1;
+            DBG("New APVTS Index: ");  DBG(currentAPVTSIndex);
+            DBG("displayOffset: ");  DBG(displayOffset);
             repaint();
         }
     }
-    else
-        currentAPVTSIndex = 0;
 }
