@@ -112,7 +112,7 @@ void Pedal::paint(juce::Graphics& g)
     int lineHeight = g.getCurrentFont().getHeight();
     for (int i = 0; i < maxElemtoDisplay ; ++i )
     {
-        juce::String line = lines[i+currentAPVTSIndex];
+        juce::String line = lines[i+ displayOffset];
         int colonIndex = line.indexOfChar(':');
         if (colonIndex != -1)
         {
@@ -267,24 +267,33 @@ void Pedal::resizeButtons()
 
 void Pedal::downButtonClicked()
 {
-   // apvtsElemSize-currentAPVTSIndex = maxElemtoDisplay
 
-
-    if (currentAPVTSIndex < apvtsElemSize-1)
+    if (currentAPVTSIndex < apvtsElemSize - 1)
+    {
         currentAPVTSIndex += 1;
+        if (currentAPVTSIndex + maxElemtoDisplay <= apvtsElemSize) 
+        {
+            displayOffset += 1;
+            repaint();
+        }
+        else
+            displayOffset = apvtsElemSize - maxElemtoDisplay;
+    }
     else
 		currentAPVTSIndex = apvtsElemSize - 1;
-    DBG(currentAPVTSIndex);
-    repaint();
 }
 
 void Pedal::upButtonClicked()
 {
     if (currentAPVTSIndex > 0)
-    if (currentAPVTSIndex > 0)
+    {
         currentAPVTSIndex -= 1;
+        if (displayOffset > 0)
+        {
+            displayOffset -= 1;
+            repaint();
+        }
+    }
     else
         currentAPVTSIndex = 0;
-    DBG(currentAPVTSIndex);
-    repaint();
 }

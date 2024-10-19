@@ -56,7 +56,7 @@ private:
    int apvtsElemSize = 0;
    int currentAPVTSIndex = 0;
    int maxElemtoDisplay = 5;
-
+   int displayOffset = 0;
 
 
 
