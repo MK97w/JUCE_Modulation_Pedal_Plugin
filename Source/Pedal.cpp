@@ -92,16 +92,16 @@ void Pedal::paint(juce::Graphics& g)
     g.drawRect(scrollBarX, scrollBarY, scrollBarWidth, scrollBarHeight); 
     juce::StringArray lines;
     lines.addLines(paramsString);
-    int totalItems = lines.size();
+    int totalItems = lines.size() - 1;
     int visibleItems = maxElemtoDisplay;
 
     if (totalItems > 0 && visibleItems > 0)
     {
         float scrollBarRatio = static_cast<float>(visibleItems) / totalItems;
         int whiteHeight = static_cast<int>(scrollBarHeight * scrollBarRatio);
-        int whiteY = scrollBarY + static_cast<int>((scrollBarHeight - whiteHeight) * (static_cast<float>(displayOffset) / (totalItems - visibleItems)));
+        int maxDisplayOffset = totalItems - visibleItems;
+        int whiteY = scrollBarY + static_cast<int>((scrollBarHeight - whiteHeight) * (static_cast<float>(displayOffset) / maxDisplayOffset));
 
-        // Draw the white part of the scroll bar
         g.setColour(juce::Colours::white);
         g.fillRect(scrollBarX, whiteY, scrollBarWidth, whiteHeight);
     }
