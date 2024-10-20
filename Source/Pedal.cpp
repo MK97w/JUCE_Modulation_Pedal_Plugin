@@ -90,11 +90,22 @@ void Pedal::paint(juce::Graphics& g)
     int scrollBarY = outerTop + 28;
     g.setColour(juce::Colours::white);
     g.drawRect(scrollBarX, scrollBarY, scrollBarWidth, scrollBarHeight); 
+    juce::StringArray lines;
+    lines.addLines(paramsString);
+    int totalItems = lines.size();
+    int visibleItems = maxElemtoDisplay;
 
-    // Whiten 1/3 of the scroll bar
-    int whiteHeight = scrollBarHeight / 3;
-    g.setColour(juce::Colours::white);
-    g.fillRect(scrollBarX, scrollBarY, scrollBarWidth, whiteHeight);
+    if (totalItems > 0 && visibleItems > 0)
+    {
+        float scrollBarRatio = static_cast<float>(visibleItems) / totalItems;
+        int whiteHeight = static_cast<int>(scrollBarHeight * scrollBarRatio);
+        int whiteY = scrollBarY + static_cast<int>((scrollBarHeight - whiteHeight) * (static_cast<float>(displayOffset) / (totalItems - visibleItems)));
+
+        // Draw the white part of the scroll bar
+        g.setColour(juce::Colours::white);
+        g.fillRect(scrollBarX, whiteY, scrollBarWidth, whiteHeight);
+    }
+
     g.drawLine(outerLeft, outerTop + 22, outerRight, outerTop + 22, 2.0f);
     auto ft = customFontLookAndFeel.getCustomFont().boldened();
     ft.setExtraKerningFactor(0.1f);
@@ -107,8 +118,8 @@ void Pedal::paint(juce::Graphics& g)
     juce::String text2 = "[VIBRATO] ";
     g.drawText(text2, outerLeft + 130, outerTop + 2, 20, 20, juce::Justification::left);
     g.setFont(18.0f);
-    juce::StringArray lines;
-    lines.addLines(paramsString);
+    //juce::StringArray lines;
+    //lines.addLines(paramsString);
    // DBG(lines.size());
     int lineHeight = g.getCurrentFont().getHeight();
     for (int i = 0; i < maxElemtoDisplay ; ++i )
