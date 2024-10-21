@@ -118,22 +118,55 @@ void Pedal::paint(juce::Graphics& g)
     juce::String text2 = "[VIBRATO] ";
     g.drawText(text2, outerLeft + 130, outerTop + 2, 20, 20, juce::Justification::left);
     g.setFont(18.0f);
-    //juce::StringArray lines;
-    //lines.addLines(paramsString);
-   // DBG(lines.size());
     int lineHeight = g.getCurrentFont().getHeight();
     for (int i = 0; i < maxElemtoDisplay ; ++i )
     {
-        juce::String line = lines[i+ displayOffset];
+        juce::String line = lines[i + displayOffset];
         int colonIndex = line.indexOfChar(':');
-        if (colonIndex != -1)
+        juce::String paramName = line.substring(0, colonIndex + 1);
+        juce::String paramValue = line.substring(colonIndex + 1).trim();
+        if (displayOffset == 0)
         {
-            juce::String paramName = line.substring(0, colonIndex + 1);
-            juce::String paramValue = line.substring(colonIndex + 1).trim();
+            if (colonIndex != -1)
+            {
 
-            g.drawText(paramName, outerLeft + 4, outerTop + 24 + i * lineHeight, innerWidth, lineHeight, juce::Justification::centredLeft);
-            g.drawText(paramValue, innerRight - 35, outerTop + 24 + i * lineHeight, innerWidth, lineHeight, juce::Justification::centredLeft);
+                if (currentAPVTSIndex == i)
+                {
+                    g.setColour(juce::Colours::lightgrey);
+                    g.fillRect(outerLeft + 4, outerTop + 24 + i * lineHeight, (innerRight-7 - innerLeft), lineHeight);
+
+                    g.setColour(juce::Colours::black);
+                    g.drawText(paramName, outerLeft + 4, outerTop + 24 + i * lineHeight, innerWidth, lineHeight, juce::Justification::centredLeft);
+                    g.drawText(paramValue, innerRight - 35, outerTop + 24 + i * lineHeight, innerWidth, lineHeight, juce::Justification::centredLeft);
+				}
+				else
+				{
+					g.setColour(juce::Colours::white);
+					g.drawText(paramName, outerLeft + 4, outerTop + 24 + i * lineHeight, innerWidth, lineHeight, juce::Justification::centredLeft);
+					g.drawText(paramValue, innerRight - 35, outerTop + 24 + i * lineHeight, innerWidth, lineHeight, juce::Justification::centredLeft);
+				}
+              
+            }
         }
+        else
+        {
+            if (maxElemtoDisplay - 1 == i)
+            {
+                g.setColour(juce::Colours::lightgrey);
+                g.fillRect(outerLeft + 4, outerTop + 24 + i * lineHeight, (innerRight - 7 - innerLeft), lineHeight);
+
+                g.setColour(juce::Colours::black);
+                g.drawText(paramName, outerLeft + 4, outerTop + 24 + i * lineHeight, innerWidth, lineHeight, juce::Justification::centredLeft);
+                g.drawText(paramValue, innerRight - 35, outerTop + 24 + i * lineHeight, innerWidth, lineHeight, juce::Justification::centredLeft);
+            }
+            else
+            {
+                g.setColour(juce::Colours::white);
+                g.drawText(paramName, outerLeft + 4, outerTop + 24 + i * lineHeight, innerWidth, lineHeight, juce::Justification::centredLeft);
+                g.drawText(paramValue, innerRight - 35, outerTop + 24 + i * lineHeight, innerWidth, lineHeight, juce::Justification::centredLeft);
+            }
+        }
+
     }
 }
 
@@ -288,7 +321,7 @@ void Pedal::downButtonClicked()
         {
             DBG(" New APVTS Index: ");  DBG(currentAPVTSIndex);
             //paint the indexed parameter
-            //repaint();
+            repaint();
         }
         else
         {
@@ -312,7 +345,7 @@ void Pedal::upButtonClicked()
         {
             DBG(" New APVTS Index: ");  DBG(currentAPVTSIndex);
             //paint the indexed parameter
-            //repaint();
+            repaint();
         }
         else
         {
