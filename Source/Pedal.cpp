@@ -39,15 +39,6 @@ Pedal::~Pedal()
 
 void Pedal::paint(juce::Graphics& g)
 {
-    int outerLeft = 285, outerTop = 89, outerRight = 472, outerBottom = 200;
-    int innerLeft = outerLeft + 4;
-    int innerTop = outerTop + 5;
-    int innerRight = outerRight - 4;
-    int innerBottom = outerBottom - 5;
-    int innerWidth = innerRight - innerLeft;
-    int innerHeight = innerBottom - innerTop;
-    float cornerSize = 5.0f;
-
 
 
     g.setColour(juce::Colours::lightgrey);
@@ -89,9 +80,9 @@ void Pedal::paint(juce::Graphics& g)
         //FULL EDIT PAGE
 
         int scrollBarWidth = 5;
-        int scrollBarHeight = 85;
+        int scrollBarHeight = 83;
         int scrollBarX = outerRight - 5;
-        int scrollBarY = outerTop + 28;
+        int scrollBarY = outerTop + 26;
         g.setColour(juce::Colours::white);
         g.drawRect(scrollBarX, scrollBarY, scrollBarWidth, scrollBarHeight);
         juce::StringArray lines;
@@ -335,7 +326,7 @@ void Pedal::downButtonClicked()
         {
             DBG(" New APVTS Index: ");  DBG(currentAPVTSIndex);
             //paint the indexed parameter
-            repaint();
+            repaint(outerLeft, outerTop, (outerRight - outerLeft), (outerBottom - outerTop));
         }
         else
         {
@@ -343,7 +334,7 @@ void Pedal::downButtonClicked()
                 displayOffset += 1;
             DBG("New APVTS Index: ");  DBG(currentAPVTSIndex);
             DBG("displayOffset: ");  DBG(displayOffset);           
-			repaint();
+            repaint(outerLeft, outerTop, (outerRight - outerLeft), (outerBottom - outerTop));
         }
     }
 }
@@ -359,7 +350,7 @@ void Pedal::upButtonClicked()
         {
             DBG(" New APVTS Index: ");  DBG(currentAPVTSIndex);
             //paint the indexed parameter
-            repaint();
+            repaint(outerLeft, outerTop, (outerRight - outerLeft), (outerBottom - outerTop));
         }
         else
         {
@@ -367,17 +358,17 @@ void Pedal::upButtonClicked()
                 displayOffset -= 1;
             DBG("New APVTS Index: ");  DBG(currentAPVTSIndex);
             DBG("displayOffset: ");  DBG(displayOffset);
-            repaint();
+            repaint(outerLeft, outerTop, (outerRight - outerLeft), (outerBottom - outerTop));
         }
     }
 }
 void Pedal::editButtonClicked()
 {
     isEditPage = true;
-	repaint();
+	repaint(outerLeft,outerTop,(outerRight-outerLeft), (outerBottom-outerTop));
 }
 void Pedal::exitButtonClicked()
 {
 	isEditPage = false; 
-    repaint();
+    repaint(outerLeft, outerTop, (outerRight - outerLeft), (outerBottom - outerTop));
 }

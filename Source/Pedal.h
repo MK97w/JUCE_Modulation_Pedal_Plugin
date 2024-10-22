@@ -63,6 +63,17 @@ private:
 
 
 
+   //THESE ARE THE BOUNDS OF DISPLAY PART: MAKE THEM JUCE::RECTANGLE
+   int outerLeft = 285, outerTop = 89, outerRight = 472, outerBottom = 200;
+   int innerLeft = outerLeft + 4;
+   int innerTop = outerTop + 5;
+   int innerBottom = outerBottom - 5;
+   int innerRight = outerRight - 4;
+   int innerWidth = innerRight - innerLeft;
+   int innerHeight = innerBottom - innerTop;
+   float cornerSize = 5.0f;
+
+
    class CustomFontLookAndFeel : public juce::LookAndFeel_V4
    {
    public:
