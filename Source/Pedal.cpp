@@ -102,7 +102,7 @@ void Pedal::paint(juce::Graphics& g)
         int maxDisplayOffset = totalItems - visibleItems;
         int whiteY = scrollBarY + static_cast<int>((scrollBarHeight - whiteHeight) * (static_cast<float>(displayOffset) / maxDisplayOffset));
 
-        g.setColour(juce::Colours::white);
+        g.setColour(juce::Colours::lightgrey);
         g.fillRect(scrollBarX, whiteY, scrollBarWidth, whiteHeight);
     }
 
@@ -150,7 +150,7 @@ void Pedal::paint(juce::Graphics& g)
         }
         else
         {
-            if (maxElemtoDisplay - 1 == i)
+            if (currentAPVTSIndex - displayOffset == i) //index - offset
             {
                 g.setColour(juce::Colours::lightgrey);
                 g.fillRect(outerLeft + 4, outerTop + 24 + i * lineHeight, (innerRight - 7 - innerLeft), lineHeight);
