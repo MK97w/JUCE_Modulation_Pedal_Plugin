@@ -37,6 +37,8 @@ private:
    void resizeButtons(); 
    void downButtonClicked(); 
    void upButtonClicked(); 
+   void editButtonClicked();
+   void exitButtonClicked();
 
 
 
@@ -45,7 +47,7 @@ private:
    std::array<std::unique_ptr<FootswitchButton>, 3> footswitches; // this looks fine but maybe i should find a way to give them a name or individulize them
    std::array<std::unique_ptr<Knob>, 6> knobs;
 
-   juce::TextButton upButton, downButton;
+   juce::TextButton upButton, downButton, editButton, exitButton;
 
    juce::AudioProcessorValueTreeState& pedalAPVTS;
 
@@ -57,6 +59,7 @@ private:
    int currentAPVTSIndex = 0;
    int maxElemtoDisplay = 5;
    int displayOffset = 0;
+   bool isEditPage = false;
 
 
 
