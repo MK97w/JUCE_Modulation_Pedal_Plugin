@@ -34,13 +34,11 @@ Pedal::Pedal(juce::AudioProcessorValueTreeState& apvts)
 
 Pedal::~Pedal()
 {
-	customFontLookAndFeel.setDefaultLookAndFeel(nullptr);
+
 }
 
 void Pedal::paint(juce::Graphics& g)
 {
-
-
     g.setColour(juce::Colours::lightgrey);
     g.drawImage(pedalBaseImage, pedalBounds.toFloat());
 
@@ -78,7 +76,6 @@ void Pedal::paint(juce::Graphics& g)
     {
 
         //FULL EDIT PAGE
-
         int scrollBarWidth = 5;
         int scrollBarHeight = 83;
         int scrollBarX = outerRight - 5;

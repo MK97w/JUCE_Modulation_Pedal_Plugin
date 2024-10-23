@@ -80,7 +80,7 @@ private:
        CustomFontLookAndFeel()
        {
            // without this custom Fonts won't work!!
-           LookAndFeel::setDefaultLookAndFeel(this);
+           setDefaultLookAndFeel(this);
 
            // This can be used as one way of setting a default font
            // setDefaultSansSerifTypeface (getCustomFont().getTypeface());
@@ -88,7 +88,7 @@ private:
        ~CustomFontLookAndFeel()
        {
            // without this custom Fonts won't work!!
-           LookAndFeel::setDefaultLookAndFeel(nullptr);
+           setDefaultLookAndFeel(nullptr);
        }
 
        static const juce::Font getCustomFont()
