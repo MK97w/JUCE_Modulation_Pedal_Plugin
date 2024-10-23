@@ -317,50 +317,58 @@ void Pedal::resizeButtons()
 
 void Pedal::downButtonClicked()
 {
-    DBG("Down");
-    DBG("APVTS Index: ");  DBG(currentAPVTSIndex);
-    if (currentAPVTSIndex < apvtsElemSize - 1)
+    if (isEditPage)
     {
-        currentAPVTSIndex += 1;
-        if (currentAPVTSIndex < maxElemtoDisplay)
+        DBG("Down");
+        DBG("APVTS Index: ");  DBG(currentAPVTSIndex);
+        if (currentAPVTSIndex < apvtsElemSize - 1)
         {
-            DBG(" New APVTS Index: ");  DBG(currentAPVTSIndex);
-            //paint the indexed parameter
-            repaint(outerLeft, outerTop, (outerRight - outerLeft), (outerBottom - outerTop));
-        }
-        else
-        {
-            if(maxElemtoDisplay + displayOffset < apvtsElemSize)
-                displayOffset += 1;
-            DBG("New APVTS Index: ");  DBG(currentAPVTSIndex);
-            DBG("displayOffset: ");  DBG(displayOffset);           
-            repaint(outerLeft, outerTop, (outerRight - outerLeft), (outerBottom - outerTop));
+            currentAPVTSIndex += 1;
+            if (currentAPVTSIndex < maxElemtoDisplay)
+            {
+                DBG(" New APVTS Index: ");  DBG(currentAPVTSIndex);
+                //paint the indexed parameter
+                repaint(outerLeft, outerTop, (outerRight - outerLeft), (outerBottom - outerTop));
+            }
+            else
+            {
+                if (maxElemtoDisplay + displayOffset < apvtsElemSize)
+                    displayOffset += 1;
+                DBG("New APVTS Index: ");  DBG(currentAPVTSIndex);
+                DBG("displayOffset: ");  DBG(displayOffset);
+                repaint(outerLeft, outerTop, (outerRight - outerLeft), (outerBottom - outerTop));
+            }
         }
     }
+
 }
 
 void Pedal::upButtonClicked() 
 {
-    DBG("Up");
-    DBG("APVTS Index: ");  DBG(currentAPVTSIndex);
-    if (currentAPVTSIndex > 0)
+    if (isEditPage)
     {
-        currentAPVTSIndex -= 1;
-        if (currentAPVTSIndex >= displayOffset)
+        DBG("Up");
+        DBG("APVTS Index: ");  DBG(currentAPVTSIndex);
+        if (currentAPVTSIndex > 0)
         {
-            DBG(" New APVTS Index: ");  DBG(currentAPVTSIndex);
-            //paint the indexed parameter
-            repaint(outerLeft, outerTop, (outerRight - outerLeft), (outerBottom - outerTop));
-        }
-        else
-        {
-            if ( displayOffset > 0 )
-                displayOffset -= 1;
-            DBG("New APVTS Index: ");  DBG(currentAPVTSIndex);
-            DBG("displayOffset: ");  DBG(displayOffset);
-            repaint(outerLeft, outerTop, (outerRight - outerLeft), (outerBottom - outerTop));
+            currentAPVTSIndex -= 1;
+            if (currentAPVTSIndex >= displayOffset)
+            {
+                DBG(" New APVTS Index: ");  DBG(currentAPVTSIndex);
+                //paint the indexed parameter
+                repaint(outerLeft, outerTop, (outerRight - outerLeft), (outerBottom - outerTop));
+            }
+            else
+            {
+                if (displayOffset > 0)
+                    displayOffset -= 1;
+                DBG("New APVTS Index: ");  DBG(currentAPVTSIndex);
+                DBG("displayOffset: ");  DBG(displayOffset);
+                repaint(outerLeft, outerTop, (outerRight - outerLeft), (outerBottom - outerTop));
+            }
         }
     }
+
 }
 void Pedal::editButtonClicked()
 {
@@ -370,5 +378,7 @@ void Pedal::editButtonClicked()
 void Pedal::exitButtonClicked()
 {
 	isEditPage = false; 
+	displayOffset = 0;
+	currentAPVTSIndex = 0;
     repaint(outerLeft, outerTop, (outerRight - outerLeft), (outerBottom - outerTop));
 }
