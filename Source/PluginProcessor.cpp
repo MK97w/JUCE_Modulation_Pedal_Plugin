@@ -304,19 +304,24 @@ juce::AudioProcessorValueTreeState::ParameterLayout
 Modulation_Pedal_PluginAudioProcessor::createParameters()
 {
     std::vector<std::unique_ptr<juce::RangedAudioParameter>> params;
-
+    //auto delayGroup = std::make_unique<juce::AudioProcessorParameterGroup>("delayGroup", "Delay", "|");
+    
     params.push_back(std::make_unique<juce::AudioParameterFloat>("DELAYMSLEFT", "DELAY MS LEFT", 0.0f, 2000.0f, 0.0f));
     params.push_back(std::make_unique<juce::AudioParameterFloat>("DELAYMSRIGHT", "DELAY MS RIGHT", 0.0f, 2000.0f, 0.0f));
-
     params.push_back(std::make_unique<juce::AudioParameterBool>("DELAYLINK", "DELAY LINK", false));
-
-
     params.push_back(std::make_unique<juce::AudioParameterFloat>("FEEDBACKLEFT", "FEEDBACK LEFT", 0.0f, 1.0f, 0.0f));
     params.push_back(std::make_unique<juce::AudioParameterFloat>("FEEDBACKRIGHT", "FEEDBACK RIGHT", 0.0f, 1.0f, 0.0f));
-
     params.push_back(std::make_unique<juce::AudioParameterBool>("FBLINK", "FEEDBACK LINK", false));
-
     params.push_back(std::make_unique<juce::AudioParameterFloat>("DRYWET", "DRY/WET", 0.0f, 100.0f, 0.0f));
+    /*
+    delayGroup->addChild(std::make_unique<juce::AudioParameterFloat>("DELAYMSLEFT", "DELAY MS LEFT", 0.0f, 2000.0f, 0.0f));
+    delayGroup->addChild(std::make_unique<juce::AudioParameterFloat>("DELAYMSRIGHT", "DELAY MS RIGHT", 0.0f, 2000.0f, 0.0f));
+    delayGroup->addChild(std::make_unique<juce::AudioParameterBool>("DELAYLINK", "DELAY LINK", false));
+    delayGroup->addChild(std::make_unique<juce::AudioParameterFloat>("FEEDBACKLEFT", "FEEDBACK LEFT", 0.0f, 1.0f, 0.0f));
+    delayGroup->addChild(std::make_unique<juce::AudioParameterFloat>("FEEDBACKRIGHT", "FEEDBACK RIGHT", 0.0f, 1.0f, 0.0f));
+    delayGroup->addChild(std::make_unique<juce::AudioParameterBool>("FBLINK", "FEEDBACK LINK", false));
+    delayGroup->addChild(std::make_unique<juce::AudioParameterFloat>("DRYWET", "DRY/WET", 0.0f, 100.0f, 0.0f));
+    */
 
     return { params.begin(), params.end() };
 }
