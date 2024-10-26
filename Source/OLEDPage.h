@@ -25,6 +25,7 @@ protected:
         VIBRATO,
         PHASOR,
         AUTO_WAH
+		//will increase in future
     };
 
 public:
