@@ -15,7 +15,7 @@
 #include "FootswitchLookAndFeel.h" 
 #include "OLEDLookAndFeel.h" 
 
-class Pedal : public juce::Component
+class Pedal : public juce::Component, public juce::Button::Listener, public juce::Slider::Listener
 {
 public:
    Pedal(juce::AudioProcessorValueTreeState& apvts);
@@ -39,6 +39,9 @@ private:
    void upButtonClicked(); 
    void editButtonClicked();
    void exitButtonClicked();
+
+   void sliderValueChanged(juce::Slider* slider) override;
+   void buttonClicked(juce::Button* button) override;
 
 
 
@@ -73,6 +76,20 @@ private:
    int innerHeight = innerBottom - innerTop;
    float cornerSize = 5.0f;
 
+
+   enum class EffectType
+   {
+	   Chorus,
+	   Flanger,
+	   Phaser,
+	   Tremolo,
+	   Vibrato,
+	   Rotary,
+	   AutoWah,
+	   Custom
+   };
+
+   EffectType selectedEffect = EffectType::Chorus;
 
    class CustomFontLookAndFeel : public juce::LookAndFeel_V4
    {

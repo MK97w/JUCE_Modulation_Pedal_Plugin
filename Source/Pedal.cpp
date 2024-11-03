@@ -202,15 +202,21 @@ void Pedal::initializeKnobs()
 {
     for (auto& knob : knobs)
     {
-        if (&knob == &knobs.front()) // i need to use & because it compares the addresses. If i didnt use & it would compare the object themselves
+        if (&knob == &knobs.front())
+            { // i need to use & because it compares the addresses. If i didnt use & it would compare the object themselves
             knob = std::make_unique<Knob>(juce::ImageCache::getFromMemory(BinaryData::left_side_knob_png,
                                             BinaryData::left_side_knob_pngSize));
+            knob->setRange(0.0f, 10.0f, 1.0f);
+            }
         else
+        {
             knob = std::make_unique<Knob>(juce::ImageCache::getFromMemory(BinaryData::right_side_knob_png,
-											BinaryData::right_side_knob_pngSize));
+                BinaryData::right_side_knob_pngSize));
+            knob->setRange(0.0f, 100.0f, 1.0f);
+        }
+            
         
         knob.get()->setLookAndFeel(knob.get());
-        knob->setRange(0.0f, 100.0f, 1.0f);
         knob->setSliderStyle(juce::Slider::SliderStyle::RotaryVerticalDrag);
         knob->setTextBoxStyle(juce::Slider::NoTextBox, true, 90, 90);
         knob->setValue(0.0f);
@@ -378,4 +384,38 @@ void Pedal::exitButtonClicked()
 	displayOffset = 0;
 	currentAPVTSIndex = 0;
     repaint(outerLeft, outerTop, (outerRight - outerLeft), (outerBottom - outerTop));
+}
+
+void Pedal::sliderValueChanged(juce::Slider* slider)
+{
+    if (knobs[0].get() == slider)
+    {
+        DBG("Knob 1");
+        DBG(knobs[0].get()->getValue());
+	}
+	else if(knobs[1].get() == slider)
+	{
+		DBG("Knob 2");
+	}
+	else if(knobs[2].get() == slider)
+	{
+		DBG("Knob 3");
+	}
+	else if(knobs[3].get() == slider)
+	{
+		DBG("Knob 4");
+	}
+	else if(knobs[4].get() == slider)
+	{
+		DBG("Knob 5");
+	}
+    else if (knobs[5].get() == slider)
+    {
+        DBG("Knob 6");
+    }
+}
+
+void Pedal::buttonClicked(juce::Button* button)
+{
+
 }
