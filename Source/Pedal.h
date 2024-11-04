@@ -42,6 +42,7 @@ private:
 
    void sliderValueChanged(juce::Slider* slider) override;
    void buttonClicked(juce::Button* button) override;
+   void set_EffectType(float);
 
 
 

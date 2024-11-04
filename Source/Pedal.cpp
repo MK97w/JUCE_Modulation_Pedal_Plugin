@@ -56,7 +56,6 @@ void Pedal::paint(juce::Graphics& g)
         g.setFont(18.5f);
         juce::StringArray lines;
         lines.addLines(paramsString);
-        DBG(lines.size());
         int lineHeight = g.getCurrentFont().getHeight();
         for (int i = 0; i < 4; ++i)
         {
@@ -206,7 +205,7 @@ void Pedal::initializeKnobs()
             { // i need to use & because it compares the addresses. If i didnt use & it would compare the object themselves
             knob = std::make_unique<Knob>(juce::ImageCache::getFromMemory(BinaryData::left_side_knob_png,
                                             BinaryData::left_side_knob_pngSize));
-            knob->setRange(0.0f, 10.0f, 1.0f);
+            knob->setRange(0.0f, 7.0f, 1.0f);
             }
         else
         {
@@ -220,6 +219,7 @@ void Pedal::initializeKnobs()
         knob->setSliderStyle(juce::Slider::SliderStyle::RotaryVerticalDrag);
         knob->setTextBoxStyle(juce::Slider::NoTextBox, true, 90, 90);
         knob->setValue(0.0f);
+        knob->addListener(this);
         addAndMakeVisible(*knob);
     }		
    
@@ -392,6 +392,7 @@ void Pedal::sliderValueChanged(juce::Slider* slider)
     {
         DBG("Knob 1");
         DBG(knobs[0].get()->getValue());
+		set_EffectType(knobs[0].get()->getValue());
 	}
 	else if(knobs[1].get() == slider)
 	{
@@ -418,4 +419,9 @@ void Pedal::sliderValueChanged(juce::Slider* slider)
 void Pedal::buttonClicked(juce::Button* button)
 {
 
+}
+
+void Pedal::set_EffectType(float sliderVal)
+{
+	selectedEffect = static_cast<EffectType>(sliderVal);
 }
