@@ -20,7 +20,7 @@ class OLEDPage : public juce::Component ,
 protected:
     juce::Font customFont;
     juce::Rectangle<int> pageBounds;
-    enum class EffectType
+    enum class EffectType 
     {
         VIBRATO,
         PHASOR,
@@ -43,7 +43,7 @@ class EditPage : public OLEDPage
 
 };
 
-class SimpleEditPage : public OLEDPage
+class BasicEditPage : public OLEDPage
 {
 };
 

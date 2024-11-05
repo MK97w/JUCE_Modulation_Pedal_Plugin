@@ -131,7 +131,7 @@ bool Modulation_Pedal_PluginAudioProcessor::isBusesLayoutSupported (const BusesL
 
 void Modulation_Pedal_PluginAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juce::MidiBuffer& midiMessages)
 {
-    juce::ScopedNoDenormals noDenormals;
+   /* juce::ScopedNoDenormals noDenormals;
     auto totalNumInputChannels = getTotalNumInputChannels();
     auto totalNumOutputChannels = getTotalNumOutputChannels();
 
@@ -145,10 +145,11 @@ void Modulation_Pedal_PluginAudioProcessor::processBlock (juce::AudioBuffer<floa
         feedbackBuffer(buffer, channel);
     }
 
-    updateBufferPositions(buffer, delayBuffer);
+    updateBufferPositions(buffer, delayBuffer);*/
 }
 void Modulation_Pedal_PluginAudioProcessor::fillBuffer(juce::AudioBuffer<float>& buffer, int channel)
 {
+    /*
     auto bufferSize = buffer.getNumSamples();
     auto delayBufferSize = delayBuffer.getNumSamples();
     auto* wet = params.getRawParameterValue("DRYWET");
@@ -175,12 +176,12 @@ void Modulation_Pedal_PluginAudioProcessor::fillBuffer(juce::AudioBuffer<float>&
 
         // Copy remaining amount to beginning of delay buffer
         delayBuffer.copyFrom(channel, 0, buffer.getWritePointer(channel, numSamplesToEnd), numSamplesAtStart);
-    }
+    }*/
 }
 
 void Modulation_Pedal_PluginAudioProcessor::feedbackBuffer(juce::AudioBuffer<float>& buffer, int channel)
 {
-    auto bufferSize = buffer.getNumSamples();
+    /*auto bufferSize = buffer.getNumSamples();
     auto delayBufferSize = delayBuffer.getNumSamples();
     // feedback
     auto fbLeft = params.getRawParameterValue("FEEDBACKLEFT")->load();
@@ -213,11 +214,11 @@ void Modulation_Pedal_PluginAudioProcessor::feedbackBuffer(juce::AudioBuffer<flo
 
         // Copy remaining amount to beginning of delay buffer
         delayBuffer.addFromWithRamp(channel, 0, buffer.getWritePointer(channel, numSamplesToEnd), numSamplesAtStart, fb, fb);
-    }
+    }*/
 }
 
 void Modulation_Pedal_PluginAudioProcessor::readFromBuffer(juce::AudioBuffer<float>& buffer, juce::AudioBuffer<float>& delayBuffer, int channel)
-{
+{/*
     auto bufferSize = buffer.getNumSamples();
     auto delayBufferSize = delayBuffer.getNumSamples();
 
@@ -263,7 +264,7 @@ void Modulation_Pedal_PluginAudioProcessor::updateBufferPositions(juce::AudioBuf
     auto delayBufferSize = delayBuffer.getNumSamples();
 
     writePosition += bufferSize;
-    writePosition %= delayBufferSize;
+    writePosition %= delayBufferSize;*/
 }
 //==============================================================================
 bool Modulation_Pedal_PluginAudioProcessor::hasEditor() const
@@ -306,22 +307,31 @@ Modulation_Pedal_PluginAudioProcessor::createParameters()
     std::vector<std::unique_ptr<juce::RangedAudioParameter>> params;
     //auto delayGroup = std::make_unique<juce::AudioProcessorParameterGroup>("delayGroup", "Delay", "|");
     
-    params.push_back(std::make_unique<juce::AudioParameterFloat>("DELAYMSLEFT", "DELAY MS LEFT", 0.0f, 2000.0f, 0.0f));
+   /* params.push_back(std::make_unique<juce::AudioParameterFloat>("DELAYMSLEFT", "DELAY MS LEFT", 0.0f, 2000.0f, 0.0f));
     params.push_back(std::make_unique<juce::AudioParameterFloat>("DELAYMSRIGHT", "DELAY MS RIGHT", 0.0f, 2000.0f, 0.0f));
     params.push_back(std::make_unique<juce::AudioParameterBool>("DELAYLINK", "DELAY LINK", false));
     params.push_back(std::make_unique<juce::AudioParameterFloat>("FEEDBACKLEFT", "FEEDBACK LEFT", 0.0f, 1.0f, 0.0f));
     params.push_back(std::make_unique<juce::AudioParameterFloat>("FEEDBACKRIGHT", "FEEDBACK RIGHT", 0.0f, 1.0f, 0.0f));
     params.push_back(std::make_unique<juce::AudioParameterBool>("FBLINK", "FEEDBACK LINK", false));
     params.push_back(std::make_unique<juce::AudioParameterFloat>("DRYWET", "DRY/WET", 0.0f, 100.0f, 0.0f));
-    /*
-    delayGroup->addChild(std::make_unique<juce::AudioParameterFloat>("DELAYMSLEFT", "DELAY MS LEFT", 0.0f, 2000.0f, 0.0f));
-    delayGroup->addChild(std::make_unique<juce::AudioParameterFloat>("DELAYMSRIGHT", "DELAY MS RIGHT", 0.0f, 2000.0f, 0.0f));
-    delayGroup->addChild(std::make_unique<juce::AudioParameterBool>("DELAYLINK", "DELAY LINK", false));
-    delayGroup->addChild(std::make_unique<juce::AudioParameterFloat>("FEEDBACKLEFT", "FEEDBACK LEFT", 0.0f, 1.0f, 0.0f));
-    delayGroup->addChild(std::make_unique<juce::AudioParameterFloat>("FEEDBACKRIGHT", "FEEDBACK RIGHT", 0.0f, 1.0f, 0.0f));
-    delayGroup->addChild(std::make_unique<juce::AudioParameterBool>("FBLINK", "FEEDBACK LINK", false));
-    delayGroup->addChild(std::make_unique<juce::AudioParameterFloat>("DRYWET", "DRY/WET", 0.0f, 100.0f, 0.0f));
-    */
+*/
 
+    params.push_back(std::make_unique<juce::AudioParameterFloat>("CHORUS_BASIC_A", "Chorus A", 0.0f, 2000.0f, 0.0f));
+    params.push_back(std::make_unique<juce::AudioParameterFloat>("CHORUS_BASIC_B", "Chorus B", 0.0f, 2000.0f, 0.0f));
+    params.push_back(std::make_unique<juce::AudioParameterBool>("CHORUS_BASIC_C", "Chorus C", false));
+    params.push_back(std::make_unique<juce::AudioParameterFloat>("CHORUS_BASIC_D", "Chorus D", 0.0f, 1.0f, 0.0f));
+    params.push_back(std::make_unique<juce::AudioParameterFloat>("CHORUS_EDIT_E", "Chorus E", 0.0f, 1.0f, 0.0f));
+    params.push_back(std::make_unique<juce::AudioParameterBool>("CHORUS_EDIT_F", "Chorus F", false));
+    params.push_back(std::make_unique<juce::AudioParameterFloat>("CHORUS_EDIT_G", "Chorus G", 0.0f, 100.0f, 0.0f));
+    
+    
+    params.push_back(std::make_unique<juce::AudioParameterFloat>("FLANGER_BASIC_A", "Flanger A", 0.0f, 2000.0f, 0.0f));
+    params.push_back(std::make_unique<juce::AudioParameterFloat>("FLANGER_BASIC_B", "Flanger B", 0.0f, 2000.0f, 0.0f));
+    params.push_back(std::make_unique<juce::AudioParameterBool>("FLANGER_BASIC_C", "Flanger C", false));
+    params.push_back(std::make_unique<juce::AudioParameterFloat>("FLANGER_BASIC_D", "Flanger D", 0.0f, 1.0f, 0.0f));
+    params.push_back(std::make_unique<juce::AudioParameterFloat>("FLANGER_EDIT_E", "Flanger E", 0.0f, 1.0f, 0.0f));
+    params.push_back(std::make_unique<juce::AudioParameterBool>("FLANGER_EDIT_F", "Flanger F", false));
+    params.push_back(std::make_unique<juce::AudioParameterFloat>("FLANGER_EDIT_G", "Flanger G", 0.0f, 100.0f, 0.0f));
+    
     return { params.begin(), params.end() };
 }
