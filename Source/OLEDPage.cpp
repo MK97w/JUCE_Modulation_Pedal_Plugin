@@ -8,3 +8,13 @@
   ==============================================================================
 */
 #include "OLEDPage.h"
+
+BasicEditPage::BasicEditPage(apvtsInfo& info) : OLEDPage(info)
+{
+	pageTitle = "Basic Edit Page";
+}
+
+void BasicEditPage::paint(juce::Graphics& g)
+{
+
+}
