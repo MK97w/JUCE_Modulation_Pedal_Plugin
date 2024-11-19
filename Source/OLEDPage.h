@@ -20,8 +20,8 @@
 * 
 */
 
-using apvtsInfo = std::unordered_map<std::string, std::vector<juce::RangedAudioParameter*>>;
-
+//using apvtsInfo = std::unordered_map<std::string, std::vector<juce::RangedAudioParameter*>>;
+ using apvtsInfo = std::vector<juce::RangedAudioParameter*> ;
 
 class OLEDPage : public juce::Component 
 {
@@ -30,7 +30,7 @@ protected:
     juce::Font customFont;
     juce::Rectangle<int> pageBounds;
     juce::String pageTitle;
-	apvtsInfo& apvts;
+    std::vector<juce::RangedAudioParameter*> apvts;
 
     static const juce::Font getCustomFont()
     {
@@ -38,8 +38,11 @@ protected:
         return juce::Font(typeface);
     }
 
+    juce::String getPageTitle() const { return pageTitle; }
+    void setPageTitle(const juce::String& newTitle) { pageTitle = newTitle; }
+
 public:
-    OLEDPage(apvtsInfo& info) : apvts(info), customFont(getCustomFont()), pageBounds(285, 89, 472 - 285, 200 - 89) {};
+    OLEDPage(juce::String pagetitle, apvtsInfo& info) : apvts(info), customFont(getCustomFont()), pageBounds(285, 89, 472 - 285, 200 - 89), pageTitle(pagetitle) {};
     virtual ~OLEDPage(); 
 
     void setFontSize(float newSize) { customFont.setHeight(newSize); }
@@ -61,7 +64,7 @@ public:
 class BasicEditPage : public OLEDPage
 {
 public:
-    BasicEditPage(apvtsInfo&);
+    BasicEditPage(juce::String pagetitle , apvtsInfo&);
     void paint(juce::Graphics& g) override;
 private:  
     int innerLeft = pageBounds.getX() + 4;

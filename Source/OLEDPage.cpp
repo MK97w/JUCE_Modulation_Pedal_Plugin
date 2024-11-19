@@ -9,10 +9,8 @@
 */
 #include "OLEDPage.h"
 
-BasicEditPage::BasicEditPage(apvtsInfo& info) : OLEDPage(info)
+BasicEditPage::BasicEditPage(juce::String pagetitle, apvtsInfo& info ) : OLEDPage(pagetitle,info)
 {
-	pageTitle = "Basic Edit Page";
-    apvts.
 }
 
 void BasicEditPage::paint(juce::Graphics& g)
@@ -21,8 +19,7 @@ void BasicEditPage::paint(juce::Graphics& g)
     g.drawRoundedRectangle(juce::Rectangle<float>(innerLeft, innerTop, innerWidth, innerHeight), cornerSize, 2.0f); //simple edit page
     g.setFont(customFont);
     g.setFont(18.5f);
-    juce::String text = "VIBRATO";
-    g.drawText(text, innerLeft, innerTop + 1, (innerRight - innerLeft), 20, juce::Justification::horizontallyCentred);
+    g.drawText(getPageTitle(), innerLeft, innerTop + 1, (innerRight - innerLeft), 20, juce::Justification::horizontallyCentred);
     g.setFont(18.5f);
     juce::StringArray lines;
     int lineHeight = g.getCurrentFont().getHeight();
