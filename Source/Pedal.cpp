@@ -43,7 +43,7 @@ void Pedal::paint(juce::Graphics& g)
     g.drawImage(pedalBaseImage, pedalBounds.toFloat());
 
 
-    if ( !isEditPage ) 
+    /*if (!isEditPage)
     {
 
         //PREVIOUSLY USED FOR SIMPLE EDIT PAGE
@@ -159,7 +159,7 @@ void Pedal::paint(juce::Graphics& g)
             }
 
         }
-    }
+    }*/
 
 }
 

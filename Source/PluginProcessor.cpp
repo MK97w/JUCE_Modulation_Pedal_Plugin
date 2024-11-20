@@ -304,7 +304,7 @@ juce::AudioProcessor* JUCE_CALLTYPE createPluginFilter()
 juce::AudioProcessorValueTreeState::ParameterLayout 
 Modulation_Pedal_PluginAudioProcessor::createParameters()
 {
-    std::vector<std::unique_ptr<juce::RangedAudioParameter>> params;
+    //std::vector<std::unique_ptr<juce::RangedAudioParameter>> params;
     //auto delayGroup = std::make_unique<juce::AudioProcessorParameterGroup>("delayGroup", "Delay", "|");
     
    /* params.push_back(std::make_unique<juce::AudioParameterFloat>("DELAYMSLEFT", "DELAY MS LEFT", 0.0f, 2000.0f, 0.0f));
@@ -316,22 +316,32 @@ Modulation_Pedal_PluginAudioProcessor::createParameters()
     params.push_back(std::make_unique<juce::AudioParameterFloat>("DRYWET", "DRY/WET", 0.0f, 100.0f, 0.0f));
 */
 
-    params.push_back(std::make_unique<juce::AudioParameterFloat>("CHORUS_BASIC_A", "Chorus A", 0.0f, 2000.0f, 0.0f));
-    params.push_back(std::make_unique<juce::AudioParameterFloat>("CHORUS_BASIC_B", "Chorus B", 0.0f, 2000.0f, 0.0f));
-    params.push_back(std::make_unique<juce::AudioParameterBool>("CHORUS_BASIC_C", "Chorus C", false));
-    params.push_back(std::make_unique<juce::AudioParameterFloat>("CHORUS_BASIC_D", "Chorus D", 0.0f, 1.0f, 0.0f));
-    params.push_back(std::make_unique<juce::AudioParameterFloat>("CHORUS_EDIT_E", "Chorus E", 0.0f, 1.0f, 0.0f));
-    params.push_back(std::make_unique<juce::AudioParameterBool>("CHORUS_EDIT_F", "Chorus F", false));
-    params.push_back(std::make_unique<juce::AudioParameterFloat>("CHORUS_EDIT_G", "Chorus G", 0.0f, 100.0f, 0.0f));
-    
-    
-    params.push_back(std::make_unique<juce::AudioParameterFloat>("FLANGER_BASIC_A", "Flanger A", 0.0f, 2000.0f, 0.0f));
-    params.push_back(std::make_unique<juce::AudioParameterFloat>("FLANGER_BASIC_B", "Flanger B", 0.0f, 2000.0f, 0.0f));
-    params.push_back(std::make_unique<juce::AudioParameterBool>("FLANGER_BASIC_C", "Flanger C", false));
-    params.push_back(std::make_unique<juce::AudioParameterFloat>("FLANGER_BASIC_D", "Flanger D", 0.0f, 1.0f, 0.0f));
-    params.push_back(std::make_unique<juce::AudioParameterFloat>("FLANGER_EDIT_E", "Flanger E", 0.0f, 1.0f, 0.0f));
-    params.push_back(std::make_unique<juce::AudioParameterBool>("FLANGER_EDIT_F", "Flanger F", false));
-    params.push_back(std::make_unique<juce::AudioParameterFloat>("FLANGER_EDIT_G", "Flanger G", 0.0f, 100.0f, 0.0f));
-    
-    return { params.begin(), params.end() };
+    std::vector<std::unique_ptr<juce::RangedAudioParameter>> params;
+
+    auto vibratoGroup = std::make_unique<juce::AudioProcessorParameterGroup>("vibrato", "Vibrato", "|");
+    vibratoGroup->addChild(std::make_unique<juce::AudioParameterFloat>("_Vibrato_A", "Vibrato A", 0.1f, 10.0f, 5.0f));
+    vibratoGroup->addChild(std::make_unique<juce::AudioParameterFloat>("_Vibrato_B", "Vibrato B", 0.0f, 1.0f, 0.5f));
+    vibratoGroup->addChild(std::make_unique<juce::AudioParameterFloat>("_Vibrato_C", "Vibrato C", 0.0f, 1.0f, 0.5f));
+    vibratoGroup->addChild(std::make_unique<juce::AudioParameterFloat>("_Vibrato_D", "Vibrato D", 0.0f, 1.0f, 0.5f));
+    vibratoGroup->addChild(std::make_unique<juce::AudioParameterFloat>("Vibrato_E", "Vibrato E", 0.1f, 10.0f, 5.0f));
+    vibratoGroup->addChild(std::make_unique<juce::AudioParameterFloat>("Vibrato_F", "Vibrato F", 0.0f, 1.0f, 0.5f));
+    vibratoGroup->addChild(std::make_unique<juce::AudioParameterFloat>("Vibrato_G", "Vibrato G", 0.0f, 1.0f, 0.5f));
+
+
+    auto flangerGroup = std::make_unique<juce::AudioProcessorParameterGroup>("flanger", "Flanger", "|");
+    flangerGroup->addChild(std::make_unique<juce::AudioParameterFloat>("_Flanger_A", "Flanger A", 0.1f, 10.0f, 5.0f));
+    flangerGroup->addChild(std::make_unique<juce::AudioParameterBool>("_Flanger_B", "Flanger B", false));
+    vibratoGroup->addChild(std::make_unique<juce::AudioParameterFloat>("_Flanger_C", "Flanger C", 0.0f, 1.0f, 0.5f));
+    vibratoGroup->addChild(std::make_unique<juce::AudioParameterFloat>("_Flanger_D", "Flanger D", 0.0f, 1.0f, 0.5f));
+    vibratoGroup->addChild(std::make_unique<juce::AudioParameterFloat>("Flanger_E", "Flanger E", 0.1f, 10.0f, 5.0f));
+    vibratoGroup->addChild(std::make_unique<juce::AudioParameterFloat>("Flanger_F", "Flanger F", 0.0f, 1.0f, 0.5f));
+    vibratoGroup->addChild(std::make_unique<juce::AudioParameterFloat>("Flanger_G", "Flanger G", 0.0f, 1.0f, 0.5f));
+
+    auto modulationGroup = std::make_unique<juce::AudioProcessorParameterGroup>("modulation", "Modulation", "|");
+    modulationGroup->addChild(std::move(vibratoGroup));
+    modulationGroup->addChild(std::move(flangerGroup));
+
+
+
+    return { std::move(modulationGroup) };
 }
