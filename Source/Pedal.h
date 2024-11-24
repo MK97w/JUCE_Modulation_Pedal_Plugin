@@ -15,6 +15,8 @@
 #include "FootswitchLookAndFeel.h" 
 #include "OLEDPageFactory.h" 
 
+#include "OLEDPage.h"
+
 class Pedal : public juce::Component, public juce::Button::Listener, public juce::Slider::Listener
 {
 public:
@@ -51,11 +53,9 @@ private:
    juce::Rectangle<int> pedalBounds; 
    std::array<std::unique_ptr<FootswitchButton>, 3> footswitches; // this looks fine but maybe i should find a way to give them a name or individulize them
    std::array<std::unique_ptr<Knob>, 6> knobs;
-
    juce::TextButton upButton, downButton, editButton, exitButton;
-
    juce::AudioProcessorValueTreeState& pedalAPVTS;
-
+   std::unordered_map<std::string, std::vector<juce::RangedAudioParameter*>> parameterGroups;
    juce::String paramsString;
    void updateParamsString();
 
@@ -78,6 +78,7 @@ private:
    int innerHeight = innerBottom - innerTop;
    float cornerSize = 5.0f;
 
+   //BasicEditPage basicEditPage(,{});
 
    enum class EffectType
    {
@@ -127,6 +128,8 @@ private:
 
 
 };
+
+
 
 /*
 class Pedal : public juce::Component {
