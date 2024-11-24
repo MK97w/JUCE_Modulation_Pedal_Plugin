@@ -13,7 +13,7 @@
 #include <optional>
 #include "KnobLookAndFeel.h" 
 #include "FootswitchLookAndFeel.h" 
-#include "OLEDLookAndFeel.h" 
+#include "OLEDPageFactory.h" 
 
 class Pedal : public juce::Component, public juce::Button::Listener, public juce::Slider::Listener
 {
@@ -44,7 +44,8 @@ private:
    void buttonClicked(juce::Button* button) override;
    void set_EffectType(float);
 
-
+   std::unique_ptr<OLEDPage> currentPage;
+   PageFactory pageFactory;
 
    juce::Image pedalBaseImage;
    juce::Rectangle<int> pedalBounds; 

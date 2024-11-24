@@ -11,8 +11,11 @@
 #pragma once
 
 #include <JuceHeader.h>
+#include "OLEDPage.h"
    
-class OLEDScreen : public juce::Component
+class PageFactory : public juce::Component
 {
-
+public:
+    static std::unique_ptr<OLEDPage> create(const juce::String& type, const juce::String& title, apvtsInfo& info);
 };
+   
