@@ -18,7 +18,7 @@ std::unique_ptr<OLEDPage> PageFactory::create(const juce::String& type, const ju
 	}
 	else if (type == "EditPage")
 	{
-		return std::make_unique<EditPage>(info);
+		//return std::make_unique<EditPage>(info);
 	}
 	else
 	{

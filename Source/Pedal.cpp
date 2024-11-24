@@ -29,6 +29,30 @@ Pedal::Pedal(juce::AudioProcessorValueTreeState& apvts)
     initializeComponents();
 	apvtsElemSize = pedalAPVTS.state.getNumChildren();
 	DBG(apvtsElemSize);
+
+    parameterGroups["vibrato"] =
+    {
+        pedalAPVTS.getParameter("_Vibrato_A"),
+        pedalAPVTS.getParameter("_Vibrato_B"),
+        pedalAPVTS.getParameter("_Vibrato_C"),
+        pedalAPVTS.getParameter("_Vibrato_D"),
+        pedalAPVTS.getParameter("Vibrato_E"),
+        pedalAPVTS.getParameter("Vibrato_F"),
+        pedalAPVTS.getParameter("Vibrato_G"),
+    };
+
+    parameterGroups["flanger"] =
+    {
+        pedalAPVTS.getParameter("_Flanger_A"),
+        pedalAPVTS.getParameter("_Flanger_B"),
+        pedalAPVTS.getParameter("_Flanger_C"),
+        pedalAPVTS.getParameter("_Flanger_D"),
+        pedalAPVTS.getParameter("Flanger_E"),
+        pedalAPVTS.getParameter("Flanger_F"),
+        pedalAPVTS.getParameter("Flanger_G"),
+    };
+    selectedEffect = "vibrato";
+    currentPage = pageFactory.create("BasicEditPage", selectedEffect, parameterGroups[selectedEffect]);
 }
 
 
@@ -41,7 +65,7 @@ void Pedal::paint(juce::Graphics& g)
 {
     g.setColour(juce::Colours::lightgrey);
     g.drawImage(pedalBaseImage, pedalBounds.toFloat());
-
+    currentPage->paint(g);
 
     /*if (!isEditPage)
     {
@@ -392,7 +416,6 @@ void Pedal::sliderValueChanged(juce::Slider* slider)
     {
         DBG("Knob 1");
         DBG(knobs[0].get()->getValue());
-		set_EffectType(knobs[0].get()->getValue());
 	}
 	else if(knobs[1].get() == slider)
 	{
@@ -419,9 +442,4 @@ void Pedal::sliderValueChanged(juce::Slider* slider)
 void Pedal::buttonClicked(juce::Button* button)
 {
 
-}
-
-void Pedal::set_EffectType(float sliderVal)
-{
-	selectedEffect = static_cast<EffectType>(sliderVal);
 }

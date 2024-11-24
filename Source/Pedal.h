@@ -15,7 +15,6 @@
 #include "FootswitchLookAndFeel.h" 
 #include "OLEDPageFactory.h" 
 
-#include "OLEDPage.h"
 
 class Pedal : public juce::Component, public juce::Button::Listener, public juce::Slider::Listener
 {
@@ -29,22 +28,6 @@ public:
 
 
 private:
-   void initializeFootswitches();
-   void initializeKnobs();
-   void initializeComponents();
-   void resizeComponents();
-   void resizeFootswitches();
-   void resizeKnobs();
-   void initializeButtons(); 
-   void resizeButtons(); 
-   void downButtonClicked(); 
-   void upButtonClicked(); 
-   void editButtonClicked();
-   void exitButtonClicked();
-
-   void sliderValueChanged(juce::Slider* slider) override;
-   void buttonClicked(juce::Button* button) override;
-   void set_EffectType(float);
 
    std::unique_ptr<OLEDPage> currentPage;
    PageFactory pageFactory;
@@ -57,7 +40,23 @@ private:
    juce::AudioProcessorValueTreeState& pedalAPVTS;
    std::unordered_map<std::string, std::vector<juce::RangedAudioParameter*>> parameterGroups;
    juce::String paramsString;
+  
    void updateParamsString();
+   void initializeFootswitches();
+   void initializeKnobs();
+   void initializeComponents();
+   void resizeComponents();
+   void resizeFootswitches();
+   void resizeKnobs();
+   void initializeButtons();
+   void resizeButtons();
+   void downButtonClicked();
+   void upButtonClicked();
+   void editButtonClicked();
+   void exitButtonClicked();
+
+   void sliderValueChanged(juce::Slider* slider) override;
+   void buttonClicked(juce::Button* button) override;
 
 
    int apvtsElemSize = 0;
@@ -78,21 +77,7 @@ private:
    int innerHeight = innerBottom - innerTop;
    float cornerSize = 5.0f;
 
-   //BasicEditPage basicEditPage(,{});
-
-   enum class EffectType
-   {
-	   Chorus,
-	   Flanger,
-	   Phaser,
-	   Tremolo,
-	   Vibrato,
-	   Rotary,
-	   AutoWah,
-	   Custom
-   };
-
-   EffectType selectedEffect = EffectType::Chorus;
+   std::string selectedEffect;
 
    class CustomFontLookAndFeel : public juce::LookAndFeel_V4
    {

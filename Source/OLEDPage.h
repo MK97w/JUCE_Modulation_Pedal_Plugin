@@ -43,21 +43,21 @@ protected:
 
 public:
     OLEDPage(juce::String pagetitle, apvtsInfo& info) : apvts(info), customFont(getCustomFont()), pageBounds(285, 89, 472 - 285, 200 - 89), pageTitle(pagetitle) {};
-    virtual ~OLEDPage(); 
+    virtual ~OLEDPage() = default;
 
     void setFontSize(float newSize) { customFont.setHeight(newSize); }
     void setFontBold(bool shouldBeBold) { customFont.setBold(shouldBeBold); }
     void setFontItalic(bool shouldBeItalic) { customFont.setItalic(shouldBeItalic); }
     void setFontTypeface(const juce::String& typefaceName) { customFont.setTypefaceName(typefaceName); }
 
-    void paint(juce::Graphics& g) override;
+    virtual void paint(juce::Graphics& g) = 0;
 };
 
 
 class EditPage : public OLEDPage
 {
 public:
-    EditPage(apvtsInfo&);
+    EditPage(juce::String pagetitle,apvtsInfo&);
     void paint(juce::Graphics& g) override;
 };
 

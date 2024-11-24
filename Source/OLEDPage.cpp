@@ -18,25 +18,11 @@ void BasicEditPage::paint(juce::Graphics& g)
     g.drawRoundedRectangle(juce::Rectangle<float>(innerLeft, innerTop, innerWidth, innerHeight), cornerSize, 2.0f); //simple edit page
     g.setFont(customFont);
     g.setFont(18.5f);
-    g.drawText(getPageTitle(), innerLeft, innerTop + 1, (innerRight - innerLeft), 20, juce::Justification::horizontallyCentred);
+    g.drawText(getPageTitle().toUpperCase(), innerLeft, innerTop + 1, (innerRight - innerLeft), 20, juce::Justification::horizontallyCentred);
     g.setFont(18.5f);
     juce::StringArray lines;
     int lineHeight = g.getCurrentFont().getHeight();
 	int yPosition = innerTop + 22;
-    /*for (int i = 0; i < 4; ++i)
-    {
-        juce::String line = lines[i];
-        int colonIndex = line.indexOfChar(':');
-        if (colonIndex != -1)
-        {
-            juce::String paramName = line.substring(0, colonIndex + 1);
-            juce::String paramValue = line.substring(colonIndex + 1).trim();
-
-            g.drawText(paramName, innerLeft + 6, innerTop + 22 + i * lineHeight, innerWidth, lineHeight, juce::Justification::centredLeft);
-            g.drawText(paramValue, innerRight - 35, innerTop + 22 + i * lineHeight, innerWidth, lineHeight, juce::Justification::centredLeft);
-        }
-    }*/
-
     for (const auto param : apvts)
     {
         if (auto name = param->getParameterID(); name.startsWithChar('_') == false)
@@ -51,5 +37,98 @@ void BasicEditPage::paint(juce::Graphics& g)
         }
     }
 
+
+}
+
+EditPage::EditPage(juce::String pagetitle, apvtsInfo& info) : OLEDPage(pagetitle, info)
+{
+}
+
+void EditPage::paint(juce::Graphics& g)
+{
+    int scrollBarWidth = 5;
+    int scrollBarHeight = 83;
+    int scrollBarX = outerRight - 5;
+    int scrollBarY = outerTop + 26;
+    g.setColour(juce::Colours::white);
+    g.drawRect(scrollBarX, scrollBarY, scrollBarWidth, scrollBarHeight);
+    juce::StringArray lines;
+    lines.addLines(paramsString);
+    int totalItems = lines.size() - 1;
+    int visibleItems = maxElemtoDisplay;
+
+    if (totalItems > 0 && visibleItems > 0)
+    {
+        float scrollBarRatio = static_cast<float>(visibleItems) / totalItems;
+        int whiteHeight = static_cast<int>(scrollBarHeight * scrollBarRatio);
+        int maxDisplayOffset = totalItems - visibleItems;
+        int whiteY = scrollBarY + static_cast<int>((scrollBarHeight - whiteHeight) * (static_cast<float>(displayOffset) / maxDisplayOffset));
+
+        g.setColour(juce::Colours::lightgrey);
+        g.fillRect(scrollBarX, whiteY, scrollBarWidth, whiteHeight);
+    }
+
+    g.drawLine(outerLeft, outerTop + 22, outerRight, outerTop + 22, 2.0f);
+    auto ft = customFontLookAndFeel.getCustomFont().boldened();
+    ft.setExtraKerningFactor(0.1f);
+    g.setFont(ft);
+    g.setFont(15.5f);
+    juce::String text = "EDIT ";
+    g.drawText(text, outerLeft + 2, outerTop + 2, 8, 20, juce::Justification::left);
+    g.setFont(customFontLookAndFeel.getCustomFont());
+    g.setFont(16.5f);
+    juce::String text2 = "[VIBRATO] ";
+    g.drawText(text2, outerLeft + 130, outerTop + 2, 20, 20, juce::Justification::left);
+    g.setFont(18.0f);
+    int lineHeight = g.getCurrentFont().getHeight();
+    for (int i = 0; i < maxElemtoDisplay; ++i)
+    {
+        juce::String line = lines[i + displayOffset];
+        int colonIndex = line.indexOfChar(':');
+        juce::String paramName = line.substring(0, colonIndex + 1);
+        juce::String paramValue = line.substring(colonIndex + 1).trim();
+        if (displayOffset == 0)
+        {
+            if (colonIndex != -1)
+            {
+
+                if (currentAPVTSIndex == i)
+                {
+                    g.setColour(juce::Colours::lightgrey);
+                    g.fillRect(outerLeft + 4, outerTop + 24 + i * lineHeight, (innerRight - 7 - innerLeft), lineHeight);
+
+                    g.setColour(juce::Colours::black);
+                    g.drawText(paramName, outerLeft + 4, outerTop + 24 + i * lineHeight, innerWidth, lineHeight, juce::Justification::centredLeft);
+                    g.drawText(paramValue, innerRight - 35, outerTop + 24 + i * lineHeight, innerWidth, lineHeight, juce::Justification::centredLeft);
+                }
+                else
+                {
+                    g.setColour(juce::Colours::white);
+                    g.drawText(paramName, outerLeft + 4, outerTop + 24 + i * lineHeight, innerWidth, lineHeight, juce::Justification::centredLeft);
+                    g.drawText(paramValue, innerRight - 35, outerTop + 24 + i * lineHeight, innerWidth, lineHeight, juce::Justification::centredLeft);
+                }
+
+            }
+        }
+        else
+        {
+            if (currentAPVTSIndex - displayOffset == i) //index - offset
+            {
+                g.setColour(juce::Colours::lightgrey);
+                g.fillRect(outerLeft + 4, outerTop + 24 + i * lineHeight, (innerRight - 7 - innerLeft), lineHeight);
+
+                g.setColour(juce::Colours::black);
+                g.drawText(paramName, outerLeft + 4, outerTop + 24 + i * lineHeight, innerWidth, lineHeight, juce::Justification::centredLeft);
+                g.drawText(paramValue, innerRight - 35, outerTop + 24 + i * lineHeight, innerWidth, lineHeight, juce::Justification::centredLeft);
+            }
+            else
+            {
+                g.setColour(juce::Colours::white);
+                g.drawText(paramName, outerLeft + 4, outerTop + 24 + i * lineHeight, innerWidth, lineHeight, juce::Justification::centredLeft);
+                g.drawText(paramValue, innerRight - 35, outerTop + 24 + i * lineHeight, innerWidth, lineHeight, juce::Justification::centredLeft);
+            }
+        }
+
+    }
 
 }
