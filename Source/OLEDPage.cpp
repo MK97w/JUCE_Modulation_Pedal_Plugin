@@ -66,15 +66,15 @@ void EditPage::paint(juce::Graphics& g)
     }
 
     g.drawLine(pageBounds.getX(), pageBounds.getY() + 22, pageBounds.getX() + pageBounds.getWidth(), pageBounds.getY() + 22, 2.0f);
-    auto ft = customFontLookAndFeel.getCustomFont().boldened();
+    auto ft =getCustomFont().boldened();
     ft.setExtraKerningFactor(0.1f);
     g.setFont(ft);
     g.setFont(15.5f);
     juce::String text = "EDIT ";
     g.drawText(text, pageBounds.getX() + 2, pageBounds.getY() + 2, 8, 20, juce::Justification::left);
-    g.setFont(customFontLookAndFeel.getCustomFont());
+    g.setFont(getCustomFont());
     g.setFont(16.5f);
-    juce::String text2 = "[VIBRATO] ";
+    juce::String text2 = "[" + getPageTitle() +"]";
     g.drawText(text2, pageBounds.getX() + 130, pageBounds.getY() + 2, 20, 20, juce::Justification::left);
     g.setFont(18.0f);
     int lineHeight = g.getCurrentFont().getHeight();
@@ -96,13 +96,13 @@ void EditPage::paint(juce::Graphics& g)
 
                     g.setColour(juce::Colours::black);
                     g.drawText(paramName, pageBounds.getX() + 4, pageBounds.getY() + 24 + i * lineHeight, innerWidth, lineHeight, juce::Justification::centredLeft);
-                    g.drawText(paramValue, innerRight - 35, outerTop + 24 + i * lineHeight, innerWidth, lineHeight, juce::Justification::centredLeft);
+                    g.drawText(paramValue, innerRight - 35, pageBounds.getY() + 24 + i * lineHeight, innerWidth, lineHeight, juce::Justification::centredLeft);
                 }
                 else
                 {
                     g.setColour(juce::Colours::white);
-                    g.drawText(paramName, outerLeft + 4, outerTop + 24 + i * lineHeight, innerWidth, lineHeight, juce::Justification::centredLeft);
-                    g.drawText(paramValue, innerRight - 35, outerTop + 24 + i * lineHeight, innerWidth, lineHeight, juce::Justification::centredLeft);
+                    g.drawText(paramName, pageBounds.getX() + 4, pageBounds.getY() + 24 + i * lineHeight, innerWidth, lineHeight, juce::Justification::centredLeft);
+                    g.drawText(paramValue, innerRight - 35, pageBounds.getY() + 24 + i * lineHeight, innerWidth, lineHeight, juce::Justification::centredLeft);
                 }
 
             }
@@ -112,17 +112,17 @@ void EditPage::paint(juce::Graphics& g)
             if (currentAPVTSIndex - displayOffset == i) //index - offset
             {
                 g.setColour(juce::Colours::lightgrey);
-                g.fillRect(outerLeft + 4, outerTop + 24 + i * lineHeight, (pageBounds.getWidth() - 11), lineHeight);
+                g.fillRect(outerLeft + 4, pageBounds.getY() + 24 + i * lineHeight, (pageBounds.getWidth() - 11), lineHeight);
 
                 g.setColour(juce::Colours::black);
-                g.drawText(paramName, outerLeft + 4, outerTop + 24 + i * lineHeight, innerWidth, lineHeight, juce::Justification::centredLeft);
-                g.drawText(paramValue, innerRight - 35, outerTop + 24 + i * lineHeight, innerWidth, lineHeight, juce::Justification::centredLeft);
+                g.drawText(paramName, outerLeft + 4, pageBounds.getY() + 24 + i * lineHeight, innerWidth, lineHeight, juce::Justification::centredLeft);
+                g.drawText(paramValue, innerRight - 35, pageBounds.getY() + 24 + i * lineHeight, innerWidth, lineHeight, juce::Justification::centredLeft);
             }
             else
             {
                 g.setColour(juce::Colours::white);
-                g.drawText(paramName, outerLeft + 4, outerTop + 24 + i * lineHeight, innerWidth, lineHeight, juce::Justification::centredLeft);
-                g.drawText(paramValue, innerRight - 35, outerTop + 24 + i * lineHeight, innerWidth, lineHeight, juce::Justification::centredLeft);
+                g.drawText(paramName, pageBounds.getX() + 4, pageBounds.getY() + 24 + i * lineHeight, innerWidth, lineHeight, juce::Justification::centredLeft);
+                g.drawText(paramValue, pageBounds.getX() - 35, pageBounds.getY() + 24 + i * lineHeight, innerWidth, lineHeight, juce::Justification::centredLeft);
             }
         }
 

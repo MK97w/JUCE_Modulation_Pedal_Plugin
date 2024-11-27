@@ -48,7 +48,11 @@
       <GROUP id="{2C6DE8A7-8C9B-A953-21EF-2103B305F2DB}" name="DSP"/>
       <GROUP id="{3547FAD4-83C2-9C37-E9D3-CF60769AE208}" name="GUI">
         <GROUP id="{3D096238-A13A-FBE4-F5C1-ACAA67965E46}" name="OLEDPanel">
-          <FILE id="lDvDr8" name="OLEDLookAndFeel.cpp" compile="1" resource="0"
+          <FILE id="xCRpg8" name="OLEDPageFactory.cpp" compile="1" resource="0"
+                file="Source/OLEDPageFactory.cpp"/>
+          <FILE id="OL1ETI" name="OLEDPageFactory.h" compile="0" resource="0"
+                file="Source/OLEDPageFactory.h"/>
+          <FILE id="lDvDr8" name="OLEDLookAndFeel.cpp" compile="0" resource="0"
                 file="Source/OLEDLookAndFeel.cpp"/>
           <FILE id="LCED79" name="OLEDLookAndFeel.h" compile="0" resource="0"
                 file="Source/OLEDLookAndFeel.h"/>
