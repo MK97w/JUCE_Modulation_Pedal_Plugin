@@ -59,6 +59,17 @@ class EditPage : public OLEDPage
 public:
     EditPage(juce::String pagetitle,apvtsInfo&);
     void paint(juce::Graphics& g) override;
+
+private:
+    int apvtsElemSize = 0;
+    int currentAPVTSIndex = 0;
+    int maxElemtoDisplay = 5;
+    int displayOffset = 0;
+    int scrollBarWidth = 5;
+    int scrollBarHeight = 83;
+    int scrollBarX = pageBounds.getX() + pageBounds.getWidth() - 5;
+    int scrollBarY = pageBounds.getY() + 26;
+
 };
 
 class BasicEditPage : public OLEDPage
