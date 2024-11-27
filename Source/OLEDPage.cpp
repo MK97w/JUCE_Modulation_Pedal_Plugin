@@ -95,7 +95,7 @@ void EditPage::paint(juce::Graphics& g)
                     g.fillRect(pageBounds.getX() + 4, pageBounds.getY() + 24 + i * lineHeight, (pageBounds.getWidth() - 11), lineHeight);
 
                     g.setColour(juce::Colours::black);
-                    g.drawText(paramName, outerLeft + 4, outerTop + 24 + i * lineHeight, innerWidth, lineHeight, juce::Justification::centredLeft);
+                    g.drawText(paramName, pageBounds.getX() + 4, pageBounds.getY() + 24 + i * lineHeight, innerWidth, lineHeight, juce::Justification::centredLeft);
                     g.drawText(paramValue, innerRight - 35, outerTop + 24 + i * lineHeight, innerWidth, lineHeight, juce::Justification::centredLeft);
                 }
                 else
