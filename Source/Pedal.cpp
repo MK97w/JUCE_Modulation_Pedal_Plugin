@@ -52,7 +52,9 @@ Pedal::Pedal(juce::AudioProcessorValueTreeState& apvts)
         pedalAPVTS.getParameter("Flanger_G"),
     };
     selectedEffect = "vibrato";
-    currentPage = pageFactory.create("BasicEditPage", selectedEffect, parameterGroups[selectedEffect]);
+   // currentPage = pageFactory.create("BasicEditPage", selectedEffect, parameterGroups[selectedEffect]); //make first parameter enum
+    currentOLEDPage = pageFactory.create("EditPage", selectedEffect, parameterGroups[selectedEffect]);
+    isEditPage = true;
 }
 
 
@@ -65,7 +67,7 @@ void Pedal::paint(juce::Graphics& g)
 {
     g.setColour(juce::Colours::lightgrey);
     g.drawImage(pedalBaseImage, pedalBounds.toFloat());
-    currentPage->paint(g);
+    currentOLEDPage->paint(g);
 
     /*if (!isEditPage)
     {
@@ -346,23 +348,21 @@ void Pedal::downButtonClicked()
 {
     if (isEditPage)
     {
-        DBG("Down");
-        DBG("APVTS Index: ");  DBG(currentAPVTSIndex);
-        if (currentAPVTSIndex < apvtsElemSize - 1)
+        if ( currentAPVTSIndex < parameterGroups[selectedEffect].size() )
         {
             currentAPVTSIndex += 1;
+            currentOLEDPage->set_currentAPVTSIndex( currentAPVTSIndex );
             if (currentAPVTSIndex < maxElemtoDisplay)
             {
-                DBG(" New APVTS Index: ");  DBG(currentAPVTSIndex);
-                //paint the indexed parameter
                 repaint(outerLeft, outerTop, (outerRight - outerLeft), (outerBottom - outerTop));
             }
             else
             {
-                if (maxElemtoDisplay + displayOffset < apvtsElemSize)
-                    displayOffset += 1;
-                DBG("New APVTS Index: ");  DBG(currentAPVTSIndex);
-                DBG("displayOffset: ");  DBG(displayOffset);
+                if (maxElemtoDisplay + displayOffset < parameterGroups[selectedEffect].size())
+                {
+                   displayOffset += 1;
+                   currentOLEDPage->set_displayOffset( displayOffset );
+                }
                 repaint(outerLeft, outerTop, (outerRight - outerLeft), (outerBottom - outerTop));
             }
         }
@@ -374,23 +374,21 @@ void Pedal::upButtonClicked()
 {
     if (isEditPage)
     {
-        DBG("Up");
-        DBG("APVTS Index: ");  DBG(currentAPVTSIndex);
         if (currentAPVTSIndex > 0)
         {
             currentAPVTSIndex -= 1;
+            currentOLEDPage->set_currentAPVTSIndex(currentAPVTSIndex);
             if (currentAPVTSIndex >= displayOffset)
             {
-                DBG(" New APVTS Index: ");  DBG(currentAPVTSIndex);
-                //paint the indexed parameter
                 repaint(outerLeft, outerTop, (outerRight - outerLeft), (outerBottom - outerTop));
             }
             else
             {
                 if (displayOffset > 0)
+                {
                     displayOffset -= 1;
-                DBG("New APVTS Index: ");  DBG(currentAPVTSIndex);
-                DBG("displayOffset: ");  DBG(displayOffset);
+                    currentOLEDPage->set_displayOffset(displayOffset);
+                }
                 repaint(outerLeft, outerTop, (outerRight - outerLeft), (outerBottom - outerTop));
             }
         }

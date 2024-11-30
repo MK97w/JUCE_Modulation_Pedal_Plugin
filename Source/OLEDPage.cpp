@@ -49,9 +49,7 @@ void EditPage::paint(juce::Graphics& g)
 
     g.setColour(juce::Colours::white);
     g.drawRect(scrollBarX, scrollBarY, scrollBarWidth, scrollBarHeight);
-    juce::StringArray lines;
-    lines.addLines(paramsString);
-    int totalItems = lines.size() - 1;
+    int totalItems = apvts.size();  // this should be the apvts vector size -1
     int visibleItems = maxElemtoDisplay;
 
     if (totalItems > 0 && visibleItems > 0)
@@ -66,66 +64,60 @@ void EditPage::paint(juce::Graphics& g)
     }
 
     g.drawLine(pageBounds.getX(), pageBounds.getY() + 22, pageBounds.getX() + pageBounds.getWidth(), pageBounds.getY() + 22, 2.0f);
-    auto ft =getCustomFont().boldened();
+    auto ft = getCustomFont().boldened();
     ft.setExtraKerningFactor(0.1f);
     g.setFont(ft);
     g.setFont(15.5f);
-    juce::String text = "EDIT ";
+    juce::String text = "EDIT "; //this can be a class member
     g.drawText(text, pageBounds.getX() + 2, pageBounds.getY() + 2, 8, 20, juce::Justification::left);
     g.setFont(getCustomFont());
     g.setFont(16.5f);
-    juce::String text2 = "[" + getPageTitle() +"]";
-    g.drawText(text2, pageBounds.getX() + 130, pageBounds.getY() + 2, 20, 20, juce::Justification::left);
+    juce::String text2 = "[" + getPageTitle().toUpperCase() + "] ";
+    g.drawText(text2, pageBounds.getX() + 128, pageBounds.getY() + 2, 20, 20, juce::Justification::left); //this hould be relative with title page length
     g.setFont(18.0f);
     int lineHeight = g.getCurrentFont().getHeight();
     for (int i = 0; i < maxElemtoDisplay; ++i)
     {
-        juce::String line = lines[i + displayOffset];
-        int colonIndex = line.indexOfChar(':');
-        juce::String paramName = line.substring(0, colonIndex + 1);
-        juce::String paramValue = line.substring(colonIndex + 1).trim();
+        juce::String paramName = apvts[i + displayOffset]->getName(100);
+        juce::String paramValue = apvts[i + displayOffset]->getCurrentValueAsText(); 
         if (displayOffset == 0)
         {
-            if (colonIndex != -1)
-            {
 
                 if (currentAPVTSIndex == i)
                 {
                     g.setColour(juce::Colours::lightgrey);
-                    g.fillRect(pageBounds.getX() + 4, pageBounds.getY() + 24 + i * lineHeight, (pageBounds.getWidth() - 11), lineHeight);
+                    g.fillRect(pageBounds.getX() + 4, pageBounds.getY() + 24 + i * lineHeight, (pageBounds.getWidth() - 15), lineHeight);
 
                     g.setColour(juce::Colours::black);
-                    g.drawText(paramName, pageBounds.getX() + 4, pageBounds.getY() + 24 + i * lineHeight, innerWidth, lineHeight, juce::Justification::centredLeft);
-                    g.drawText(paramValue, innerRight - 35, pageBounds.getY() + 24 + i * lineHeight, innerWidth, lineHeight, juce::Justification::centredLeft);
+                    g.drawText(paramName, pageBounds.getX() + 4, pageBounds.getY() + 24 + i * lineHeight, pageBounds.getWidth() - 4, lineHeight, juce::Justification::centredLeft);
+                    g.drawText(paramValue, pageBounds.getRight() - 39, pageBounds.getY() + 24 + i * lineHeight, pageBounds.getWidth() - 4, lineHeight, juce::Justification::centredLeft);
                 }
                 else
                 {
                     g.setColour(juce::Colours::white);
-                    g.drawText(paramName, pageBounds.getX() + 4, pageBounds.getY() + 24 + i * lineHeight, innerWidth, lineHeight, juce::Justification::centredLeft);
-                    g.drawText(paramValue, innerRight - 35, pageBounds.getY() + 24 + i * lineHeight, innerWidth, lineHeight, juce::Justification::centredLeft);
+                    g.drawText(paramName, pageBounds.getX() + 4, pageBounds.getY() + 24 + i * lineHeight, pageBounds.getWidth() -4 , lineHeight, juce::Justification::centredLeft);
+                    g.drawText(paramValue, pageBounds.getRight() - 39, pageBounds.getY() + 24 + i * lineHeight, pageBounds.getWidth() -4 , lineHeight, juce::Justification::centredLeft);
                 }
-
-            }
         }
         else
         {
             if (currentAPVTSIndex - displayOffset == i) //index - offset
             {
                 g.setColour(juce::Colours::lightgrey);
-                g.fillRect(outerLeft + 4, pageBounds.getY() + 24 + i * lineHeight, (pageBounds.getWidth() - 11), lineHeight);
+                g.fillRect(pageBounds.getX() + 4, pageBounds.getY() + 24 + i * lineHeight, (pageBounds.getWidth() - 11), lineHeight);
 
                 g.setColour(juce::Colours::black);
-                g.drawText(paramName, outerLeft + 4, pageBounds.getY() + 24 + i * lineHeight, innerWidth, lineHeight, juce::Justification::centredLeft);
-                g.drawText(paramValue, innerRight - 35, pageBounds.getY() + 24 + i * lineHeight, innerWidth, lineHeight, juce::Justification::centredLeft);
+                g.drawText(paramName, pageBounds.getX() + 4, pageBounds.getY() + 24 + i * lineHeight, pageBounds.getWidth() -4, lineHeight, juce::Justification::centredLeft);
+                g.drawText(paramValue, pageBounds.getRight() - 39, pageBounds.getY() + 24 + i * lineHeight, pageBounds.getWidth() -4, lineHeight, juce::Justification::centredLeft);
             }
             else
             {
                 g.setColour(juce::Colours::white);
-                g.drawText(paramName, pageBounds.getX() + 4, pageBounds.getY() + 24 + i * lineHeight, innerWidth, lineHeight, juce::Justification::centredLeft);
-                g.drawText(paramValue, pageBounds.getX() - 35, pageBounds.getY() + 24 + i * lineHeight, innerWidth, lineHeight, juce::Justification::centredLeft);
+                g.drawText(paramName, pageBounds.getX() + 4, pageBounds.getY() + 24 + i * lineHeight, pageBounds.getWidth() -4 , lineHeight, juce::Justification::centredLeft);
+                g.drawText(paramValue, pageBounds.getX() - 35, pageBounds.getY() + 24 + i * lineHeight, pageBounds.getWidth() -4, lineHeight, juce::Justification::centredLeft);
             }
         }
 
-    }*/
+    }
 
 }

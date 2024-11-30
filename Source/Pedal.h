@@ -29,7 +29,7 @@ public:
 
 private:
 
-   std::unique_ptr<OLEDPage> currentPage;
+   std::unique_ptr<OLEDPage> currentOLEDPage;
    PageFactory pageFactory;
 
    juce::Image pedalBaseImage;
@@ -73,7 +73,7 @@ private:
    int innerTop = outerTop + 5;
    int innerBottom = outerBottom - 5;
    int innerRight = outerRight - 4;
-   int innerWidth = innerRight - innerLeft;
+   int innerWidth = innerRight - innerLeft; 
    int innerHeight = innerBottom - innerTop;
    float cornerSize = 5.0f;
 
