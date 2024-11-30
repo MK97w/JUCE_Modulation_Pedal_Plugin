@@ -90,13 +90,13 @@ void EditPage::paint(juce::Graphics& g)
 
                     g.setColour(juce::Colours::black);
                     g.drawText(paramName, pageBounds.getX() + 4, pageBounds.getY() + 24 + i * lineHeight, pageBounds.getWidth() - 4, lineHeight, juce::Justification::centredLeft);
-                    g.drawText(paramValue, pageBounds.getRight() - 39, pageBounds.getY() + 24 + i * lineHeight, pageBounds.getWidth() - 4, lineHeight, juce::Justification::centredLeft);
+                    g.drawText(paramValue, pageBounds.getRight() - 39, pageBounds.getY() + 24 + i * lineHeight, pageBounds.getWidth() - 4, lineHeight, juce::Justification::centredLeft);//problem here
                 }
                 else
                 {
                     g.setColour(juce::Colours::white);
                     g.drawText(paramName, pageBounds.getX() + 4, pageBounds.getY() + 24 + i * lineHeight, pageBounds.getWidth() -4 , lineHeight, juce::Justification::centredLeft);
-                    g.drawText(paramValue, pageBounds.getRight() - 39, pageBounds.getY() + 24 + i * lineHeight, pageBounds.getWidth() -4 , lineHeight, juce::Justification::centredLeft);
+                    g.drawText(paramValue, pageBounds.getRight() - 39, pageBounds.getY() + 24 + i * lineHeight, pageBounds.getWidth() -4 , lineHeight, juce::Justification::centredLeft);//problem here
                 }
         }
         else
@@ -108,13 +108,13 @@ void EditPage::paint(juce::Graphics& g)
 
                 g.setColour(juce::Colours::black);
                 g.drawText(paramName, pageBounds.getX() + 4, pageBounds.getY() + 24 + i * lineHeight, pageBounds.getWidth() -4, lineHeight, juce::Justification::centredLeft);
-                g.drawText(paramValue, pageBounds.getRight() - 39, pageBounds.getY() + 24 + i * lineHeight, pageBounds.getWidth() -4, lineHeight, juce::Justification::centredLeft);
+                g.drawText(paramValue, pageBounds.getRight() - 39, pageBounds.getY() + 24 + i * lineHeight, pageBounds.getWidth() -4, lineHeight, juce::Justification::centredLeft); //problem here
             }
             else
             {
                 g.setColour(juce::Colours::white);
                 g.drawText(paramName, pageBounds.getX() + 4, pageBounds.getY() + 24 + i * lineHeight, pageBounds.getWidth() -4 , lineHeight, juce::Justification::centredLeft);
-                g.drawText(paramValue, pageBounds.getX() - 35, pageBounds.getY() + 24 + i * lineHeight, pageBounds.getWidth() -4, lineHeight, juce::Justification::centredLeft);
+                g.drawText(paramValue, pageBounds.getRight() - 39, pageBounds.getY() + 24 + i * lineHeight, pageBounds.getWidth() -4, lineHeight, juce::Justification::centredLeft);
             }
         }
 
