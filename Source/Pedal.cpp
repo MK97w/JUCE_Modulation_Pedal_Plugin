@@ -53,8 +53,8 @@ Pedal::Pedal(juce::AudioProcessorValueTreeState& apvts)
     };
     selectedEffect = "vibrato";
    // currentPage = pageFactory.create("BasicEditPage", selectedEffect, parameterGroups[selectedEffect]); //make first parameter enum
-    currentOLEDPage = pageFactory.create("EditPage", selectedEffect, parameterGroups[selectedEffect]);
-    isEditPage = true;
+    currentOLEDPage = pageFactory.create("BasicEditPage", selectedEffect, parameterGroups[selectedEffect]);
+    //isEditPage = true;
 }
 
 
@@ -348,10 +348,9 @@ void Pedal::downButtonClicked()
 {
     if (isEditPage)
     {
-        if ( currentAPVTSIndex < parameterGroups[selectedEffect].size() )
+        if ( currentAPVTSIndex < parameterGroups[selectedEffect].size() - 1 )
         {
-            currentAPVTSIndex += 1;
-            currentOLEDPage->set_currentAPVTSIndex( currentAPVTSIndex );
+            currentOLEDPage->set_currentAPVTSIndex( ++currentAPVTSIndex );
             if (currentAPVTSIndex < maxElemtoDisplay)
             {
                 repaint(outerLeft, outerTop, (outerRight - outerLeft), (outerBottom - outerTop));
@@ -360,8 +359,7 @@ void Pedal::downButtonClicked()
             {
                 if (maxElemtoDisplay + displayOffset < parameterGroups[selectedEffect].size())
                 {
-                   displayOffset += 1;
-                   currentOLEDPage->set_displayOffset( displayOffset );
+                   currentOLEDPage->set_displayOffset( ++displayOffset );
                 }
                 repaint(outerLeft, outerTop, (outerRight - outerLeft), (outerBottom - outerTop));
             }
@@ -376,8 +374,7 @@ void Pedal::upButtonClicked()
     {
         if (currentAPVTSIndex > 0)
         {
-            currentAPVTSIndex -= 1;
-            currentOLEDPage->set_currentAPVTSIndex(currentAPVTSIndex);
+            currentOLEDPage->set_currentAPVTSIndex(--currentAPVTSIndex);
             if (currentAPVTSIndex >= displayOffset)
             {
                 repaint(outerLeft, outerTop, (outerRight - outerLeft), (outerBottom - outerTop));
@@ -386,8 +383,7 @@ void Pedal::upButtonClicked()
             {
                 if (displayOffset > 0)
                 {
-                    displayOffset -= 1;
-                    currentOLEDPage->set_displayOffset(displayOffset);
+                    currentOLEDPage->set_displayOffset(--displayOffset);
                 }
                 repaint(outerLeft, outerTop, (outerRight - outerLeft), (outerBottom - outerTop));
             }
@@ -398,13 +394,16 @@ void Pedal::upButtonClicked()
 void Pedal::editButtonClicked()
 {
     isEditPage = true;
+    currentOLEDPage = pageFactory.create("EditPage", selectedEffect, parameterGroups[selectedEffect]);
 	repaint(outerLeft,outerTop,(outerRight-outerLeft), (outerBottom-outerTop));
+
 }
 void Pedal::exitButtonClicked()
 {
 	isEditPage = false; 
 	displayOffset = 0;
 	currentAPVTSIndex = 0;
+    currentOLEDPage = pageFactory.create("BasicEditPage", selectedEffect, parameterGroups[selectedEffect]);
     repaint(outerLeft, outerTop, (outerRight - outerLeft), (outerBottom - outerTop));
 }
 
@@ -412,29 +411,21 @@ void Pedal::sliderValueChanged(juce::Slider* slider)
 {
     if (knobs[0].get() == slider)
     {
-        DBG("Knob 1");
-        DBG(knobs[0].get()->getValue());
+        if (!knobs[0].get()->getValue())
+        {
+            selectedEffect = "vibrato";
+        }
+        else
+        {
+            selectedEffect = "flanger";
+        }
 	}
-	else if(knobs[1].get() == slider)
-	{
-		DBG("Knob 2");
-	}
-	else if(knobs[2].get() == slider)
-	{
-		DBG("Knob 3");
-	}
-	else if(knobs[3].get() == slider)
-	{
-		DBG("Knob 4");
-	}
-	else if(knobs[4].get() == slider)
-	{
-		DBG("Knob 5");
-	}
-    else if (knobs[5].get() == slider)
-    {
-        DBG("Knob 6");
-    }
+    if (isEditPage)
+        currentOLEDPage = pageFactory.create("EditPage", selectedEffect, parameterGroups[selectedEffect]);        
+    else
+        currentOLEDPage = pageFactory.create("BasicEditPage", selectedEffect, parameterGroups[selectedEffect]);
+    repaint(outerLeft, outerTop, (outerRight - outerLeft), (outerBottom - outerTop));
+
 }
 
 void Pedal::buttonClicked(juce::Button* button)
