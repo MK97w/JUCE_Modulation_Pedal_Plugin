@@ -49,7 +49,7 @@ Pedal::Pedal(juce::AudioProcessorValueTreeState& apvts)
    // currentPage = pageFactory.create("BasicEditPage", selectedEffect, parameterGroups[selectedEffect]); //make first parameter enum
     currentOLEDPage = pageFactory.create("BasicEditPage", selectedEffect, parameterGroups[selectedEffect]);
 	currentAPVTSIndex = -1;
-    currentOLEDPage->set_currentAPVTSIndex(currentAPVTSIndex);
+   // currentOLEDPage->set_currentAPVTSIndex(currentAPVTSIndex);
 }
 
 
@@ -62,6 +62,7 @@ void Pedal::paint(juce::Graphics& g)
 {
     g.setColour(juce::Colours::lightgrey);
     g.drawImage(pedalBaseImage, pedalBounds.toFloat());
+    currentOLEDPage->set_currentAPVTSIndex(currentAPVTSIndex);
     currentOLEDPage->paint(g);
 }
 
@@ -285,18 +286,26 @@ void Pedal::sliderDragStarted(juce::Slider* slider)
     if (knobs[2].get() == slider)
     {
         knobs[2].get()->itsAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(pedalAPVTS, parameterGroups[selectedEffect][0]->getParameterID(), *knobs[2]);
+        if (!isEditPage)
+            currentAPVTSIndex = 0;
     }
     if (knobs[3].get() == slider)
     {
         knobs[3].get()->itsAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(pedalAPVTS, parameterGroups[selectedEffect][1]->getParameterID(), *knobs[3]);
+        if (!isEditPage)
+            currentAPVTSIndex = 1;
     }
     if (knobs[4].get() == slider)
     {
         knobs[4].get()->itsAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(pedalAPVTS, parameterGroups[selectedEffect][2]->getParameterID(), *knobs[4]);
+        if (!isEditPage)
+            currentAPVTSIndex = 2;
     }
     if (knobs[5].get() == slider)
     {
         knobs[5].get()->itsAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(pedalAPVTS, parameterGroups[selectedEffect][3]->getParameterID(), *knobs[5]);
+        if (!isEditPage)
+            currentAPVTSIndex = 3;
     }
     DBG(currentAPVTSIndex);
     repaint(outerLeft, outerTop, (outerRight - outerLeft), (outerBottom - outerTop));

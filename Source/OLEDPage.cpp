@@ -21,7 +21,7 @@ void BasicEditPage::paint(juce::Graphics& g)
     if (currentAPVTSIndex == -1)
     {
         g.setColour(juce::Colours::lightgrey);
-        g.fillRect(pageBounds.getX() + 4, pageBounds.getY() + 24 , (pageBounds.getWidth() - 15), 20);
+        g.fillRect(innerLeft+2, innerTop+3 ,innerWidth-4, 16);
         g.setColour(juce::Colours::black);
         g.drawText(getPageTitle().toUpperCase(), innerLeft, innerTop + 1, (innerRight - innerLeft), 20, juce::Justification::horizontallyCentred);
     }
@@ -30,6 +30,7 @@ void BasicEditPage::paint(juce::Graphics& g)
 		g.setColour(juce::Colours::white);
 		g.drawText(getPageTitle().toUpperCase(), innerLeft, innerTop + 1, (innerRight - innerLeft), 20, juce::Justification::horizontallyCentred);
 	}
+    g.setColour(juce::Colours::white);
     g.setFont(18.5f);
     int lineHeight = g.getCurrentFont().getHeight();
 	int yPosition = innerTop + 22;
@@ -40,10 +41,25 @@ void BasicEditPage::paint(juce::Graphics& g)
             continue;
         else
         {
-            juce::String paramValue = param->getCurrentValueAsText();
-            g.drawText(param->getName(100) + ": ", innerLeft + 6, yPosition, innerWidth, lineHeight, juce::Justification::centredLeft);
-            g.drawText(paramValue, innerRight - 35, yPosition, innerWidth, lineHeight, juce::Justification::centredLeft);
-            yPosition += lineHeight;
+
+            if (currentAPVTSIndex == i)
+            {
+                g.setColour(juce::Colours::lightgrey);
+                g.fillRect(innerLeft + 2, innerTop + 3 + (i*16), innerWidth - 4, 16);
+                g.setColour(juce::Colours::black);
+                juce::String paramValue = param->getCurrentValueAsText();
+                g.drawText(param->getName(100) + ": ", innerLeft + 6, yPosition, innerWidth, lineHeight, juce::Justification::centredLeft);
+                g.drawText(paramValue, innerRight - 35, yPosition, innerWidth, lineHeight, juce::Justification::centredLeft);
+                yPosition += lineHeight;
+            }
+            else
+            {
+                g.setColour(juce::Colours::white);
+                juce::String paramValue = param->getCurrentValueAsText();
+                g.drawText(param->getName(100) + ": ", innerLeft + 6, yPosition, innerWidth, lineHeight, juce::Justification::centredLeft);
+                g.drawText(paramValue, innerRight - 35, yPosition, innerWidth, lineHeight, juce::Justification::centredLeft);
+                yPosition += lineHeight;
+            }
         }
     }
 
