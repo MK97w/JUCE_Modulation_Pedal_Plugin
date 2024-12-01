@@ -18,19 +18,29 @@ void BasicEditPage::paint(juce::Graphics& g)
     g.drawRoundedRectangle(juce::Rectangle<float>(innerLeft, innerTop, innerWidth, innerHeight), cornerSize, 2.0f); //simple edit page
     g.setFont(customFont);
     g.setFont(18.5f);
-    g.drawText(getPageTitle().toUpperCase(), innerLeft, innerTop + 1, (innerRight - innerLeft), 20, juce::Justification::horizontallyCentred);
+    if (currentAPVTSIndex == -1)
+    {
+        g.setColour(juce::Colours::lightgrey);
+        g.fillRect(pageBounds.getX() + 4, pageBounds.getY() + 24 , (pageBounds.getWidth() - 15), 20);
+        g.setColour(juce::Colours::black);
+        g.drawText(getPageTitle().toUpperCase(), innerLeft, innerTop + 1, (innerRight - innerLeft), 20, juce::Justification::horizontallyCentred);
+    }
+	else
+	{
+		g.setColour(juce::Colours::white);
+		g.drawText(getPageTitle().toUpperCase(), innerLeft, innerTop + 1, (innerRight - innerLeft), 20, juce::Justification::horizontallyCentred);
+	}
     g.setFont(18.5f);
-    juce::StringArray lines;
     int lineHeight = g.getCurrentFont().getHeight();
 	int yPosition = innerTop + 22;
-    for (const auto param : apvts)
+    for (int i = 0; i < apvts.size(); ++i)
     {
+        auto param = apvts[i];
         if (auto name = param->getParameterID(); name.startsWithChar('_') == false)
             continue;
         else
         {
             juce::String paramValue = param->getCurrentValueAsText();
-            //g.drawText(param->getName(100) + ": " + paramValue, 20, yPosition + 20, getWidth() - 40, 20, juce::Justification::left);
             g.drawText(param->getName(100) + ": ", innerLeft + 6, yPosition, innerWidth, lineHeight, juce::Justification::centredLeft);
             g.drawText(paramValue, innerRight - 35, yPosition, innerWidth, lineHeight, juce::Justification::centredLeft);
             yPosition += lineHeight;
@@ -44,7 +54,7 @@ EditPage::EditPage(juce::String pagetitle, apvtsInfo& info) : OLEDPage(pagetitle
 {
 }
 
-void EditPage::paint(juce::Graphics& g)
+void EditPage::paint(juce::Graphics& g) //add : to names
 {
 
     g.setColour(juce::Colours::white);

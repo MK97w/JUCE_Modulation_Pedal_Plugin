@@ -48,6 +48,8 @@ Pedal::Pedal(juce::AudioProcessorValueTreeState& apvts)
     selectedEffect = "vibrato";
    // currentPage = pageFactory.create("BasicEditPage", selectedEffect, parameterGroups[selectedEffect]); //make first parameter enum
     currentOLEDPage = pageFactory.create("BasicEditPage", selectedEffect, parameterGroups[selectedEffect]);
+	currentAPVTSIndex = -1;
+    currentOLEDPage->set_currentAPVTSIndex(currentAPVTSIndex);
 }
 
 
@@ -221,6 +223,8 @@ void Pedal::editButtonClicked()
     if (!isEditPage)
     {
        isEditPage = true;
+       displayOffset = 0;
+       currentAPVTSIndex = 0;
        currentOLEDPage = pageFactory.create("EditPage", selectedEffect, parameterGroups[selectedEffect]);
        repaint(outerLeft, outerTop, (outerRight - outerLeft), (outerBottom - outerTop));
     }
@@ -231,7 +235,7 @@ void Pedal::exitButtonClicked()
 {
 	isEditPage = false; 
 	displayOffset = 0;
-	currentAPVTSIndex = 0;
+	currentAPVTSIndex = -1;
     currentOLEDPage = pageFactory.create("BasicEditPage", selectedEffect, parameterGroups[selectedEffect]);
     repaint(outerLeft, outerTop, (outerRight - outerLeft), (outerBottom - outerTop));
 }
@@ -250,11 +254,17 @@ void Pedal::sliderValueChanged(juce::Slider* slider)
         }
 
         if (isEditPage)
+        {
+            currentAPVTSIndex = 0;
+            currentOLEDPage.get()->set_currentAPVTSIndex(currentAPVTSIndex);
             currentOLEDPage = pageFactory.create("EditPage", selectedEffect, parameterGroups[selectedEffect]);
+        }
         else
+        {
+            currentAPVTSIndex = -1;
+            currentOLEDPage.get()->set_currentAPVTSIndex(currentAPVTSIndex);
             currentOLEDPage = pageFactory.create("BasicEditPage", selectedEffect, parameterGroups[selectedEffect]);
-
-        currentAPVTSIndex = 0;
+        }
         displayOffset = 0;
     }
     repaint(outerLeft, outerTop, (outerRight - outerLeft), (outerBottom - outerTop));
