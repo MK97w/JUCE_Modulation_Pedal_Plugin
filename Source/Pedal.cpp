@@ -218,9 +218,13 @@ void Pedal::upButtonClicked()
 }
 void Pedal::editButtonClicked()
 {
-    isEditPage = true;
-    currentOLEDPage = pageFactory.create("EditPage", selectedEffect, parameterGroups[selectedEffect]);
-	repaint(outerLeft,outerTop,(outerRight-outerLeft), (outerBottom-outerTop));
+    if (!isEditPage)
+    {
+       isEditPage = true;
+       currentOLEDPage = pageFactory.create("EditPage", selectedEffect, parameterGroups[selectedEffect]);
+       repaint(outerLeft, outerTop, (outerRight - outerLeft), (outerBottom - outerTop));
+    }
+
 
 }
 void Pedal::exitButtonClicked()
@@ -236,7 +240,7 @@ void Pedal::sliderValueChanged(juce::Slider* slider)
 {
     if (knobs[0].get() == slider)
     {
-        if (!knobs[0].get()->getValue() )
+        if (!knobs[0].get()->getValue())
         {
             selectedEffect = "vibrato";
         }
@@ -244,13 +248,16 @@ void Pedal::sliderValueChanged(juce::Slider* slider)
         {
             selectedEffect = "flanger";
         }
-	}
-    if (isEditPage)
-        currentOLEDPage = pageFactory.create("EditPage", selectedEffect, parameterGroups[selectedEffect]);        
-    else
-        currentOLEDPage = pageFactory.create("BasicEditPage", selectedEffect, parameterGroups[selectedEffect]);
-    repaint(outerLeft, outerTop, (outerRight - outerLeft), (outerBottom - outerTop));
 
+        if (isEditPage)
+            currentOLEDPage = pageFactory.create("EditPage", selectedEffect, parameterGroups[selectedEffect]);
+        else
+            currentOLEDPage = pageFactory.create("BasicEditPage", selectedEffect, parameterGroups[selectedEffect]);
+
+        currentAPVTSIndex = 0;
+        displayOffset = 0;
+    }
+    repaint(outerLeft, outerTop, (outerRight - outerLeft), (outerBottom - outerTop));
 }
 void Pedal::sliderDragStarted(juce::Slider* slider)
 {
@@ -265,23 +272,24 @@ void Pedal::sliderDragStarted(juce::Slider* slider)
             knobs[1].get()->itsAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(pedalAPVTS, parameterGroups[selectedEffect][currentAPVTSIndex]->getParameterID(), *knobs[1]);
         }
     }
-   /* if (&sliders[1] == slider)
+    if (knobs[2].get() == slider)
     {
-        sliderAttachments[1] = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.apvts, parameterGroups[selectedEffect][0]->getParameterID(), sliders[1]);
+        knobs[2].get()->itsAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(pedalAPVTS, parameterGroups[selectedEffect][0]->getParameterID(), *knobs[2]);
     }
-    if (&sliders[2] == slider)
+    if (knobs[3].get() == slider)
     {
-        sliderAttachments[2] = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.apvts, parameterGroups[selectedEffect][1]->getParameterID(), sliders[2]);
+        knobs[3].get()->itsAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(pedalAPVTS, parameterGroups[selectedEffect][1]->getParameterID(), *knobs[3]);
     }
-    if (&sliders[3] == slider)
+    if (knobs[4].get() == slider)
     {
-        sliderAttachments[3] = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.apvts, parameterGroups[selectedEffect][2]->getParameterID(), sliders[3]);
+        knobs[4].get()->itsAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(pedalAPVTS, parameterGroups[selectedEffect][2]->getParameterID(), *knobs[4]);
     }
-    if (&sliders[4] == slider)
+    if (knobs[5].get() == slider)
     {
-        sliderAttachments[4] = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.apvts, parameterGroups[selectedEffect][3]->getParameterID(), sliders[4]);
-    }*/
-
+        knobs[5].get()->itsAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(pedalAPVTS, parameterGroups[selectedEffect][3]->getParameterID(), *knobs[5]);
+    }
+    DBG(currentAPVTSIndex);
+    repaint(outerLeft, outerTop, (outerRight - outerLeft), (outerBottom - outerTop));
 }
 
 
@@ -291,6 +299,23 @@ void Pedal::sliderDragEnded(juce::Slider* slider)
     {
         knobs[1].get()->itsAttachment.reset();
     }
+    if (knobs[2].get() == slider)
+    {
+        knobs[2].get()->itsAttachment.reset();
+    }
+    if (knobs[3].get() == slider)
+    {
+        knobs[3].get()->itsAttachment.reset();
+    }
+    if (knobs[4].get() == slider)
+    {
+        knobs[4].get()->itsAttachment.reset();
+    }
+    if (knobs[5].get() == slider)
+    {
+        knobs[5].get()->itsAttachment.reset();
+    }
+    DBG(currentAPVTSIndex);
 }
 
 
