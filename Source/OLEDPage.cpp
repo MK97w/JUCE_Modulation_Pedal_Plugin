@@ -45,7 +45,7 @@ void BasicEditPage::paint(juce::Graphics& g)
             if (currentAPVTSIndex == i)
             {
                 g.setColour(juce::Colours::lightgrey);
-                g.fillRect(innerLeft + 2, innerTop + 3 + (i*16), innerWidth - 4, 16);
+                g.fillRect(innerLeft + 2, yPosition - 1 , innerWidth - 4, 18);
                 g.setColour(juce::Colours::black);
                 juce::String paramValue = param->getCurrentValueAsText();
                 g.drawText(param->getName(100) + ": ", innerLeft + 6, yPosition, innerWidth, lineHeight, juce::Justification::centredLeft);
