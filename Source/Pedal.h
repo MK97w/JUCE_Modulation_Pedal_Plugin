@@ -41,7 +41,6 @@ private:
    std::unordered_map<std::string, std::vector<juce::RangedAudioParameter*>> parameterGroups;
    juce::String paramsString;
   
-   void updateParamsString();
    void initializeFootswitches();
    void initializeKnobs();
    void initializeComponents();
@@ -78,39 +77,6 @@ private:
    float cornerSize = 5.0f;
 
    std::string selectedEffect;
-
-   class CustomFontLookAndFeel : public juce::LookAndFeel_V4
-   {
-   public:
-       CustomFontLookAndFeel()
-       {
-           // without this custom Fonts won't work!!
-           setDefaultLookAndFeel(this);
-
-           // This can be used as one way of setting a default font
-           // setDefaultSansSerifTypeface (getCustomFont().getTypeface());
-       }
-       ~CustomFontLookAndFeel()
-       {
-           // without this custom Fonts won't work!!
-           setDefaultLookAndFeel(nullptr);
-       }
-
-       static const juce::Font getCustomFont()
-       {
-           static auto typeface = juce::Typeface::createSystemTypefaceFor(BinaryData::munro_ttf, BinaryData::munro_ttfSize);
-           return juce::Font(typeface);
-       }
-
-       /*juce::Typeface::Ptr getTypefaceForFont(const juce::Font& f) override  --> Problem in JUCE 8??
-       {
-           // This can be used to fully change/inject fonts.
-           // For example: return different TTF/OTF based on weight of juce::Font (bold/italic/etc)
-           return getCustomFont().getTypeface();
-       }*/
-   private:
-   } customFontLookAndFeel;
-
 
 };
 

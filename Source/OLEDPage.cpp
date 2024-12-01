@@ -49,7 +49,7 @@ void EditPage::paint(juce::Graphics& g)
 
     g.setColour(juce::Colours::white);
     g.drawRect(scrollBarX, scrollBarY, scrollBarWidth, scrollBarHeight);
-    int totalItems = apvts.size();  // this should be the apvts vector size -1
+    int totalItems = apvts.size(); 
     int visibleItems = maxElemtoDisplay;
 
     if (totalItems > 0 && visibleItems > 0)
@@ -68,12 +68,11 @@ void EditPage::paint(juce::Graphics& g)
     ft.setExtraKerningFactor(0.1f);
     g.setFont(ft);
     g.setFont(15.5f);
-    juce::String text = "EDIT "; //this can be a class member
-    g.drawText(text, pageBounds.getX() + 2, pageBounds.getY() + 2, 8, 20, juce::Justification::left);
+    g.drawText(editPageTitle, pageBounds.getX() + 2, pageBounds.getY() + 2, 8, 20, juce::Justification::left);
     g.setFont(getCustomFont());
     g.setFont(16.5f);
     juce::String text2 = "[" + getPageTitle().toUpperCase() + "] ";
-    g.drawText(text2, pageBounds.getX() + 128, pageBounds.getY() + 2, 20, 20, juce::Justification::left); //this hould be relative with title page length
+    g.drawText(text2, pageBounds.getRight() - getCustomFont().getStringWidth(text2)-4, pageBounds.getY() + 2, getCustomFont().getStringWidth(text2), 20, juce::Justification::left);
     g.setFont(18.0f);
     int lineHeight = g.getCurrentFont().getHeight();
     for (int i = 0; i < maxElemtoDisplay; ++i)
@@ -90,13 +89,13 @@ void EditPage::paint(juce::Graphics& g)
 
                     g.setColour(juce::Colours::black);
                     g.drawText(paramName, pageBounds.getX() + 4, pageBounds.getY() + 24 + i * lineHeight, pageBounds.getWidth() - 4, lineHeight, juce::Justification::centredLeft);
-                    g.drawText(paramValue, pageBounds.getRight() - 39, pageBounds.getY() + 24 + i * lineHeight, pageBounds.getWidth() - 4, lineHeight, juce::Justification::centredLeft);//problem here
+                    g.drawText(paramValue, pageBounds.getRight() - 39, pageBounds.getY() + 24 + i * lineHeight, pageBounds.getWidth() - 4, lineHeight, juce::Justification::centredLeft);
                 }
                 else
                 {
                     g.setColour(juce::Colours::white);
                     g.drawText(paramName, pageBounds.getX() + 4, pageBounds.getY() + 24 + i * lineHeight, pageBounds.getWidth() -4 , lineHeight, juce::Justification::centredLeft);
-                    g.drawText(paramValue, pageBounds.getRight() - 39, pageBounds.getY() + 24 + i * lineHeight, pageBounds.getWidth() -4 , lineHeight, juce::Justification::centredLeft);//problem here
+                    g.drawText(paramValue, pageBounds.getRight() - 39, pageBounds.getY() + 24 + i * lineHeight, pageBounds.getWidth() -4 , lineHeight, juce::Justification::centredLeft);
                 }
         }
         else
@@ -108,7 +107,7 @@ void EditPage::paint(juce::Graphics& g)
 
                 g.setColour(juce::Colours::black);
                 g.drawText(paramName, pageBounds.getX() + 4, pageBounds.getY() + 24 + i * lineHeight, pageBounds.getWidth() -4, lineHeight, juce::Justification::centredLeft);
-                g.drawText(paramValue, pageBounds.getRight() - 39, pageBounds.getY() + 24 + i * lineHeight, pageBounds.getWidth() -4, lineHeight, juce::Justification::centredLeft); //problem here
+                g.drawText(paramValue, pageBounds.getRight() - 39, pageBounds.getY() + 24 + i * lineHeight, pageBounds.getWidth() -4, lineHeight, juce::Justification::centredLeft); 
             }
             else
             {

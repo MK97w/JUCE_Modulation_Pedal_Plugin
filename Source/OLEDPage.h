@@ -11,19 +11,10 @@
 #pragma once
 
 #include <JuceHeader.h>
-/***
-*
-* Notes on design:
-*   - I think pages shouldnt be the listeners themselves -> they just display
-*   - Base class must contain a "setPageLayout" type of function. -> Draw lines / set Title hence a variable juce::String title but this should be called only when page layout is changed.
-*   - ýnstead of taking the whole apvts, create a hashamp that contains the sub-effects of apvts and pass it to display
-* 
-*/
 
-//using apvtsInfo = std::unordered_map<std::string, std::vector<juce::RangedAudioParameter*>>;
- using apvtsInfo = std::vector<juce::RangedAudioParameter*> ;
+using apvtsInfo = std::vector<juce::RangedAudioParameter*> ;
 
-class OLEDPage : public juce::Component 
+class OLEDPage : public juce::Component , public juce::LookAndFeel_V4
 {
 
 protected:
@@ -34,10 +25,16 @@ protected:
     int currentAPVTSIndex = 0;
     int displayOffset = 0;
 
+
     static const juce::Font getCustomFont()
     {
         static auto typeface = juce::Typeface::createSystemTypefaceFor(BinaryData::munro_ttf, BinaryData::munro_ttfSize);
         return juce::Font(typeface);
+    }
+
+    juce::Typeface::Ptr getTypefaceForFont(const juce::Font& f) override
+    {
+        return getCustomFont().getTypefacePtr();
     }
 
     juce::String getPageTitle() const { return pageTitle; }
@@ -71,7 +68,7 @@ private:
     int scrollBarHeight = 83;
     int scrollBarX = pageBounds.getX() + pageBounds.getWidth() - 5;
     int scrollBarY = pageBounds.getY() + 26;
-
+    const juce::String editPageTitle = "EDIT ";
 };
 
 class BasicEditPage : public OLEDPage

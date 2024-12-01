@@ -23,13 +23,7 @@ Pedal::Pedal(juce::AudioProcessorValueTreeState& apvts)
         throw std::runtime_error("Failed to load pedal base image.");
 
     pedalBounds.setSize(pedalBaseImage.getWidth(), pedalBaseImage.getHeight());
-    auto xmlState = pedalAPVTS.state.toXmlString();
-    DBG(xmlState);
-    updateParamsString();
     initializeComponents();
-	apvtsElemSize = pedalAPVTS.state.getNumChildren();
-	DBG(apvtsElemSize);
-
     parameterGroups["vibrato"] =
     {
         pedalAPVTS.getParameter("_Vibrato_A"),
@@ -54,7 +48,6 @@ Pedal::Pedal(juce::AudioProcessorValueTreeState& apvts)
     selectedEffect = "vibrato";
    // currentPage = pageFactory.create("BasicEditPage", selectedEffect, parameterGroups[selectedEffect]); //make first parameter enum
     currentOLEDPage = pageFactory.create("BasicEditPage", selectedEffect, parameterGroups[selectedEffect]);
-    //isEditPage = true;
 }
 
 
@@ -68,125 +61,6 @@ void Pedal::paint(juce::Graphics& g)
     g.setColour(juce::Colours::lightgrey);
     g.drawImage(pedalBaseImage, pedalBounds.toFloat());
     currentOLEDPage->paint(g);
-
-    /*if (!isEditPage)
-    {
-
-        //PREVIOUSLY USED FOR SIMPLE EDIT PAGE
-        g.drawRoundedRectangle(juce::Rectangle<float>(innerLeft, innerTop, innerWidth, innerHeight), cornerSize, 2.0f); //simple edit page
-        g.setFont(customFontLookAndFeel.getCustomFont());
-        g.setFont(18.5f);
-        juce::String text = "VIBRATO";
-        auto m = CustomFontLookAndFeel::getCustomFont().getStringWidth(text);
-        g.drawText(text, innerLeft, innerTop + 1, (innerRight - innerLeft), 20, juce::Justification::horizontallyCentred);
-        g.setFont(18.5f);
-        juce::StringArray lines;
-        lines.addLines(paramsString);
-        int lineHeight = g.getCurrentFont().getHeight();
-        for (int i = 0; i < 4; ++i)
-        {
-            juce::String line = lines[i];
-            int colonIndex = line.indexOfChar(':');
-            if (colonIndex != -1)
-            {
-                juce::String paramName = line.substring(0, colonIndex + 1);
-                juce::String paramValue = line.substring(colonIndex + 1).trim();
-
-                g.drawText(paramName, innerLeft + 6, innerTop + 22 + i * lineHeight, innerWidth, lineHeight, juce::Justification::centredLeft);
-                g.drawText(paramValue, innerRight - 35, innerTop + 22 + i * lineHeight, innerWidth, lineHeight, juce::Justification::centredLeft);
-            }
-        }
-    }
-    else
-    {
-
-        //FULL EDIT PAGE
-        int scrollBarWidth = 5;
-        int scrollBarHeight = 83;
-        int scrollBarX = outerRight - 5;
-        int scrollBarY = outerTop + 26;
-        g.setColour(juce::Colours::white);
-        g.drawRect(scrollBarX, scrollBarY, scrollBarWidth, scrollBarHeight);
-        juce::StringArray lines;
-        lines.addLines(paramsString);
-        int totalItems = lines.size() - 1;
-        int visibleItems = maxElemtoDisplay;
-
-        if (totalItems > 0 && visibleItems > 0)
-        {
-            float scrollBarRatio = static_cast<float>(visibleItems) / totalItems;
-            int whiteHeight = static_cast<int>(scrollBarHeight * scrollBarRatio);
-            int maxDisplayOffset = totalItems - visibleItems;
-            int whiteY = scrollBarY + static_cast<int>((scrollBarHeight - whiteHeight) * (static_cast<float>(displayOffset) / maxDisplayOffset));
-
-            g.setColour(juce::Colours::lightgrey);
-            g.fillRect(scrollBarX, whiteY, scrollBarWidth, whiteHeight);
-        }
-
-        g.drawLine(outerLeft, outerTop + 22, outerRight, outerTop + 22, 2.0f);
-        auto ft = customFontLookAndFeel.getCustomFont().boldened();
-        ft.setExtraKerningFactor(0.1f);
-        g.setFont(ft);
-        g.setFont(15.5f);
-        juce::String text = "EDIT ";
-        g.drawText(text, outerLeft + 2, outerTop + 2, 8, 20, juce::Justification::left);
-        g.setFont(customFontLookAndFeel.getCustomFont());
-        g.setFont(16.5f);
-        juce::String text2 = "[VIBRATO] ";
-        g.drawText(text2, outerLeft + 130, outerTop + 2, 20, 20, juce::Justification::left);
-        g.setFont(18.0f);
-        int lineHeight = g.getCurrentFont().getHeight();
-        for (int i = 0; i < maxElemtoDisplay; ++i)
-        {
-            juce::String line = lines[i + displayOffset];
-            int colonIndex = line.indexOfChar(':');
-            juce::String paramName = line.substring(0, colonIndex + 1);
-            juce::String paramValue = line.substring(colonIndex + 1).trim();
-            if (displayOffset == 0)
-            {
-                if (colonIndex != -1)
-                {
-
-                    if (currentAPVTSIndex == i)
-                    {
-                        g.setColour(juce::Colours::lightgrey);
-                        g.fillRect(outerLeft + 4, outerTop + 24 + i * lineHeight, (innerRight - 7 - innerLeft), lineHeight);
-
-                        g.setColour(juce::Colours::black);
-                        g.drawText(paramName, outerLeft + 4, outerTop + 24 + i * lineHeight, innerWidth, lineHeight, juce::Justification::centredLeft);
-                        g.drawText(paramValue, innerRight - 35, outerTop + 24 + i * lineHeight, innerWidth, lineHeight, juce::Justification::centredLeft);
-                    }
-                    else
-                    {
-                        g.setColour(juce::Colours::white);
-                        g.drawText(paramName, outerLeft + 4, outerTop + 24 + i * lineHeight, innerWidth, lineHeight, juce::Justification::centredLeft);
-                        g.drawText(paramValue, innerRight - 35, outerTop + 24 + i * lineHeight, innerWidth, lineHeight, juce::Justification::centredLeft);
-                    }
-
-                }
-            }
-            else
-            {
-                if (currentAPVTSIndex - displayOffset == i) //index - offset
-                {
-                    g.setColour(juce::Colours::lightgrey);
-                    g.fillRect(outerLeft + 4, outerTop + 24 + i * lineHeight, (innerRight - 7 - innerLeft), lineHeight);
-
-                    g.setColour(juce::Colours::black);
-                    g.drawText(paramName, outerLeft + 4, outerTop + 24 + i * lineHeight, innerWidth, lineHeight, juce::Justification::centredLeft);
-                    g.drawText(paramValue, innerRight - 35, outerTop + 24 + i * lineHeight, innerWidth, lineHeight, juce::Justification::centredLeft);
-                }
-                else
-                {
-                    g.setColour(juce::Colours::white);
-                    g.drawText(paramName, outerLeft + 4, outerTop + 24 + i * lineHeight, innerWidth, lineHeight, juce::Justification::centredLeft);
-                    g.drawText(paramValue, innerRight - 35, outerTop + 24 + i * lineHeight, innerWidth, lineHeight, juce::Justification::centredLeft);
-                }
-            }
-
-        }
-    }*/
-
 }
 
 void Pedal::resized()
@@ -231,7 +105,7 @@ void Pedal::initializeKnobs()
             { // i need to use & because it compares the addresses. If i didnt use & it would compare the object themselves
             knob = std::make_unique<Knob>(juce::ImageCache::getFromMemory(BinaryData::left_side_knob_png,
                                             BinaryData::left_side_knob_pngSize));
-            knob->setRange(0.0f, 7.0f, 1.0f);
+            knob->setRange(0.0f, 1.0f, 1.0f);
             }
         else
         {
@@ -276,47 +150,6 @@ void Pedal::resizeComponents()
     resizeButtons();
 }
 
-void Pedal::updateParamsString()
-{
-
-    paramsString.clear();
-    auto& params = pedalAPVTS.state;
-
-    // Calculate the maximum width of parameter names
-    int maxWidth = 0;
-    for (int i = 0; i < params.getNumChildren(); ++i)
-    {
-        juce::ValueTree param = params.getChild(i);
-        if (param.isValid())
-        {
-            juce::String paramID = param.getProperty("id").toString();
-            auto* parameter = pedalAPVTS.getParameter(paramID);
-            if (parameter != nullptr)
-            {
-                int width = parameter->getName(100).length();
-                if (width > maxWidth)
-                    maxWidth = width;
-            }
-        }
-    }
-
-    // Store parameter names and values
-    for (int i = 0; i < params.getNumChildren(); ++i)
-    {
-        juce::ValueTree param = params.getChild(i);
-        if (param.isValid())
-        {
-            juce::String paramID = param.getProperty("id").toString();
-            auto* parameter = pedalAPVTS.getParameter(paramID);
-            if (parameter != nullptr)
-            {
-                juce::String paramName = parameter->getName(100);
-                juce::String paramValue = parameter->getCurrentValueAsText();
-                paramsString += paramName + ": " + paramValue + "\n";
-            }
-        }
-    }
-}
 
 void Pedal::initializeButtons()
 {
@@ -352,15 +185,11 @@ void Pedal::downButtonClicked()
         {
             currentOLEDPage->set_currentAPVTSIndex( ++currentAPVTSIndex );
             if (currentAPVTSIndex < maxElemtoDisplay)
-            {
                 repaint(outerLeft, outerTop, (outerRight - outerLeft), (outerBottom - outerTop));
-            }
             else
             {
-                if (maxElemtoDisplay + displayOffset < parameterGroups[selectedEffect].size())
-                {
+                if ( maxElemtoDisplay + displayOffset < parameterGroups[selectedEffect].size() )
                    currentOLEDPage->set_displayOffset( ++displayOffset );
-                }
                 repaint(outerLeft, outerTop, (outerRight - outerLeft), (outerBottom - outerTop));
             }
         }
@@ -376,15 +205,11 @@ void Pedal::upButtonClicked()
         {
             currentOLEDPage->set_currentAPVTSIndex(--currentAPVTSIndex);
             if (currentAPVTSIndex >= displayOffset)
-            {
                 repaint(outerLeft, outerTop, (outerRight - outerLeft), (outerBottom - outerTop));
-            }
             else
             {
                 if (displayOffset > 0)
-                {
                     currentOLEDPage->set_displayOffset(--displayOffset);
-                }
                 repaint(outerLeft, outerTop, (outerRight - outerLeft), (outerBottom - outerTop));
             }
         }
@@ -411,7 +236,7 @@ void Pedal::sliderValueChanged(juce::Slider* slider)
 {
     if (knobs[0].get() == slider)
     {
-        if (!knobs[0].get()->getValue())
+        if (!knobs[0].get()->getValue() )
         {
             selectedEffect = "vibrato";
         }
