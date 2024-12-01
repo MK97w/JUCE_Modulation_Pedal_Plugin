@@ -55,6 +55,8 @@ private:
    void exitButtonClicked();
 
    void sliderValueChanged(juce::Slider* slider) override;
+   void sliderDragStarted(juce::Slider* slider) override;
+   void sliderDragEnded(juce::Slider* slider) override;
    void buttonClicked(juce::Button* button) override;
 
 

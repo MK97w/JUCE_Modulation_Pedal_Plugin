@@ -252,6 +252,47 @@ void Pedal::sliderValueChanged(juce::Slider* slider)
     repaint(outerLeft, outerTop, (outerRight - outerLeft), (outerBottom - outerTop));
 
 }
+void Pedal::sliderDragStarted(juce::Slider* slider)
+{
+    if (knobs[1].get() == slider)
+    {
+        if (!isEditPage)
+        {
+            knobs[1].get()->itsAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(pedalAPVTS, parameterGroups[selectedEffect][4]->getParameterID(), *knobs[1]);
+        }
+        else
+        {
+            knobs[1].get()->itsAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(pedalAPVTS, parameterGroups[selectedEffect][currentAPVTSIndex]->getParameterID(), *knobs[1]);
+        }
+    }
+   /* if (&sliders[1] == slider)
+    {
+        sliderAttachments[1] = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.apvts, parameterGroups[selectedEffect][0]->getParameterID(), sliders[1]);
+    }
+    if (&sliders[2] == slider)
+    {
+        sliderAttachments[2] = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.apvts, parameterGroups[selectedEffect][1]->getParameterID(), sliders[2]);
+    }
+    if (&sliders[3] == slider)
+    {
+        sliderAttachments[3] = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.apvts, parameterGroups[selectedEffect][2]->getParameterID(), sliders[3]);
+    }
+    if (&sliders[4] == slider)
+    {
+        sliderAttachments[4] = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.apvts, parameterGroups[selectedEffect][3]->getParameterID(), sliders[4]);
+    }*/
+
+}
+
+
+void Pedal::sliderDragEnded(juce::Slider* slider)
+{
+    if (knobs[1].get() == slider)
+    {
+        knobs[1].get()->itsAttachment.reset();
+    }
+}
+
 
 void Pedal::buttonClicked(juce::Button* button)
 {

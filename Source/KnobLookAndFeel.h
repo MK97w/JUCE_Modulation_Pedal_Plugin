@@ -25,4 +25,5 @@ public:
         float rotaryEndAngle,
         juce::Slider& slider);
     juce::Image img;
-};
+    std::unique_ptr < juce::AudioProcessorValueTreeState::SliderAttachment> itsAttachment;
+ };
