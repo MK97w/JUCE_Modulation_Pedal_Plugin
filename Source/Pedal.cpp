@@ -24,6 +24,7 @@ Pedal::Pedal(juce::AudioProcessorValueTreeState& apvts)
 
     pedalBounds.setSize(pedalBaseImage.getWidth(), pedalBaseImage.getHeight());
     initializeComponents();
+
     parameterGroups["vibrato"] =
     {
         pedalAPVTS.getParameter("_Vibrato_A"),
@@ -49,7 +50,6 @@ Pedal::Pedal(juce::AudioProcessorValueTreeState& apvts)
    // currentPage = pageFactory.create("BasicEditPage", selectedEffect, parameterGroups[selectedEffect]); //make first parameter enum
     currentOLEDPage = pageFactory.create("BasicEditPage", selectedEffect, parameterGroups[selectedEffect]);
 	currentAPVTSIndex = -1;
-   // currentOLEDPage->set_currentAPVTSIndex(currentAPVTSIndex);
 }
 
 
@@ -114,7 +114,6 @@ void Pedal::initializeKnobs()
         {
             knob = std::make_unique<Knob>(juce::ImageCache::getFromMemory(BinaryData::right_side_knob_png,
                 BinaryData::right_side_knob_pngSize));
-            knob->setRange(0.0f, 100.0f, 1.0f);
         }
             
         
@@ -197,7 +196,6 @@ void Pedal::downButtonClicked()
             }
         }
     }
-
 }
 
 void Pedal::upButtonClicked() 
@@ -272,69 +270,36 @@ void Pedal::sliderValueChanged(juce::Slider* slider)
 }
 void Pedal::sliderDragStarted(juce::Slider* slider)
 {
-    if (knobs[1].get() == slider)
+	auto* knob = dynamic_cast<Knob*>(slider);
+
+    if (1 == knob->getIndex() )
     {
-        if (!isEditPage)
-        {
-            knobs[1].get()->itsAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(pedalAPVTS, parameterGroups[selectedEffect][4]->getParameterID(), *knobs[1]);
-        }
+        if( isEditPage )
+            knob->itsAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(pedalAPVTS,
+                parameterGroups[selectedEffect][currentAPVTSIndex]->getParameterID(), *knob);
         else
-        {
-            knobs[1].get()->itsAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(pedalAPVTS, parameterGroups[selectedEffect][currentAPVTSIndex]->getParameterID(), *knobs[1]);
-        }
+            knob->itsAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(pedalAPVTS,
+                parameterGroups[selectedEffect][4]->getParameterID(), *knob);
     }
-    if (knobs[2].get() == slider)
+    else if( 0 == knob->getIndex() )
+		return;
+    else
     {
-        knobs[2].get()->itsAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(pedalAPVTS, parameterGroups[selectedEffect][0]->getParameterID(), *knobs[2]);
-        if (!isEditPage)
-            currentAPVTSIndex = 0;
+        auto apvtsIndex = knob->getIndex() - 2;
+		knob->itsAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(pedalAPVTS,
+		    parameterGroups[selectedEffect][apvtsIndex]->getParameterID(), *knob);
+        
+		if ( !isEditPage )
+			currentAPVTSIndex = apvtsIndex;
     }
-    if (knobs[3].get() == slider)
-    {
-        knobs[3].get()->itsAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(pedalAPVTS, parameterGroups[selectedEffect][1]->getParameterID(), *knobs[3]);
-        if (!isEditPage)
-            currentAPVTSIndex = 1;
-    }
-    if (knobs[4].get() == slider)
-    {
-        knobs[4].get()->itsAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(pedalAPVTS, parameterGroups[selectedEffect][2]->getParameterID(), *knobs[4]);
-        if (!isEditPage)
-            currentAPVTSIndex = 2;
-    }
-    if (knobs[5].get() == slider)
-    {
-        knobs[5].get()->itsAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(pedalAPVTS, parameterGroups[selectedEffect][3]->getParameterID(), *knobs[5]);
-        if (!isEditPage)
-            currentAPVTSIndex = 3;
-    }
-    DBG(currentAPVTSIndex);
     repaint(outerLeft, outerTop, (outerRight - outerLeft), (outerBottom - outerTop));
 }
+ 
 
 
 void Pedal::sliderDragEnded(juce::Slider* slider)
 {
-    if (knobs[1].get() == slider)
-    {
-        knobs[1].get()->itsAttachment.reset();
-    }
-    if (knobs[2].get() == slider)
-    {
-        knobs[2].get()->itsAttachment.reset();
-    }
-    if (knobs[3].get() == slider)
-    {
-        knobs[3].get()->itsAttachment.reset();
-    }
-    if (knobs[4].get() == slider)
-    {
-        knobs[4].get()->itsAttachment.reset();
-    }
-    if (knobs[5].get() == slider)
-    {
-        knobs[5].get()->itsAttachment.reset();
-    }
-    DBG(currentAPVTSIndex);
+    dynamic_cast<Knob*>(slider)->detachFromAPVTS();
 }
 
 

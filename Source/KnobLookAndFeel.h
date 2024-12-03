@@ -24,6 +24,14 @@ public:
         float rotaryStartAngle,
         float rotaryEndAngle,
         juce::Slider& slider);
+
+    void detachFromAPVTS();
+	
+    static inline int elementCount{0};
+    int getIndex() { return index; };
     juce::Image img;
     std::unique_ptr < juce::AudioProcessorValueTreeState::SliderAttachment> itsAttachment;
+
+private:
+	int index;
  };
