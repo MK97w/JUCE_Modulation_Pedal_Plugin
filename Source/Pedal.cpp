@@ -50,6 +50,7 @@ Pedal::Pedal(juce::AudioProcessorValueTreeState& apvts)
    // currentPage = pageFactory.create("BasicEditPage", selectedEffect, parameterGroups[selectedEffect]); //make first parameter enum
     currentOLEDPage = pageFactory.create("BasicEditPage", selectedEffect, parameterGroups[selectedEffect]);
 	currentAPVTSIndex = -1;
+    traverseAPVTSNodes();
 }
 
 
@@ -272,7 +273,7 @@ void Pedal::sliderDragStarted(juce::Slider* slider)
 {
 	auto* knob = dynamic_cast<Knob*>(slider);
 
-    if (1 == knob->getIndex() )
+    if ( 1 == knob->getIndex() )
     {
         if( isEditPage )
             knob->itsAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(pedalAPVTS,
@@ -306,4 +307,29 @@ void Pedal::sliderDragEnded(juce::Slider* slider)
 void Pedal::buttonClicked(juce::Button* button)
 {
 
+}
+
+void Pedal::traverseAPVTSNodes()
+{
+    auto root = pedalAPVTS.state; // Get the root ValueTree
+
+    std::function<void(const juce::ValueTree&, int)> traverse = [&](const juce::ValueTree& tree, int depth)
+        {
+            // Print the current node's type and properties
+            DBG(std::string(depth * 2, ' ') << "Node: " << tree.getType().toString());
+            for (int i = 0; i < tree.getNumProperties(); ++i)
+            {
+                auto propertyName = tree.getPropertyName(i).toString();
+                auto propertyValue = tree.getProperty(tree.getPropertyName(i)).toString();
+                DBG(std::string(depth * 2 + 2, ' ') << propertyName << ": " << propertyValue);
+            }
+
+            // Recursively traverse the children
+            for (int i = 0; i < tree.getNumChildren(); ++i)
+            {
+                traverse(tree.getChild(i), depth + 1);
+            }
+        };
+
+    traverse(root, 0);
 }

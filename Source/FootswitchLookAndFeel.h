@@ -16,6 +16,7 @@ class FootswitchButton :public juce::ImageButton, public juce::ChangeBroadcaster
 {
 public:
     FootswitchButton(juce::Image idleImage, juce::Image pressedImage);
+    ~FootswitchButton() { setLookAndFeel(nullptr); };
    void mouseDown(const juce::MouseEvent& event) override;
    void mouseUp(const juce::MouseEvent& event) override;
    void redraw();

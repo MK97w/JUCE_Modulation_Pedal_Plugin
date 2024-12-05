@@ -42,7 +42,7 @@ protected:
 
 public:
     OLEDPage(juce::String pagetitle, apvtsInfo& info) : apvts(info), customFont(getCustomFont()), pageBounds(285, 89, 472 - 285, 200 - 89), pageTitle(pagetitle) {};
-    virtual ~OLEDPage() = default;
+    virtual ~OLEDPage() { setLookAndFeel(nullptr); };
 
     void setFontSize(float newSize) { customFont.setHeight(newSize); }
     void setFontBold(bool shouldBeBold) { customFont.setBold(shouldBeBold); }
@@ -59,6 +59,7 @@ class EditPage : public OLEDPage
 {
 public:
     EditPage(juce::String pagetitle,apvtsInfo&);
+    ~EditPage() { setLookAndFeel(nullptr); };
     void paint(juce::Graphics& g) override;
    
 
@@ -75,6 +76,7 @@ class BasicEditPage : public OLEDPage
 {
 public:
     BasicEditPage(juce::String pagetitle , apvtsInfo&);
+	~BasicEditPage() { setLookAndFeel(nullptr); };
     void paint(juce::Graphics& g) override;
 private:  
     //adding these to the base class would be better

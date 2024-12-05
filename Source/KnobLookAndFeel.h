@@ -25,6 +25,7 @@ public:
         float rotaryEndAngle,
         juce::Slider& slider);
 
+    ~Knob() { setLookAndFeel(nullptr); };
     void detachFromAPVTS();
 	
     static inline int elementCount{0};

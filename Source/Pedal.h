@@ -53,6 +53,8 @@ private:
    void upButtonClicked();
    void editButtonClicked();
    void exitButtonClicked();
+   void traverseAPVTSNodes();
+
 
    void sliderValueChanged(juce::Slider* slider) override;
    void sliderDragStarted(juce::Slider* slider) override;
