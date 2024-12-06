@@ -27,6 +27,7 @@ public:
    void resized() override;
    juce::Rectangle<int> getBounds() { return pedalBounds; };
 
+   std::unordered_map<juce::String, std::vector<juce::RangedAudioParameter*>> parameterGroups;
 
 
 private:
@@ -40,8 +41,7 @@ private:
    std::array<std::unique_ptr<Knob>, 6> knobs;
    juce::TextButton upButton, downButton, editButton, exitButton;
    juce::AudioProcessorValueTreeState& pedalAPVTS;
-   std::unordered_map<std::string, std::vector<juce::RangedAudioParameter*>> parameterGroups;
-   
+ 
 
 
    std::unordered_map<int, std::string> effects;
@@ -60,6 +60,7 @@ private:
    void editButtonClicked();
    void exitButtonClicked();
    void traverseAPVTSNodes();
+   void initializeParameterGroups();
 
 
    void sliderValueChanged(juce::Slider* slider) override;

@@ -24,8 +24,8 @@ Pedal::Pedal(juce::AudioProcessorValueTreeState& apvts)
 
     pedalBounds.setSize(pedalBaseImage.getWidth(), pedalBaseImage.getHeight());
     initializeComponents();
-
-    parameterGroups["vibrato"] =
+    initializeParameterGroups();
+ /*   parameterGroups["vibrato"] =
     {
         pedalAPVTS.getParameter("_Vibrato_A"),
         pedalAPVTS.getParameter("_Vibrato_B"),
@@ -46,7 +46,7 @@ Pedal::Pedal(juce::AudioProcessorValueTreeState& apvts)
         pedalAPVTS.getParameter("Flanger_F"),
         pedalAPVTS.getParameter("Flanger_G"),
     };
-
+    */
 
 	effects = { {0,"vibrato"}, {1,"flanger"} }; //didnt like this approach but i will keep it for now
     selectedEffect = effects[0];
@@ -327,4 +327,37 @@ void Pedal::traverseAPVTSNodes()
         };
 
     traverse(root, 0);
+}
+
+void Pedal::initializeParameterGroups()
+{
+    for (auto& param : pedalAPVTS.state)
+    {
+        // Retrieve the parameter ID and name
+        auto paramID = param.getProperty("id").toString();
+        auto paramName = param.getProperty("name").toString();
+
+        // Extract group name from the parameter ID or name
+        // Example: "_Vibrato_A" -> "vibrato"
+        juce::String groupName = paramID.contains("_")
+            ? paramID.fromFirstOccurrenceOf("_", false, false).upToFirstOccurrenceOf("_", false, false)
+            : paramID.upToFirstOccurrenceOf("_", false, false);
+
+        groupName = groupName.toLowerCase(); // Normalize group name, e.g., "Vibrato" -> "vibrato"
+
+        // Ensure group exists
+        if (parameterGroups.find(groupName) == parameterGroups.end())
+        {
+            parameterGroups[groupName] = {};
+        }
+
+        // Add parameter to the group
+        if (auto* parameter = pedalAPVTS.getParameter(paramID))
+        {
+            if (auto* rangedParameter = dynamic_cast<juce::RangedAudioParameter*>(parameter))
+            {
+                parameterGroups[groupName].push_back(rangedParameter);
+            }
+        }
+    }
 }
