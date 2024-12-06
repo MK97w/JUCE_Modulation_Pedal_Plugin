@@ -70,7 +70,7 @@ EditPage::EditPage(juce::String pagetitle, apvtsInfo& info) : OLEDPage(pagetitle
 {
 }
 
-void EditPage::paint(juce::Graphics& g) //add : to names
+void EditPage::paint(juce::Graphics& g) 
 {
 
     g.setColour(juce::Colours::white);
@@ -114,13 +114,13 @@ void EditPage::paint(juce::Graphics& g) //add : to names
                     g.fillRect(pageBounds.getX() + 4, pageBounds.getY() + 24 + i * lineHeight, (pageBounds.getWidth() - 15), lineHeight);
 
                     g.setColour(juce::Colours::black);
-                    g.drawText(paramName, pageBounds.getX() + 4, pageBounds.getY() + 24 + i * lineHeight, pageBounds.getWidth() - 4, lineHeight, juce::Justification::centredLeft);
+                    g.drawText(paramName +": ", pageBounds.getX() + 4, pageBounds.getY() + 24 + i * lineHeight, pageBounds.getWidth() - 4, lineHeight, juce::Justification::centredLeft);
                     g.drawText(paramValue, pageBounds.getRight() - 39, pageBounds.getY() + 24 + i * lineHeight, pageBounds.getWidth() - 4, lineHeight, juce::Justification::centredLeft);
                 }
                 else
                 {
                     g.setColour(juce::Colours::white);
-                    g.drawText(paramName, pageBounds.getX() + 4, pageBounds.getY() + 24 + i * lineHeight, pageBounds.getWidth() -4 , lineHeight, juce::Justification::centredLeft);
+                    g.drawText(paramName + ": ", pageBounds.getX() + 4, pageBounds.getY() + 24 + i * lineHeight, pageBounds.getWidth() -4 , lineHeight, juce::Justification::centredLeft);
                     g.drawText(paramValue, pageBounds.getRight() - 39, pageBounds.getY() + 24 + i * lineHeight, pageBounds.getWidth() -4 , lineHeight, juce::Justification::centredLeft);
                 }
         }
@@ -132,13 +132,13 @@ void EditPage::paint(juce::Graphics& g) //add : to names
                 g.fillRect(pageBounds.getX() + 4, pageBounds.getY() + 24 + i * lineHeight, (pageBounds.getWidth() - 11), lineHeight);
 
                 g.setColour(juce::Colours::black);
-                g.drawText(paramName, pageBounds.getX() + 4, pageBounds.getY() + 24 + i * lineHeight, pageBounds.getWidth() -4, lineHeight, juce::Justification::centredLeft);
+                g.drawText(paramName + ": ", pageBounds.getX() + 4, pageBounds.getY() + 24 + i * lineHeight, pageBounds.getWidth() -4, lineHeight, juce::Justification::centredLeft);
                 g.drawText(paramValue, pageBounds.getRight() - 39, pageBounds.getY() + 24 + i * lineHeight, pageBounds.getWidth() -4, lineHeight, juce::Justification::centredLeft); 
             }
             else
             {
                 g.setColour(juce::Colours::white);
-                g.drawText(paramName, pageBounds.getX() + 4, pageBounds.getY() + 24 + i * lineHeight, pageBounds.getWidth() -4 , lineHeight, juce::Justification::centredLeft);
+                g.drawText(paramName + ": ", pageBounds.getX() + 4, pageBounds.getY() + 24 + i * lineHeight, pageBounds.getWidth() -4 , lineHeight, juce::Justification::centredLeft);
                 g.drawText(paramValue, pageBounds.getRight() - 39, pageBounds.getY() + 24 + i * lineHeight, pageBounds.getWidth() -4, lineHeight, juce::Justification::centredLeft);
             }
         }

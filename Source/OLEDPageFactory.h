@@ -16,6 +16,6 @@
 class PageFactory : public juce::Component
 {
 public:
-    static std::unique_ptr<OLEDPage> create(const juce::String& type, const juce::String& title, apvtsInfo& info);
+    static std::unique_ptr<OLEDPage> create(pageType, const juce::String& title, apvtsInfo& info);
 };
    

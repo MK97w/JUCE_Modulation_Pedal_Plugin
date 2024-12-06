@@ -10,13 +10,13 @@
 
 #include "OLEDPageFactory.h"
 
-std::unique_ptr<OLEDPage> PageFactory::create(const juce::String& type, const juce::String& title, apvtsInfo& info)
+std::unique_ptr<OLEDPage> PageFactory::create(pageType type, const juce::String& title, apvtsInfo& info)
 {
-	if (type == "BasicEditPage")
+	if (type == pageType::BASIC_EDIT)
 	{
 		return std::make_unique<BasicEditPage>(title, info);
 	}
-	else if (type == "EditPage")
+	else if (type == pageType::FULL_EDIT)
 	{
 		return std::make_unique<EditPage>(title,info);
 	}

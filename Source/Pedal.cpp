@@ -46,9 +46,12 @@ Pedal::Pedal(juce::AudioProcessorValueTreeState& apvts)
         pedalAPVTS.getParameter("Flanger_F"),
         pedalAPVTS.getParameter("Flanger_G"),
     };
-    selectedEffect = "vibrato";
-   // currentPage = pageFactory.create("BasicEditPage", selectedEffect, parameterGroups[selectedEffect]); //make first parameter enum
-    currentOLEDPage = pageFactory.create("BasicEditPage", selectedEffect, parameterGroups[selectedEffect]);
+
+
+	effects = { {0,"vibrato"}, {1,"flanger"} }; //didnt like this approach but i will keep it for now
+    selectedEffect = effects[0];
+	selectedPage = pageType::BASIC_EDIT;
+    currentOLEDPage = pageFactory.create(selectedPage, selectedEffect, parameterGroups[selectedEffect]);
 	currentAPVTSIndex = -1;
     traverseAPVTSNodes();
 }
@@ -182,7 +185,7 @@ void Pedal::resizeButtons()
 
 void Pedal::downButtonClicked()
 {
-    if (isEditPage)
+    if (selectedPage == pageType::FULL_EDIT)
     {
         if ( currentAPVTSIndex < parameterGroups[selectedEffect].size() - 1 )
         {
@@ -201,7 +204,7 @@ void Pedal::downButtonClicked()
 
 void Pedal::upButtonClicked() 
 {
-    if (isEditPage)
+    if (selectedPage == pageType::FULL_EDIT)
     {
         if (currentAPVTSIndex > 0)
         {
@@ -220,12 +223,12 @@ void Pedal::upButtonClicked()
 }
 void Pedal::editButtonClicked()
 {
-    if (!isEditPage)
+    if (selectedPage != pageType::FULL_EDIT)
     {
-       isEditPage = true;
+	   selectedPage = pageType::FULL_EDIT;
        displayOffset = 0;
        currentAPVTSIndex = 0;
-       currentOLEDPage = pageFactory.create("EditPage", selectedEffect, parameterGroups[selectedEffect]);
+       currentOLEDPage = pageFactory.create(selectedPage, selectedEffect, parameterGroups[selectedEffect]);
        repaint(outerLeft, outerTop, (outerRight - outerLeft), (outerBottom - outerTop));
     }
 
@@ -233,10 +236,10 @@ void Pedal::editButtonClicked()
 }
 void Pedal::exitButtonClicked()
 {
-	isEditPage = false; 
+    selectedPage = pageType::BASIC_EDIT;
 	displayOffset = 0;
 	currentAPVTSIndex = -1;
-    currentOLEDPage = pageFactory.create("BasicEditPage", selectedEffect, parameterGroups[selectedEffect]);
+    currentOLEDPage = pageFactory.create(selectedPage, selectedEffect, parameterGroups[selectedEffect]);
     repaint(outerLeft, outerTop, (outerRight - outerLeft), (outerBottom - outerTop));
 }
 
@@ -244,26 +247,18 @@ void Pedal::sliderValueChanged(juce::Slider* slider)
 {
     if (knobs[0].get() == slider)
     {
-        if (!knobs[0].get()->getValue())
-        {
-            selectedEffect = "vibrato";
-        }
-        else
-        {
-            selectedEffect = "flanger";
-        }
-
-        if (isEditPage)
+		selectedEffect = effects[static_cast<int>(knobs[0].get()->getValue())];
+        if (selectedPage == pageType::FULL_EDIT)
         {
             currentAPVTSIndex = 0;
             currentOLEDPage.get()->set_currentAPVTSIndex(currentAPVTSIndex);
-            currentOLEDPage = pageFactory.create("EditPage", selectedEffect, parameterGroups[selectedEffect]);
+            currentOLEDPage = pageFactory.create(selectedPage, selectedEffect, parameterGroups[selectedEffect]);
         }
         else
         {
             currentAPVTSIndex = -1;
             currentOLEDPage.get()->set_currentAPVTSIndex(currentAPVTSIndex);
-            currentOLEDPage = pageFactory.create("BasicEditPage", selectedEffect, parameterGroups[selectedEffect]);
+            currentOLEDPage = pageFactory.create(selectedPage, selectedEffect, parameterGroups[selectedEffect]);
         }
         displayOffset = 0;
     }
@@ -275,7 +270,7 @@ void Pedal::sliderDragStarted(juce::Slider* slider)
 
     if ( 1 == knob->getIndex() )
     {
-        if( isEditPage )
+        if(selectedPage == pageType::FULL_EDIT)
             knob->itsAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(pedalAPVTS,
                 parameterGroups[selectedEffect][currentAPVTSIndex]->getParameterID(), *knob);
         else
@@ -290,7 +285,7 @@ void Pedal::sliderDragStarted(juce::Slider* slider)
 		knob->itsAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(pedalAPVTS,
 		    parameterGroups[selectedEffect][apvtsIndex]->getParameterID(), *knob);
         
-		if ( !isEditPage )
+		if (selectedPage != pageType::FULL_EDIT)
 			currentAPVTSIndex = apvtsIndex;
     }
     repaint(outerLeft, outerTop, (outerRight - outerLeft), (outerBottom - outerTop));

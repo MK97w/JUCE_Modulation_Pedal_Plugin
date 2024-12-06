@@ -15,6 +15,8 @@
 #include "FootswitchLookAndFeel.h" 
 #include "OLEDPageFactory.h" 
 
+#include "layout.h"
+
 
 class Pedal : public juce::Component, public juce::Button::Listener, public juce::Slider::Listener
 {
@@ -39,8 +41,12 @@ private:
    juce::TextButton upButton, downButton, editButton, exitButton;
    juce::AudioProcessorValueTreeState& pedalAPVTS;
    std::unordered_map<std::string, std::vector<juce::RangedAudioParameter*>> parameterGroups;
-   juce::String paramsString;
-  
+   
+
+
+   std::unordered_map<int, std::string> effects;
+
+
    void initializeFootswitches();
    void initializeKnobs();
    void initializeComponents();
@@ -81,6 +87,10 @@ private:
    float cornerSize = 5.0f;
 
    std::string selectedEffect;
+
+
+   pageType selectedPage;
+
 
 };
 

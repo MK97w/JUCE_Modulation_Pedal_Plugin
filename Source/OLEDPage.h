@@ -11,6 +11,7 @@
 #pragma once
 
 #include <JuceHeader.h>
+#include "layout.h"
 
 using apvtsInfo = std::vector<juce::RangedAudioParameter*> ;
 
@@ -32,7 +33,7 @@ protected:
         return juce::Font(typeface);
     }
 
-    juce::Typeface::Ptr getTypefaceForFont(const juce::Font& f) override
+	juce::Typeface::Ptr getTypefaceForFont(const juce::Font& f) override //this is wont working probably in my juce version
     {
         return getCustomFont().getTypefacePtr();
     }
@@ -41,9 +42,11 @@ protected:
     void setPageTitle(const juce::String& newTitle) { pageTitle = newTitle; }
 
 public:
-    OLEDPage(juce::String pagetitle, apvtsInfo& info) : apvts(info), customFont(getCustomFont()), pageBounds(285, 89, 472 - 285, 200 - 89), pageTitle(pagetitle) {};
+    OLEDPage(juce::String pagetitle, apvtsInfo& info) : apvts(info), customFont(getCustomFont()),
+                                                        pageBounds(285, 89, 472 - 285, 200 - 89), pageTitle(pagetitle)
+    {};
+    
     virtual ~OLEDPage() { setLookAndFeel(nullptr); };
-
     void setFontSize(float newSize) { customFont.setHeight(newSize); }
     void setFontBold(bool shouldBeBold) { customFont.setBold(shouldBeBold); }
     void setFontItalic(bool shouldBeItalic) { customFont.setItalic(shouldBeItalic); }
@@ -91,6 +94,7 @@ private:
 
 class PresetPage : public OLEDPage
 {
+	//will be implemented later :) will contain the rate information
 };
 
 
