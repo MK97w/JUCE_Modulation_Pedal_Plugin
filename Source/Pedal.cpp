@@ -331,6 +331,8 @@ void Pedal::traverseAPVTSNodes()
 
 void Pedal::initializeParameterGroups()
 {
+    std::vector<std::pair<juce::String, std::vector<juce::RangedAudioParameter*>>> sortedGroups;
+    std::vector<std::pair<juce::String, std::vector<std::pair<char, juce::RangedAudioParameter*>>>> sortedGroups2;
     for (auto& param : pedalAPVTS.state)
     {
         // Retrieve the parameter ID and name
@@ -339,7 +341,7 @@ void Pedal::initializeParameterGroups()
 
         // Extract group name from the parameter ID or name
         // Example: "_Vibrato_A" -> "vibrato"
-        juce::String groupName = paramID.contains("_")
+        juce::String groupName = paramID.startsWith("_")
             ? paramID.fromFirstOccurrenceOf("_", false, false).upToFirstOccurrenceOf("_", false, false)
             : paramID.upToFirstOccurrenceOf("_", false, false);
 
@@ -354,10 +356,58 @@ void Pedal::initializeParameterGroups()
         // Add parameter to the group
         if (auto* parameter = pedalAPVTS.getParameter(paramID))
         {
+
             if (auto* rangedParameter = dynamic_cast<juce::RangedAudioParameter*>(parameter))
             {
-                parameterGroups[groupName].push_back(rangedParameter);
+   
+                DBG(groupName);
+                DBG(rangedParameter->getParameterID());
+                DBG(rangedParameter->getParameterID().getLastCharacter());
+                //parameterGroups[groupName].push_back(rangedParameter);
             }
         }
+    }
+    std::sort(sortedGroups.begin(), sortedGroups.end(),
+        [](const auto& a, const auto& b) {
+            if (a.second.empty() || b.second.empty())
+                return a.second.size() < b.second.size(); // Handle empty groups gracefully
+            return a.second.back()->getParameterID() < b.second.back()->getParameterID();
+        });
+    for (const auto& group : sortedGroups)
+    {
+        parameterGroups[group.first] = group.second;
+    }
+    //sortParameterGroupsByLastElement();
+
+    for (const auto& group : parameterGroups)
+    {
+        DBG("Group: " << group.first);
+        for (const auto& param : group.second)
+        {
+            DBG("  Parameter ID: " << param->getParameterID());
+            DBG("  Parameter Name: " << param->getName(100));
+        }
+    }
+}
+
+void Pedal::sortParameterGroupsByLastElement()
+{
+    // Copy the map into a vector of pairs
+    std::vector<std::pair<juce::String, std::vector<juce::RangedAudioParameter*>>> sortedGroups(
+        parameterGroups.begin(), parameterGroups.end());
+
+    // Sort by the last element of the group (pair.second)
+    std::sort(sortedGroups.begin(), sortedGroups.end(),
+        [](const auto& a, const auto& b) {
+            if (a.second.empty() || b.second.empty())
+                return a.second.size() < b.second.size(); // Handle empty groups gracefully
+            return a.second.back()->getParameterID() < b.second.back()->getParameterID();
+        });
+
+    // Clear and reconstruct the map in sorted order
+    parameterGroups.clear();
+    for (const auto& group : sortedGroups)
+    {
+        parameterGroups[group.first] = group.second;
     }
 }

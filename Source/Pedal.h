@@ -61,7 +61,7 @@ private:
    void exitButtonClicked();
    void traverseAPVTSNodes();
    void initializeParameterGroups();
-
+   void sortParameterGroupsByLastElement();
 
    void sliderValueChanged(juce::Slider* slider) override;
    void sliderDragStarted(juce::Slider* slider) override;
