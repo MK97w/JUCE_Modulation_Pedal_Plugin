@@ -18,7 +18,7 @@
 #include "layout.h"
 
 
-class Pedal : public juce::Component, public juce::Button::Listener, public juce::Slider::Listener
+class Pedal : public juce::Component, /*public juce::Button::Listener,*/ public juce::Slider::Listener
 {
 public:
    Pedal(juce::AudioProcessorValueTreeState& apvts);
@@ -37,13 +37,10 @@ private:
 
    juce::Image pedalBaseImage;
    juce::Rectangle<int> pedalBounds; 
-   std::array<std::unique_ptr<FootswitchButton>, 3> footswitches; // this looks fine but maybe i should find a way to give them a name or individulize them
+   std::array<std::unique_ptr<FootswitchButton>, 3> footswitches; // this looks fine but maybe i should find a way to give them a name or individualize them
    std::array<std::unique_ptr<Knob>, 6> knobs;
    juce::TextButton upButton, downButton, editButton, exitButton;
    juce::AudioProcessorValueTreeState& pedalAPVTS;
- 
-
-
    std::unordered_map<int, std::string> effects;
 
 
@@ -59,21 +56,17 @@ private:
    void upButtonClicked();
    void editButtonClicked();
    void exitButtonClicked();
-   void traverseAPVTSNodes();
    void initializeParameterGroups();
-   void sortParameterGroupsByLastElement();
+
 
    void sliderValueChanged(juce::Slider* slider) override;
    void sliderDragStarted(juce::Slider* slider) override;
    void sliderDragEnded(juce::Slider* slider) override;
-   void buttonClicked(juce::Button* button) override;
 
 
-   int apvtsElemSize = 0;
    int currentAPVTSIndex = 0;
-   int maxElemtoDisplay = 5;
    int displayOffset = 0;
-   bool isEditPage = false;
+
 
 
 

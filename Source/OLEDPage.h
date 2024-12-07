@@ -25,6 +25,7 @@ protected:
     std::vector<juce::RangedAudioParameter*> apvts;
     int currentAPVTSIndex = 0;
     int displayOffset = 0;
+    int maxElemtoDisplay = 5;
 
 
     static const juce::Font getCustomFont()
@@ -53,7 +54,7 @@ public:
     void setFontTypeface(const juce::String& typefaceName) { customFont.setTypefaceName(typefaceName); }
     void set_currentAPVTSIndex(int index) { currentAPVTSIndex = index; };
     void set_displayOffset(int offset) { displayOffset = offset; };
-
+    int getMaximumElementsToDisplay() { return maxElemtoDisplay; };
     virtual void paint(juce::Graphics& g) = 0;
 };
 
@@ -65,9 +66,10 @@ public:
     ~EditPage() { setLookAndFeel(nullptr); };
     void paint(juce::Graphics& g) override;
    
+   
 
 private:
-    int maxElemtoDisplay = 5;
+
     int scrollBarWidth = 5;
     int scrollBarHeight = 83;
     int scrollBarX = pageBounds.getX() + pageBounds.getWidth() - 5;

@@ -25,35 +25,12 @@ Pedal::Pedal(juce::AudioProcessorValueTreeState& apvts)
     pedalBounds.setSize(pedalBaseImage.getWidth(), pedalBaseImage.getHeight());
     initializeComponents();
     initializeParameterGroups();
- /*   parameterGroups["vibrato"] =
-    {
-        pedalAPVTS.getParameter("_Vibrato_A"),
-        pedalAPVTS.getParameter("_Vibrato_B"),
-        pedalAPVTS.getParameter("_Vibrato_C"),
-        pedalAPVTS.getParameter("_Vibrato_D"),
-        pedalAPVTS.getParameter("Vibrato_E"),
-        pedalAPVTS.getParameter("Vibrato_F"),
-        pedalAPVTS.getParameter("Vibrato_G"),
-    };
-
-    parameterGroups["flanger"] =
-    {
-        pedalAPVTS.getParameter("_Flanger_A"),
-        pedalAPVTS.getParameter("_Flanger_B"),
-        pedalAPVTS.getParameter("_Flanger_C"),
-        pedalAPVTS.getParameter("_Flanger_D"),
-        pedalAPVTS.getParameter("Flanger_E"),
-        pedalAPVTS.getParameter("Flanger_F"),
-        pedalAPVTS.getParameter("Flanger_G"),
-    };
-    */
 
 	effects = { {0,"vibrato"}, {1,"flanger"} }; //didnt like this approach but i will keep it for now
     selectedEffect = effects[0];
 	selectedPage = pageType::BASIC_EDIT;
     currentOLEDPage = pageFactory.create(selectedPage, selectedEffect, parameterGroups[selectedEffect]);
 	currentAPVTSIndex = -1;
-    traverseAPVTSNodes();
 }
 
 
@@ -190,11 +167,11 @@ void Pedal::downButtonClicked()
         if ( currentAPVTSIndex < parameterGroups[selectedEffect].size() - 1 )
         {
             currentOLEDPage->set_currentAPVTSIndex( ++currentAPVTSIndex );
-            if (currentAPVTSIndex < maxElemtoDisplay)
+            if (currentAPVTSIndex < currentOLEDPage->getMaximumElementsToDisplay() )
                 repaint(outerLeft, outerTop, (outerRight - outerLeft), (outerBottom - outerTop));
             else
             {
-                if ( maxElemtoDisplay + displayOffset < parameterGroups[selectedEffect].size() )
+                if ( currentOLEDPage->getMaximumElementsToDisplay() + displayOffset < parameterGroups[selectedEffect].size() )
                    currentOLEDPage->set_displayOffset( ++displayOffset );
                 repaint(outerLeft, outerTop, (outerRight - outerLeft), (outerBottom - outerTop));
             }
@@ -208,7 +185,7 @@ void Pedal::upButtonClicked()
     {
         if (currentAPVTSIndex > 0)
         {
-            currentOLEDPage->set_currentAPVTSIndex(--currentAPVTSIndex);
+            currentOLEDPage->set_currentAPVTSIndex( --currentAPVTSIndex );
             if (currentAPVTSIndex >= displayOffset)
                 repaint(outerLeft, outerTop, (outerRight - outerLeft), (outerBottom - outerTop));
             else
@@ -298,36 +275,6 @@ void Pedal::sliderDragEnded(juce::Slider* slider)
     dynamic_cast<Knob*>(slider)->detachFromAPVTS();
 }
 
-
-void Pedal::buttonClicked(juce::Button* button)
-{
-
-}
-
-void Pedal::traverseAPVTSNodes()
-{
-    auto root = pedalAPVTS.state; // Get the root ValueTree
-
-    std::function<void(const juce::ValueTree&, int)> traverse = [&](const juce::ValueTree& tree, int depth)
-        {
-            // Print the current node's type and properties
-            DBG(std::string(depth * 2, ' ') << "Node: " << tree.getType().toString());
-            for (int i = 0; i < tree.getNumProperties(); ++i)
-            {
-                auto propertyName = tree.getPropertyName(i).toString();
-                auto propertyValue = tree.getProperty(tree.getPropertyName(i)).toString();
-                DBG(std::string(depth * 2 + 2, ' ') << propertyName << ": " << propertyValue);
-            }
-
-            // Recursively traverse the children
-            for (int i = 0; i < tree.getNumChildren(); ++i)
-            {
-                traverse(tree.getChild(i), depth + 1);
-            }
-        };
-
-    traverse(root, 0);
-}
 
 void Pedal::initializeParameterGroups()
 {
