@@ -331,8 +331,7 @@ void Pedal::traverseAPVTSNodes()
 
 void Pedal::initializeParameterGroups()
 {
-    std::vector<std::pair<juce::String, std::vector<juce::RangedAudioParameter*>>> sortedGroups;
-    std::vector<std::pair<juce::String, std::vector<std::pair<char, juce::RangedAudioParameter*>>>> sortedGroups2;
+    std::vector<std::pair<juce::String, std::map<juce::juce_wchar, juce::RangedAudioParameter*, std::less<juce::juce_wchar>>>> sortedGroups2;
     for (auto& param : pedalAPVTS.state)
     {
         // Retrieve the parameter ID and name
@@ -356,58 +355,43 @@ void Pedal::initializeParameterGroups()
         // Add parameter to the group
         if (auto* parameter = pedalAPVTS.getParameter(paramID))
         {
-
             if (auto* rangedParameter = dynamic_cast<juce::RangedAudioParameter*>(parameter))
             {
-   
+                // Find or create the group in sortedGroups2
+                auto it = std::find_if(sortedGroups2.begin(), sortedGroups2.end(),
+                    [&groupName](const auto& pair) { return pair.first == groupName; });
+
+                if (it == sortedGroups2.end())
+                {
+                    // Create a new group if it doesn't exist
+                    std::map<juce::juce_wchar, juce::RangedAudioParameter*, std::less<juce::juce_wchar>> newGroup;
+                    newGroup[rangedParameter->getParameterID().getLastCharacter()] = rangedParameter;
+                    sortedGroups2.push_back(std::make_pair(groupName, newGroup));
+                }
+                else
+                {
+                    // Add to the existing group
+                    it->second[rangedParameter->getParameterID().getLastCharacter()] = rangedParameter;
+                }
+
                 DBG(groupName);
                 DBG(rangedParameter->getParameterID());
                 DBG(rangedParameter->getParameterID().getLastCharacter());
-                //parameterGroups[groupName].push_back(rangedParameter);
             }
         }
     }
-    std::sort(sortedGroups.begin(), sortedGroups.end(),
-        [](const auto& a, const auto& b) {
-            if (a.second.empty() || b.second.empty())
-                return a.second.size() < b.second.size(); // Handle empty groups gracefully
-            return a.second.back()->getParameterID() < b.second.back()->getParameterID();
-        });
-    for (const auto& group : sortedGroups)
-    {
-        parameterGroups[group.first] = group.second;
-    }
-    //sortParameterGroupsByLastElement();
 
-    for (const auto& group : parameterGroups)
+    // Debug output to verify the sorted groups
+    for (const auto& group : sortedGroups2)
     {
-        DBG("Group: " << group.first);
-        for (const auto& param : group.second)
+        DBG("Group Name: " << group.first);
+        for (const auto& paramPair : group.second)
         {
-            DBG("  Parameter ID: " << param->getParameterID());
-            DBG("  Parameter Name: " << param->getName(100));
+            DBG("  Parameter ID Last Character: " << paramPair.first);
+            DBG("  Parameter ID: " << paramPair.second->getParameterID());
+            DBG("  Parameter Name: " << paramPair.second->getName(100));
+            parameterGroups[group.first].push_back(paramPair.second);
         }
     }
 }
 
-void Pedal::sortParameterGroupsByLastElement()
-{
-    // Copy the map into a vector of pairs
-    std::vector<std::pair<juce::String, std::vector<juce::RangedAudioParameter*>>> sortedGroups(
-        parameterGroups.begin(), parameterGroups.end());
-
-    // Sort by the last element of the group (pair.second)
-    std::sort(sortedGroups.begin(), sortedGroups.end(),
-        [](const auto& a, const auto& b) {
-            if (a.second.empty() || b.second.empty())
-                return a.second.size() < b.second.size(); // Handle empty groups gracefully
-            return a.second.back()->getParameterID() < b.second.back()->getParameterID();
-        });
-
-    // Clear and reconstruct the map in sorted order
-    parameterGroups.clear();
-    for (const auto& group : sortedGroups)
-    {
-        parameterGroups[group.first] = group.second;
-    }
-}
