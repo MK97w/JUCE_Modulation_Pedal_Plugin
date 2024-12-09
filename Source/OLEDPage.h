@@ -25,7 +25,7 @@ protected:
     std::vector<juce::RangedAudioParameter*> apvts;
     int currentAPVTSIndex = 0;
     int displayOffset = 0;
-    int maxElemtoDisplay = 5;
+    static constexpr int maxElemtoDisplay = 5;
 
 
     static const juce::Font getCustomFont()
