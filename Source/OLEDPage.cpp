@@ -31,7 +31,7 @@ void BasicEditPage::paint(juce::Graphics& g)
 		g.drawText(getPageTitle().toUpperCase(), innerLeft, innerTop + 1, (innerRight - innerLeft), 20, juce::Justification::horizontallyCentred);
 	}
     g.setColour(juce::Colours::white);
-    g.setFont(18.5f);
+    g.setFont(18.0f);
     int lineHeight = g.getCurrentFont().getHeight();
 	int yPosition = innerTop + 22;
     for (int i = 0; i < apvts.size(); ++i)

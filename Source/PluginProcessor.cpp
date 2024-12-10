@@ -93,8 +93,7 @@ void Modulation_Pedal_PluginAudioProcessor::changeProgramName (int index, const 
 //==============================================================================
 void Modulation_Pedal_PluginAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlock)
 {
-    auto delayBufferSize = 2.0 * sampleRate;
-    delayBuffer.setSize(getTotalNumOutputChannels(), static_cast<int>(delayBufferSize));  
+
 }
 
 void Modulation_Pedal_PluginAudioProcessor::releaseResources()
@@ -147,125 +146,7 @@ void Modulation_Pedal_PluginAudioProcessor::processBlock (juce::AudioBuffer<floa
 
     updateBufferPositions(buffer, delayBuffer);*/
 }
-void Modulation_Pedal_PluginAudioProcessor::fillBuffer(juce::AudioBuffer<float>& buffer, int channel)
-{
-    /*
-    auto bufferSize = buffer.getNumSamples();
-    auto delayBufferSize = delayBuffer.getNumSamples();
-    auto* wet = params.getRawParameterValue("DRYWET");
 
-    buffer.applyGain(0, bufferSize, 1.0f - (wet->load() / 100.0f));
-
-    // Check to see if main buffer copies to delay buffer without needing to wrap...
-    if (delayBufferSize >= bufferSize + writePosition)
-    {
-        // copy main buffer contents to delay buffer
-        delayBuffer.copyFrom(channel, writePosition, buffer.getWritePointer(channel), bufferSize);
-    }
-    // if no
-    else
-    {
-        // Determine how much space is left at the end of the delay buffer
-        auto numSamplesToEnd = delayBufferSize - writePosition;
-
-        // Copy that amount of contents to the end...
-        delayBuffer.copyFrom(channel, writePosition, buffer.getWritePointer(channel), numSamplesToEnd);
-
-        // Calculate how much contents is remaining to copy
-        auto numSamplesAtStart = bufferSize - numSamplesToEnd;
-
-        // Copy remaining amount to beginning of delay buffer
-        delayBuffer.copyFrom(channel, 0, buffer.getWritePointer(channel, numSamplesToEnd), numSamplesAtStart);
-    }*/
-}
-
-void Modulation_Pedal_PluginAudioProcessor::feedbackBuffer(juce::AudioBuffer<float>& buffer, int channel)
-{
-    /*auto bufferSize = buffer.getNumSamples();
-    auto delayBufferSize = delayBuffer.getNumSamples();
-    // feedback
-    auto fbLeft = params.getRawParameterValue("FEEDBACKLEFT")->load();
-    auto fbRight = params.getRawParameterValue("FEEDBACKRIGHT")->load();
-
-    if (params.getRawParameterValue("FBLINK")->load() == true)
-    {
-        fbRight = fbLeft;
-    }
-
-    auto fb = channel == 0 ? fbLeft : fbRight;
-
-    // Check to see if main buffer copies to delay buffer without needing to wrap...
-    if (delayBufferSize >= bufferSize + writePosition)
-    {
-        // copy main buffer contents to delay buffer
-        delayBuffer.addFromWithRamp(channel, writePosition, buffer.getWritePointer(channel), bufferSize, fb, fb);
-    }
-    // if no
-    else
-    {
-        // Determine how much space is left at the end of the delay buffer
-        auto numSamplesToEnd = delayBufferSize - writePosition;
-
-        // Copy that amount of contents to the end...
-        delayBuffer.addFromWithRamp(channel, writePosition, buffer.getWritePointer(channel), numSamplesToEnd, fb, fb);
-
-        // Calculate how much contents is remaining to copy
-        auto numSamplesAtStart = bufferSize - numSamplesToEnd;
-
-        // Copy remaining amount to beginning of delay buffer
-        delayBuffer.addFromWithRamp(channel, 0, buffer.getWritePointer(channel, numSamplesToEnd), numSamplesAtStart, fb, fb);
-    }*/
-}
-
-void Modulation_Pedal_PluginAudioProcessor::readFromBuffer(juce::AudioBuffer<float>& buffer, juce::AudioBuffer<float>& delayBuffer, int channel)
-{/*
-    auto bufferSize = buffer.getNumSamples();
-    auto delayBufferSize = delayBuffer.getNumSamples();
-
-    auto percent = params.getRawParameterValue("DRYWET")->load();
-    auto g = juce::jmap(percent, 0.0f, 100.0f, 0.0f, 1.0f);
-    auto dryGain = 1.0f - g;
-
-    auto delayTimeLeft = params.getRawParameterValue("DELAYMSLEFT")->load();
-    auto delayTimeRight = params.getRawParameterValue("DELAYMSRIGHT")->load();
-
-    if (params.getRawParameterValue("DELAYLINK")->load() == true)
-    {
-        delayTimeRight = delayTimeLeft;
-    }
-
-    auto delayTime = channel == 0 ? delayTimeLeft : delayTimeRight;
-
-    // delayMs
-    auto readPosition = std::round(writePosition - (getSampleRate() * delayTime / 1000.0f));
-
-    if (readPosition < 0)
-        readPosition += delayBufferSize;
-
-    buffer.applyGainRamp(0, bufferSize, dryGain, dryGain);
-
-    if (readPosition + bufferSize < delayBufferSize)
-    {
-        buffer.addFromWithRamp(channel, 0, delayBuffer.getReadPointer(channel, readPosition), bufferSize, g, g);
-    }
-    else
-    {
-        auto numSamplesToEnd = delayBufferSize - readPosition;
-        buffer.addFromWithRamp(channel, 0, delayBuffer.getReadPointer(channel, readPosition), numSamplesToEnd, g, g);
-
-        auto numSamplesAtStart = bufferSize - numSamplesToEnd;
-        buffer.addFromWithRamp(channel, numSamplesToEnd, delayBuffer.getReadPointer(channel, 0), numSamplesAtStart, g, g);
-    }
-}
-
-void Modulation_Pedal_PluginAudioProcessor::updateBufferPositions(juce::AudioBuffer<float>& buffer, juce::AudioBuffer<float>& delayBuffer)
-{
-    auto bufferSize = buffer.getNumSamples();
-    auto delayBufferSize = delayBuffer.getNumSamples();
-
-    writePosition += bufferSize;
-    writePosition %= delayBufferSize;*/
-}
 //==============================================================================
 bool Modulation_Pedal_PluginAudioProcessor::hasEditor() const
 {
@@ -304,29 +185,10 @@ juce::AudioProcessor* JUCE_CALLTYPE createPluginFilter()
 juce::AudioProcessorValueTreeState::ParameterLayout 
 Modulation_Pedal_PluginAudioProcessor::createParameters()
 {
-    //std::vector<std::unique_ptr<juce::RangedAudioParameter>> params;
-    //auto delayGroup = std::make_unique<juce::AudioProcessorParameterGroup>("delayGroup", "Delay", "|");
-    
-   /* params.push_back(std::make_unique<juce::AudioParameterFloat>("DELAYMSLEFT", "DELAY MS LEFT", 0.0f, 2000.0f, 0.0f));
-    params.push_back(std::make_unique<juce::AudioParameterFloat>("DELAYMSRIGHT", "DELAY MS RIGHT", 0.0f, 2000.0f, 0.0f));
-    params.push_back(std::make_unique<juce::AudioParameterBool>("DELAYLINK", "DELAY LINK", false));
-    params.push_back(std::make_unique<juce::AudioParameterFloat>("FEEDBACKLEFT", "FEEDBACK LEFT", 0.0f, 1.0f, 0.0f));
-    params.push_back(std::make_unique<juce::AudioParameterFloat>("FEEDBACKRIGHT", "FEEDBACK RIGHT", 0.0f, 1.0f, 0.0f));
-    params.push_back(std::make_unique<juce::AudioParameterBool>("FBLINK", "FEEDBACK LINK", false));
-    params.push_back(std::make_unique<juce::AudioParameterFloat>("DRYWET", "DRY/WET", 0.0f, 100.0f, 0.0f));
-*/
+
 
     std::vector<std::unique_ptr<juce::RangedAudioParameter>> params;
-
-    auto vibratoGroup = std::make_unique<juce::AudioProcessorParameterGroup>("vibrato", "Vibrato", "|");
-    vibratoGroup->addChild(std::make_unique<juce::AudioParameterFloat>("_Vibrato_A", "Vibrato A", 0.1f, 10.0f, 5.0f));
-    vibratoGroup->addChild(std::make_unique<juce::AudioParameterFloat>("_Vibrato_B", "Vibrato B", 0.0f, 1.0f, 0.5f));
-    vibratoGroup->addChild(std::make_unique<juce::AudioParameterFloat>("_Vibrato_C", "Vibrato C", 0.0f, 1.0f, 0.5f));
-    vibratoGroup->addChild(std::make_unique<juce::AudioParameterFloat>("_Vibrato_D", "Vibrato D", 0.0f, 1.0f, 0.5f));
-    vibratoGroup->addChild(std::make_unique<juce::AudioParameterFloat>("Vibrato_E", "Vibrato E", 0.1f, 10.0f, 5.0f));
-    vibratoGroup->addChild(std::make_unique<juce::AudioParameterFloat>("Vibrato_F", "Vibrato F", 0.0f, 1.0f, 0.5f));
-    vibratoGroup->addChild(std::make_unique<juce::AudioParameterFloat>("Vibrato_G", "Vibrato G", 0.0f, 1.0f, 0.5f));
-
+    auto vibratoGroup = vibrato.createVibratoParameterGroup();
 
     auto flangerGroup = std::make_unique<juce::AudioProcessorParameterGroup>("flanger", "Flanger", "|");
     flangerGroup->addChild(std::make_unique<juce::AudioParameterFloat>("_Flanger_A", "Flanger A", 0.1f, 10.0f, 5.0f));
