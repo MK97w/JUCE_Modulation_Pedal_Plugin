@@ -82,7 +82,7 @@ private:
                     break;
                 }
             }
-            return out;
+            return depth * out;
 		}
     };
 };
