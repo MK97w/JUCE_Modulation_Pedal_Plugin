@@ -9,29 +9,28 @@
 */
 
 #pragma once
-#include <JuceHeader.h>	
-
-//using twoPi = juce::MathConstants<double>::twoPi;
-
+#include <JuceHeader.h>
 
 class Vibrato
 {
 public:
+    explicit Vibrato(juce::AudioProcessorValueTreeState& apvts);
 
     std::unique_ptr<juce::AudioProcessorParameterGroup> createVibratoParameterGroup();
     void prepareToPlay(double sampleRate, int samplesPerBlock);
-	void processBlock(juce::AudioSampleBuffer& buffer, juce::MidiBuffer& midiMessages);
+    void processBlock(juce::AudioSampleBuffer& buffer, juce::MidiBuffer& midiMessages);
 
 private:
-	juce::AudioBuffer<float> delayBuffer;
-    int delayBufferSamples;
-    int delayBufferChannels;
-    int delayWritePosition;
+    juce::AudioProcessorValueTreeState& apvts; // Reference to APVTS for parameter management
+    juce::AudioBuffer<float> delayBuffer;
+    int delayBufferSamples = 0;
+    int delayBufferChannels = 0;
+    int delayWritePosition = 0;
 
-    float lfoPhase;
-    float inverseSampleRate;
-    float twoPi;
-    
+    float lfoPhase = 0.0f;
+    float inverseSampleRate = 1.0f;
+    const float twoPi = juce::MathConstants<float>::twoPi;
+
     struct lfo
     {
         enum class waveform
@@ -47,13 +46,12 @@ private:
             Random,
             Harmonic
         };
-        
-        
+
         float operator()(float phase, float depth, waveform wf)
-		{
+        {
             float out = 0.0f;
 
-            switch (wf) 
+            switch (wf)
             {
             case waveform::Sine:
                 out = 0.5f + 0.5f * std::sin(juce::MathConstants<float>::twoPi * phase);
@@ -76,7 +74,7 @@ private:
                 break;
 
             case waveform::Pulse:
-                out = phase < 0.25f ? 1.0f : 0.0f; // Adjustable duty cycle could be parameterized.
+                out = phase < 0.25f ? 1.0f : 0.0f;
                 break;
 
             case waveform::RampUp:
@@ -88,9 +86,8 @@ private:
                 break;
 
             case waveform::Random:
-                // Generate random output for each phase reset
                 static float randomValue = static_cast<float>(rand()) / RAND_MAX;
-                if (phase < 0.1f) // Update random value near phase reset
+                if (phase < 0.1f)
                     randomValue = static_cast<float>(rand()) / RAND_MAX;
                 out = randomValue;
                 break;
@@ -101,10 +98,11 @@ private:
                 break;
 
             default:
-                out = 0.0f; // Fallback for invalid waveform
+                out = 0.0f;
                 break;
             }
+
             return depth * out;
-		}
+        }
     };
 };

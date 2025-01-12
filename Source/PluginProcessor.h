@@ -54,9 +54,9 @@ public:
     void getStateInformation (juce::MemoryBlock& destData) override;
     void setStateInformation (const void* data, int sizeInBytes) override;
 
-	Vibrato vibrato;
+;
     juce::AudioProcessorValueTreeState params;
-
+    Vibrato vibrato(juce::AudioProcessorValueTreeState& apvts);
 
 private:
 
