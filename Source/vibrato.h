@@ -40,7 +40,12 @@ private:
             Triangle,
             Sawtooth,
             InverseSawtooth,
-            Square
+            Square,
+            Pulse,
+            RampUp,
+            RampDown,
+            Random,
+            Harmonic
         };
         
         
@@ -50,37 +55,54 @@ private:
 
             switch (wf) 
             {
-                case waveform::Sine : 
-                {
-                    out = 0.5f + 0.5f * sinf(juce::MathConstants<double>::twoPi * phase);
-                    break;
-                }
-                case waveform::Triangle: 
-                {
-                    if (phase < 0.25f)
-                        out = 0.5f + 2.0f * phase;
-                    else if (phase < 0.75f)
-                        out = 1.0f - 2.0f * (phase - 0.25f);
-                    else
-                        out = 2.0f * (phase - 0.75f);
-                    break;
-                }
-                case  waveform::Sawtooth:
-                {
-                    if (phase < 0.5f)
-                        out = 0.5f + phase;
-                    else
-                        out = phase - 0.5f;
-                    break;
-                }
-                case waveform::InverseSawtooth:   
-                {
-                    if (phase < 0.5f)
-                        out = 0.5f - phase;
-                    else
-                         out = 1.5f - phase;
-                    break;
-                }
+            case waveform::Sine:
+                out = 0.5f + 0.5f * std::sin(juce::MathConstants<float>::twoPi * phase);
+                break;
+
+            case waveform::Triangle:
+                out = phase < 0.5f ? 2.0f * phase : 2.0f * (1.0f - phase);
+                break;
+
+            case waveform::Sawtooth:
+                out = phase;
+                break;
+
+            case waveform::InverseSawtooth:
+                out = 1.0f - phase;
+                break;
+
+            case waveform::Square:
+                out = phase < 0.5f ? 1.0f : 0.0f;
+                break;
+
+            case waveform::Pulse:
+                out = phase < 0.25f ? 1.0f : 0.0f; // Adjustable duty cycle could be parameterized.
+                break;
+
+            case waveform::RampUp:
+                out = phase < 0.5f ? phase * 2.0f : 2.0f * (phase - 0.5f);
+                break;
+
+            case waveform::RampDown:
+                out = phase < 0.5f ? 1.0f - phase * 2.0f : 1.0f - 2.0f * (phase - 0.5f);
+                break;
+
+            case waveform::Random:
+                // Generate random output for each phase reset
+                static float randomValue = static_cast<float>(rand()) / RAND_MAX;
+                if (phase < 0.1f) // Update random value near phase reset
+                    randomValue = static_cast<float>(rand()) / RAND_MAX;
+                out = randomValue;
+                break;
+
+            case waveform::Harmonic:
+                out = 0.5f + 0.25f * std::sin(juce::MathConstants<float>::twoPi * phase)
+                    + 0.25f * std::sin(2.0f * juce::MathConstants<float>::twoPi * phase);
+                break;
+
+            default:
+                out = 0.0f; // Fallback for invalid waveform
+                break;
             }
             return depth * out;
 		}
