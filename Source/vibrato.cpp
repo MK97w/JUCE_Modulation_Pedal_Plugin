@@ -1,9 +1,5 @@
 #include "vibrato.h"
 
-Vibrato::Vibrato(juce::AudioProcessorValueTreeState& apvts)
-    : apvts(apvts)
-{
-}
 
 std::unique_ptr<juce::AudioProcessorParameterGroup> Vibrato::createVibratoParameterGroup()
 {
@@ -30,6 +26,11 @@ std::unique_ptr<juce::AudioProcessorParameterGroup> Vibrato::createVibratoParame
     return params;
 }
 
+void Vibrato::fetchParametersFromAPVTS(const juce::AudioProcessorParameterGroup& group)
+{
+    //implement
+}
+
 void Vibrato::prepareToPlay(double sampleRate, int samplesPerBlock)
 {
     inverseSampleRate = 1.0f / static_cast<float>(sampleRate);
@@ -42,7 +43,7 @@ void Vibrato::prepareToPlay(double sampleRate, int samplesPerBlock)
 
 void Vibrato::processBlock(juce::AudioSampleBuffer& buffer, juce::MidiBuffer&)
 {
-    const int numChannels = buffer.getNumChannels();
+    /*const int numChannels = buffer.getNumChannels();
     const int numSamples = buffer.getNumSamples();
 
     const float intensity = *apvts.getRawParameterValue("_Vibrato_Intensity1");
@@ -79,5 +80,5 @@ void Vibrato::processBlock(juce::AudioSampleBuffer& buffer, juce::MidiBuffer&)
 
             ++delayWritePosition %= delayBufferSamples;
         }
-    }
+    }*/
 }

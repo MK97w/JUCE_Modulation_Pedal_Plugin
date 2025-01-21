@@ -14,14 +14,14 @@
 class Vibrato
 {
 public:
-    explicit Vibrato(juce::AudioProcessorValueTreeState& apvts);
-
+    Vibrato() = default;
     std::unique_ptr<juce::AudioProcessorParameterGroup> createVibratoParameterGroup();
     void prepareToPlay(double sampleRate, int samplesPerBlock);
     void processBlock(juce::AudioSampleBuffer& buffer, juce::MidiBuffer& midiMessages);
+    void fetchParametersFromAPVTS(const juce::AudioProcessorParameterGroup&);
 
 private:
-    juce::AudioProcessorValueTreeState& apvts; // Reference to APVTS for parameter management
+
     juce::AudioBuffer<float> delayBuffer;
     int delayBufferSamples = 0;
     int delayBufferChannels = 0;
@@ -30,6 +30,18 @@ private:
     float lfoPhase = 0.0f;
     float inverseSampleRate = 1.0f;
     const float twoPi = juce::MathConstants<float>::twoPi;
+
+    float intensity = 0.5f;
+    float effectLevel = 0.5f;
+    float directLevel = 0.5f;
+    float depth = 0.5f;
+    int waveform = 0;
+    float rate = 1.0f;
+    int complexity = 5;
+    float inputSensitivity = 0.5f;
+    float initialPhase = 0.0f;
+
+    //create apvts from them.
 
     struct lfo
     {
