@@ -26,9 +26,18 @@ std::unique_ptr<juce::AudioProcessorParameterGroup> Vibrato::createVibratoParame
     return params;
 }
 
-void Vibrato::fetchParametersFromAPVTS(const juce::AudioProcessorParameterGroup& group)
+void Vibrato::fetchParametersFromAPVTS(const juce::AudioProcessorValueTreeState& apvts)
 {
-    //implement
+    intensity = apvts.getRawParameterValue("_Vibrato_Intensity1")->load();
+    effectLevel = apvts.getRawParameterValue("_Vibrato_Elevel2")->load();
+    directLevel = apvts.getRawParameterValue("_Vibrato_Dlevel3")->load();
+    depth = apvts.getRawParameterValue("_Vibrato_Depth4")->load();
+    waveform = static_cast<int>(apvts.getRawParameterValue("Vibrato_WF5")->load());
+    rate = apvts.getRawParameterValue("Vibrato_Rate6")->load();
+    complexity = static_cast<int>(apvts.getRawParameterValue("Vibrato_Complexity7")->load());
+    inputSensitivity = apvts.getRawParameterValue("Vibrato_InputSensitivity8")->load();
+    initialPhase = apvts.getRawParameterValue("Vibrato_InitPhase9")->load();
+    
 }
 
 void Vibrato::prepareToPlay(double sampleRate, int samplesPerBlock)
@@ -41,44 +50,55 @@ void Vibrato::prepareToPlay(double sampleRate, int samplesPerBlock)
     delayWritePosition = 0;
 }
 
-void Vibrato::processBlock(juce::AudioSampleBuffer& buffer, juce::MidiBuffer&)
+void Vibrato::processBlock(juce::AudioSampleBuffer& buffer, juce::MidiBuffer& midiMessages, float sampleRate)
 {
-    /*const int numChannels = buffer.getNumChannels();
+    // Update inverse sample rate and apply initial phase offset conversion
+    inverseSampleRate = 1.0f / sampleRate;
+
+    // Process each sample in each channel.
+    const int numChannels = buffer.getNumChannels();
     const int numSamples = buffer.getNumSamples();
 
-    const float intensity = *apvts.getRawParameterValue("_Vibrato_Intensity1");
-    const float effectLevel = *apvts.getRawParameterValue("_Vibrato_Elevel2");
-    const float directLevel = *apvts.getRawParameterValue("_Vibrato_Dlevel3");
-    const float depth = *apvts.getRawParameterValue("_Vibrato_Depth4");
-    const int waveformIndex = static_cast<int>(*apvts.getRawParameterValue("Vibrato_WF5"));
-    const float rate = *apvts.getRawParameterValue("Vibrato_Rate6");
-
-    lfo::waveform currentWaveform = static_cast<lfo::waveform>(waveformIndex);
-
+    // For each sample, compute an LFO value based on current phase and parameters.
     for (int channel = 0; channel < numChannels; ++channel)
     {
         float* channelData = buffer.getWritePointer(channel);
 
-        for (int sampleIndex = 0; sampleIndex < numSamples; ++sampleIndex)
+        for (int sample = 0; sample < numSamples; ++sample)
         {
+            // Update the LFO phase based on the rate. 
             lfoPhase += rate * inverseSampleRate;
             if (lfoPhase >= 1.0f)
                 lfoPhase -= 1.0f;
 
-            float lfoValue = lfo()(lfoPhase, depth, currentWaveform);
+            // Incorporate initial phase offset (assuming initialPhase is normalized [0,1])
+            float effectivePhase = std::fmod(lfoPhase + initialPhase, 1.0f);
 
-            int delaySamples = static_cast<int>(intensity * lfoValue);
-            if (delaySamples > delayBufferSamples)
-                delaySamples = delayBufferSamples;
+            // Compute base LFO output for the selected waveform
+            float lfoValueBase = itsLFO(effectivePhase, depth, static_cast<lfo::waveform>(waveform));
 
-            delayBuffer.setSample(channel, delayWritePosition, channelData[sampleIndex] * directLevel);
+            // Blend with a harmonic version if complexity > 1.
+            float lfoValue = lfoValueBase;
+            if (complexity > 1)
+            {
+                // Compute the harmonic version
+                float lfoValueHarmonic = itsLFO(effectivePhase, depth, lfo::waveform::Harmonic);
+                // Blend: map complexity from [1, 10] to [0, 1]
+                float blend = (complexity - 1) / 9.0f;
+                lfoValue = juce::jmap(blend, lfoValueBase, lfoValueHarmonic);
+            }
 
-            int readPosition = (delayWritePosition - delaySamples + delayBufferSamples) % delayBufferSamples;
-            float delayedSample = delayBuffer.getSample(channel, readPosition);
+            // Adjust effective depth based on input sensitivity:
+            // If the input is loud, we reduce the effective modulation.
+            float inputGain = std::abs(channelData[sample]);
+            float adjustedDepth = depth * (1.0f - inputSensitivity * inputGain);
 
-            channelData[sampleIndex] += delayedSample * effectLevel;
+            // Compute modulation – for a delay-based vibrato engine you would modulate delay time.
+            // Here, for simplicity, we modulate the amplitude (not a true pitch shift, but serves as an example).
+            float modulatedSample = channelData[sample] * (1.0f + intensity * lfoValue * adjustedDepth);
 
-            ++delayWritePosition %= delayBufferSamples;
+            // Mix the dry and wet signals
+            channelData[sample] = directLevel * channelData[sample] + effectLevel * modulatedSample;
         }
-    }*/
+    }
 }

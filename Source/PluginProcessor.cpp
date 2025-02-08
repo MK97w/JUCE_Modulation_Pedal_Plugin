@@ -130,21 +130,9 @@ bool Modulation_Pedal_PluginAudioProcessor::isBusesLayoutSupported (const BusesL
 
 void Modulation_Pedal_PluginAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juce::MidiBuffer& midiMessages)
 {
-   /* juce::ScopedNoDenormals noDenormals;
-    auto totalNumInputChannels = getTotalNumInputChannels();
-    auto totalNumOutputChannels = getTotalNumOutputChannels();
-
-    for (auto i = totalNumInputChannels; i < totalNumOutputChannels; ++i)
-        buffer.clear(i, 0, buffer.getNumSamples());
-
-    for (int channel = 0; channel < totalNumInputChannels; ++channel)
-    {
-        fillBuffer(buffer, channel);
-        readFromBuffer(buffer, delayBuffer, channel);
-        feedbackBuffer(buffer, channel);
-    }
-
-    updateBufferPositions(buffer, delayBuffer);*/
+    vibrato.fetchParametersFromAPVTS(params);
+    // Process the buffer using the vibrato engine
+    vibrato.processBlock(buffer, midiMessages ,getSampleRate());
 }
 
 //==============================================================================

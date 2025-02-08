@@ -17,8 +17,8 @@ public:
     Vibrato() = default;
     std::unique_ptr<juce::AudioProcessorParameterGroup> createVibratoParameterGroup();
     void prepareToPlay(double sampleRate, int samplesPerBlock);
-    void processBlock(juce::AudioSampleBuffer& buffer, juce::MidiBuffer& midiMessages);
-    void fetchParametersFromAPVTS(const juce::AudioProcessorParameterGroup&);
+    void processBlock(juce::AudioSampleBuffer& buffer, juce::MidiBuffer& midiMessages,float sampleRate);
+    void fetchParametersFromAPVTS(const juce::AudioProcessorValueTreeState&);
 
 private:
 
@@ -117,4 +117,5 @@ private:
             return depth * out;
         }
     };
+    lfo itsLFO;
 };
