@@ -176,17 +176,11 @@ Modulation_Pedal_PluginAudioProcessor::createParameters()
 
     std::vector<std::unique_ptr<juce::RangedAudioParameter>> params;
     auto vibratoGroup = vibrato.createVibratoParameterGroup();
-
-    auto flangerGroup = std::make_unique<juce::AudioProcessorParameterGroup>("flanger", "Flanger", "|");
-    flangerGroup->addChild(std::make_unique<juce::AudioParameterFloat>("_Flanger_A", "Flanger A", 0.1f, 10.0f, 5.0f));
-    flangerGroup->addChild(std::make_unique<juce::AudioParameterBool>("_Flanger_B", "Flanger B", false));
-    vibratoGroup->addChild(std::make_unique<juce::AudioParameterFloat>("_Flanger_C", "Flanger C", 0.0f, 1.0f, 0.5f));
-
+    auto flangerGroup = flanger.createFlangerParameterGroup();
+    
     auto modulationGroup = std::make_unique<juce::AudioProcessorParameterGroup>("modulation", "Modulation", "|");
     modulationGroup->addChild(std::move(vibratoGroup));
     modulationGroup->addChild(std::move(flangerGroup));
-
-
 
     return { std::move(modulationGroup) };
 }

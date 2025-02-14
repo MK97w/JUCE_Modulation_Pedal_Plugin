@@ -47,6 +47,8 @@
     <GROUP id="{70D114C3-5627-9D96-54E6-587272A970C3}" name="Source">
       <FILE id="AJjcu7" name="layout.h" compile="0" resource="0" file="Source/layout.h"/>
       <GROUP id="{2C6DE8A7-8C9B-A953-21EF-2103B305F2DB}" name="DSP">
+        <FILE id="SyNezs" name="flanger.cpp" compile="1" resource="0" file="Source/flanger.cpp"/>
+        <FILE id="O6fkGf" name="flanger.h" compile="0" resource="0" file="Source/flanger.h"/>
         <FILE id="mdUr1X" name="vibrato.cpp" compile="1" resource="0" file="Source/vibrato.cpp"/>
         <FILE id="aypXB7" name="vibrato.h" compile="0" resource="0" file="Source/vibrato.h"/>
       </GROUP>

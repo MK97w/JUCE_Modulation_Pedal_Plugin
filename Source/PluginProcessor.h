@@ -10,6 +10,7 @@
 
 #include <JuceHeader.h>
 #include "vibrato.h"
+#include "flanger.h"
 
 //==============================================================================
 /**
@@ -55,6 +56,7 @@ public:
     void setStateInformation (const void* data, int sizeInBytes) override;
   
     Vibrato vibrato;
+    Flanger flanger;
     juce::AudioProcessorValueTreeState params;
 
 
