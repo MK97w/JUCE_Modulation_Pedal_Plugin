@@ -17,9 +17,9 @@ std::unique_ptr<juce::AudioProcessorParameterGroup> Flanger::createFlangerParame
 
     flangerGroup->addChild(std::make_unique<juce::AudioParameterFloat>("Flanger_Rate5", "Rate",
         juce::NormalisableRange<float>(0.01f, 20.0f, 0.01f), 1.0f));
-    flangerGroup->addChild(std::make_unique<juce::AudioParameterFloat>("Flanger_Depth1", "Depth",
+    flangerGroup->addChild(std::make_unique<juce::AudioParameterFloat>("_Flanger_Depth1", "Depth",
         juce::NormalisableRange<float>(0.0f, 100.0f, 0.1f), 50.0f));
-    flangerGroup->addChild(std::make_unique<juce::AudioParameterFloat>("Flanger_Feedback4", "Feedback",
+    flangerGroup->addChild(std::make_unique<juce::AudioParameterFloat>("_Flanger_Feedback4", "Feedback",
         juce::NormalisableRange<float>(0.0f, 100.0f, 0.1f), 50.0f));
     flangerGroup->addChild(std::make_unique<juce::AudioParameterChoice>("Flanger_Waveform3", "Waveform",
         juce::StringArray{ "Sine", "Triangle", "Sawtooth", "InverseSawtooth", "Square", "Pulse", "RampUp", "RampDown", "Random", "Harmonic" }, 0));
@@ -37,9 +37,9 @@ std::unique_ptr<juce::AudioProcessorParameterGroup> Flanger::createFlangerParame
         juce::NormalisableRange<float>(-1.0f, 800.0f, 1.0f), -1.0f));  // -1 means FLAT
     flangerGroup->addChild(std::make_unique<juce::AudioParameterFloat>("Flanger_HighCut11", "High Cut",
         juce::NormalisableRange<float>(630.0f, 16000.0f, 1.0f), -1.0f)); // -1 means FLAT
-    flangerGroup->addChild(std::make_unique<juce::AudioParameterFloat>("Flanger_EffectLevel2", "Effect Level",
+    flangerGroup->addChild(std::make_unique<juce::AudioParameterFloat>("_Flanger_EffectLevel2", "Effect Level",
         juce::NormalisableRange<float>(0.0f, 100.0f, 0.1f), 50.0f));
-    flangerGroup->addChild(std::make_unique<juce::AudioParameterFloat>("Flanger_DirectLevel3", "Direct Level",
+    flangerGroup->addChild(std::make_unique<juce::AudioParameterFloat>("_Flanger_DirectLevel3", "Direct Level",
         juce::NormalisableRange<float>(0.0f, 100.0f, 0.1f), 50.0f));
 
     return flangerGroup;
