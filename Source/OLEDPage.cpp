@@ -111,17 +111,17 @@ void EditPage::paint(juce::Graphics& g)
                 if (currentAPVTSIndex == i)
                 {
                     g.setColour(juce::Colours::lightgrey);
-                    g.fillRect(pageBounds.getX() + 4, pageBounds.getY() + 24 + i * lineHeight, (pageBounds.getWidth() - 15), lineHeight);
+                    g.fillRect(pageBounds.getX() + 4, pageBounds.getY() + 24 + i * lineHeight, (pageBounds.getWidth() - 13), lineHeight);
 
                     g.setColour(juce::Colours::black);
-                    g.drawText(paramName +": ", pageBounds.getX() + 4, pageBounds.getY() + 24 + i * lineHeight, pageBounds.getWidth() - 4, lineHeight, juce::Justification::centredLeft);
-                    g.drawText(paramValue, pageBounds.getRight() - 39, pageBounds.getY() + 24 + i * lineHeight, pageBounds.getWidth() - 4, lineHeight, juce::Justification::centredLeft);
+                    g.drawText(paramName +": ", pageBounds.getX() + 6, pageBounds.getY() + 24 + i * lineHeight, pageBounds.getWidth() - 4, lineHeight, juce::Justification::centredLeft);
+                    g.drawText(paramValue, pageBounds.getRight() - 43, pageBounds.getY() + 24 + i * lineHeight, pageBounds.getWidth() - 4, lineHeight, juce::Justification::centredLeft);
                 }
                 else
                 {
                     g.setColour(juce::Colours::white);
                     g.drawText(paramName + ": ", pageBounds.getX() + 4, pageBounds.getY() + 24 + i * lineHeight, pageBounds.getWidth() -4 , lineHeight, juce::Justification::centredLeft);
-                    g.drawText(paramValue, pageBounds.getRight() - 39, pageBounds.getY() + 24 + i * lineHeight, pageBounds.getWidth() -4 , lineHeight, juce::Justification::centredLeft);
+                    g.drawText(paramValue, pageBounds.getRight() - 43, pageBounds.getY() + 24 + i * lineHeight, pageBounds.getWidth() -4 , lineHeight, juce::Justification::centredLeft);
                 }
         }
         else
@@ -132,14 +132,14 @@ void EditPage::paint(juce::Graphics& g)
                 g.fillRect(pageBounds.getX() + 4, pageBounds.getY() + 24 + i * lineHeight, (pageBounds.getWidth() - 11), lineHeight);
 
                 g.setColour(juce::Colours::black);
-                g.drawText(paramName + ": ", pageBounds.getX() + 4, pageBounds.getY() + 24 + i * lineHeight, pageBounds.getWidth() -4, lineHeight, juce::Justification::centredLeft);
-                g.drawText(paramValue, pageBounds.getRight() - 39, pageBounds.getY() + 24 + i * lineHeight, pageBounds.getWidth() -4, lineHeight, juce::Justification::centredLeft); 
+                g.drawText(paramName + ": ", pageBounds.getX() + 6, pageBounds.getY() + 24 + i * lineHeight, pageBounds.getWidth() -4, lineHeight, juce::Justification::centredLeft);
+                g.drawText(paramValue, pageBounds.getRight() - 43, pageBounds.getY() + 24 + i * lineHeight, pageBounds.getWidth() -4, lineHeight, juce::Justification::centredLeft); 
             }
             else
             {
                 g.setColour(juce::Colours::white);
-                g.drawText(paramName + ": ", pageBounds.getX() + 4, pageBounds.getY() + 24 + i * lineHeight, pageBounds.getWidth() -4 , lineHeight, juce::Justification::centredLeft);
-                g.drawText(paramValue, pageBounds.getRight() - 39, pageBounds.getY() + 24 + i * lineHeight, pageBounds.getWidth() -4, lineHeight, juce::Justification::centredLeft);
+                g.drawText(paramName + ": ", pageBounds.getX() + 6, pageBounds.getY() + 24 + i * lineHeight, pageBounds.getWidth() -4 , lineHeight, juce::Justification::centredLeft);
+                g.drawText(paramValue, pageBounds.getRight() - 43, pageBounds.getY() + 24 + i * lineHeight, pageBounds.getWidth() -4, lineHeight, juce::Justification::centredLeft);
             }
         }
 

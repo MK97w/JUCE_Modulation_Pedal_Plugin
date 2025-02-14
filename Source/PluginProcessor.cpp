@@ -131,7 +131,6 @@ bool Modulation_Pedal_PluginAudioProcessor::isBusesLayoutSupported (const BusesL
 void Modulation_Pedal_PluginAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juce::MidiBuffer& midiMessages)
 {
     vibrato.fetchParametersFromAPVTS(params);
-    // Process the buffer using the vibrato engine
     vibrato.processBlock(buffer, midiMessages ,getSampleRate());
 }
 

@@ -1,26 +1,26 @@
-#include "vibrato.h"
+﻿#include "vibrato.h"
 
 
 std::unique_ptr<juce::AudioProcessorParameterGroup> Vibrato::createVibratoParameterGroup()
 {
     auto params = std::make_unique<juce::AudioProcessorParameterGroup>("vibratoGroup", "Vibrato", "|");
 
-    params->addChild(std::make_unique<juce::AudioParameterFloat>("_Vibrato_Intensity1", "Intensity",
+    params->addChild(std::make_unique<juce::AudioParameterFloat>("_Vibrato_Intensity1", "INTENSITY",
         juce::NormalisableRange<float>(0.0f, 1.0f, 0.01f), 0.5f));
-    params->addChild(std::make_unique<juce::AudioParameterFloat>("_Vibrato_Elevel2", "Effect Level",
+    params->addChild(std::make_unique<juce::AudioParameterFloat>("_Vibrato_Elevel2", "EFFECT LEVEL",
         juce::NormalisableRange<float>(0.0f, 1.0f, 0.01f), 0.5f));
-    params->addChild(std::make_unique<juce::AudioParameterFloat>("_Vibrato_Dlevel3", "Direct Level",
+    params->addChild(std::make_unique<juce::AudioParameterFloat>("_Vibrato_Dlevel3", "DIRECT LEVEL",
         juce::NormalisableRange<float>(0.0f, 1.0f, 0.01f), 0.5f));
-    params->addChild(std::make_unique<juce::AudioParameterFloat>("_Vibrato_Depth4", "Depth",
+    params->addChild(std::make_unique<juce::AudioParameterFloat>("_Vibrato_Depth4", "DEPTH",
         juce::NormalisableRange<float>(0.0f, 1.0f, 0.01f), 0.5f));
-    params->addChild(std::make_unique<juce::AudioParameterChoice>("Vibrato_WF5", "Waveform",
-        juce::StringArray{ "Sine", "Triangle", "Sawtooth", "InverseSawtooth", "Square", "Pulse", "RampUp", "RampDown", "Random", "Harmonic" }, 0));
-    params->addChild(std::make_unique<juce::AudioParameterFloat>("Vibrato_Rate6", "Rate",
+    params->addChild(std::make_unique<juce::AudioParameterChoice>("Vibrato_WF5", "WAVEFORM",
+        juce::StringArray{ "SIN", "TRI", "SWT", "SWTI", "SQR", "PLS", "RMPU", "RMPD", "RND", "HRM" }, 0));
+    params->addChild(std::make_unique<juce::AudioParameterFloat>("Vibrato_Rate6", "RATE",
         juce::NormalisableRange<float>(0.1f, 10.0f, 0.01f), 1.0f));
-    params->addChild(std::make_unique<juce::AudioParameterInt>("Vibrato_Complexity7", "Complexity", 1, 10, 5));
-    params->addChild(std::make_unique<juce::AudioParameterFloat>("Vibrato_InputSensitivity8", "Input Sensitivity",
+    params->addChild(std::make_unique<juce::AudioParameterInt>("Vibrato_Complexity7", "COMPLEXITY", 1, 10, 5));
+    params->addChild(std::make_unique<juce::AudioParameterFloat>("Vibrato_InputSensitivity8", "INPUT SENSITIVITY",
         juce::NormalisableRange<float>(0.0f, 1.0f, 0.01f), 0.5f));
-    params->addChild(std::make_unique<juce::AudioParameterFloat>("Vibrato_InitPhase9", "Initial Phase",
+    params->addChild(std::make_unique<juce::AudioParameterFloat>("Vibrato_InitPhase9", "INITIAL PHASE",
         juce::NormalisableRange<float>(0.0f, 1.0f, 0.01f), 0.0f));
 
     return params;
@@ -93,7 +93,7 @@ void Vibrato::processBlock(juce::AudioSampleBuffer& buffer, juce::MidiBuffer& mi
             float inputGain = std::abs(channelData[sample]);
             float adjustedDepth = depth * (1.0f - inputSensitivity * inputGain);
 
-            // Compute modulation � for a delay-based vibrato engine you would modulate delay time.
+            // Compute modulation – for a delay-based vibrato engine you would modulate delay time.
             // Here, for simplicity, we modulate the amplitude (not a true pitch shift, but serves as an example).
             float modulatedSample = channelData[sample] * (1.0f + intensity * lfoValue * adjustedDepth);
 
