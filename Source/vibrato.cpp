@@ -5,22 +5,22 @@ std::unique_ptr<juce::AudioProcessorParameterGroup> Vibrato::createVibratoParame
 {
     auto params = std::make_unique<juce::AudioProcessorParameterGroup>("vibratoGroup", "Vibrato", "|");
 
-    params->addChild(std::make_unique<juce::AudioParameterFloat>("_Vibrato_Intensity1", "INTENSITY",
+    params->addChild(std::make_unique<juce::AudioParameterFloat>("_Vibrato_Intensity#1", "INTENSITY",
         juce::NormalisableRange<float>(0.0f, 1.0f, 0.01f), 0.5f));
-    params->addChild(std::make_unique<juce::AudioParameterFloat>("_Vibrato_Elevel2", "EFFECT LEVEL",
+    params->addChild(std::make_unique<juce::AudioParameterFloat>("_Vibrato_Elevel#2", "EFFECT LEVEL",
         juce::NormalisableRange<float>(0.0f, 1.0f, 0.01f), 0.5f));
-    params->addChild(std::make_unique<juce::AudioParameterFloat>("_Vibrato_Dlevel3", "DIRECT LEVEL",
+    params->addChild(std::make_unique<juce::AudioParameterFloat>("_Vibrato_Dlevel#3", "DIRECT LEVEL",
         juce::NormalisableRange<float>(0.0f, 1.0f, 0.01f), 0.5f));
-    params->addChild(std::make_unique<juce::AudioParameterFloat>("_Vibrato_Depth4", "DEPTH",
+    params->addChild(std::make_unique<juce::AudioParameterFloat>("_Vibrato_Depth#4", "DEPTH",
         juce::NormalisableRange<float>(0.0f, 1.0f, 0.01f), 0.5f));
-    params->addChild(std::make_unique<juce::AudioParameterChoice>("Vibrato_WF5", "WAVEFORM",
+    params->addChild(std::make_unique<juce::AudioParameterChoice>("Vibrato_WF#5", "WAVEFORM",
         juce::StringArray{ "SIN", "TRI", "SWT", "SWTI", "SQR", "PLS", "RMPU", "RMPD", "RND", "HRM" }, 0));
-    params->addChild(std::make_unique<juce::AudioParameterFloat>("Vibrato_Rate6", "RATE",
+    params->addChild(std::make_unique<juce::AudioParameterFloat>("Vibrato_Rate#6", "RATE",
         juce::NormalisableRange<float>(0.1f, 10.0f, 0.01f), 1.0f));
-    params->addChild(std::make_unique<juce::AudioParameterInt>("Vibrato_Complexity7", "COMPLEXITY", 1, 10, 5));
-    params->addChild(std::make_unique<juce::AudioParameterFloat>("Vibrato_InputSensitivity8", "INPUT SENSITIVITY",
+    params->addChild(std::make_unique<juce::AudioParameterInt>("Vibrato_Complexity#7", "COMPLEXITY", 1, 10, 5));
+    params->addChild(std::make_unique<juce::AudioParameterFloat>("Vibrato_InputSensitivity#8", "INPUT SENSITIVITY",
         juce::NormalisableRange<float>(0.0f, 1.0f, 0.01f), 0.5f));
-    params->addChild(std::make_unique<juce::AudioParameterFloat>("Vibrato_InitPhase9", "INITIAL PHASE",
+    params->addChild(std::make_unique<juce::AudioParameterFloat>("Vibrato_InitPhase#9", "INITIAL PHASE",
         juce::NormalisableRange<float>(0.0f, 1.0f, 0.01f), 0.0f));
 
     return params;
@@ -28,15 +28,15 @@ std::unique_ptr<juce::AudioProcessorParameterGroup> Vibrato::createVibratoParame
 
 void Vibrato::fetchParametersFromAPVTS(const juce::AudioProcessorValueTreeState& apvts)
 {
-    intensity = apvts.getRawParameterValue("_Vibrato_Intensity1")->load();
-    effectLevel = apvts.getRawParameterValue("_Vibrato_Elevel2")->load();
-    directLevel = apvts.getRawParameterValue("_Vibrato_Dlevel3")->load();
-    depth = apvts.getRawParameterValue("_Vibrato_Depth4")->load();
-    waveform = static_cast<int>(apvts.getRawParameterValue("Vibrato_WF5")->load());
-    rate = apvts.getRawParameterValue("Vibrato_Rate6")->load();
-    complexity = static_cast<int>(apvts.getRawParameterValue("Vibrato_Complexity7")->load());
-    inputSensitivity = apvts.getRawParameterValue("Vibrato_InputSensitivity8")->load();
-    initialPhase = apvts.getRawParameterValue("Vibrato_InitPhase9")->load();
+    intensity = apvts.getRawParameterValue("_Vibrato_Intensity#1")->load();
+    effectLevel = apvts.getRawParameterValue("_Vibrato_Elevel#2")->load();
+    directLevel = apvts.getRawParameterValue("_Vibrato_Dlevel#3")->load();
+    depth = apvts.getRawParameterValue("_Vibrato_Depth#4")->load();
+    waveform = static_cast<int>(apvts.getRawParameterValue("Vibrato_WF#5")->load());
+    rate = apvts.getRawParameterValue("Vibrato_Rate#6")->load();
+    complexity = static_cast<int>(apvts.getRawParameterValue("Vibrato_Complexity#7")->load());
+    inputSensitivity = apvts.getRawParameterValue("Vibrato_InputSensitivity#8")->load();
+    initialPhase = apvts.getRawParameterValue("Vibrato_InitPhase#9")->load();
     
 }
 

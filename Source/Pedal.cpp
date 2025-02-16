@@ -258,7 +258,7 @@ void Pedal::sliderDragStarted(juce::Slider* slider)
 		return;
     else
     {
-        auto apvtsIndex = knob->getIndex() - 2;
+        auto apvtsIndex = knob->getIndex() - 1;
 		knob->itsAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(pedalAPVTS,
 		    parameterGroups[selectedEffect][apvtsIndex]->getParameterID(), *knob);
         
@@ -278,7 +278,7 @@ void Pedal::sliderDragEnded(juce::Slider* slider)
 
 void Pedal::initializeParameterGroups()
 {
-    std::vector<std::pair<juce::String, std::map<juce::juce_wchar, juce::RangedAudioParameter*, std::less<juce::juce_wchar>>>> sortedGroups2;
+    std::vector<std::pair<juce::String, std::map<int, juce::RangedAudioParameter*, std::less<int>>>> sortedGroups2;
     for (auto& param : pedalAPVTS.state)
     {
         // Retrieve the parameter ID and name
@@ -311,19 +311,20 @@ void Pedal::initializeParameterGroups()
                 if (it == sortedGroups2.end())
                 {
                     // Create a new group if it doesn't exist
-                    std::map<juce::juce_wchar, juce::RangedAudioParameter*, std::less<juce::juce_wchar>> newGroup;
-                    newGroup[rangedParameter->getParameterID().getLastCharacter()] = rangedParameter;
+                    std::map<int, juce::RangedAudioParameter*, std::less<int>> newGroup;
+                    int paramNumber = paramID.fromLastOccurrenceOf("#", false, false).getIntValue();
+                    newGroup[paramNumber] = rangedParameter;
                     sortedGroups2.push_back(std::make_pair(groupName, newGroup));
                 }
                 else
                 {
                     // Add to the existing group
-                    it->second[rangedParameter->getParameterID().getLastCharacter()] = rangedParameter;
+                    int paramNumber = paramID.fromLastOccurrenceOf("#", false, false).getIntValue();
+                    it->second[paramNumber] = rangedParameter;
                 }
 
                 DBG(groupName);
-                DBG(rangedParameter->getParameterID());
-                DBG(rangedParameter->getParameterID().getLastCharacter());
+                DBG(rangedParameter->getParameterID());;
             }
         }
     }

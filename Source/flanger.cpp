@@ -14,31 +14,31 @@
 std::unique_ptr<juce::AudioProcessorParameterGroup> Flanger::createFlangerParameterGroup()
 {
     auto flangerGroup = std::make_unique<juce::AudioProcessorParameterGroup>("flanger", "Flanger", "|");
-    flangerGroup->addChild(std::make_unique<juce::AudioParameterFloat>("_Flanger_Feedback01", "Feedback",
+    flangerGroup->addChild(std::make_unique<juce::AudioParameterFloat>("_Flanger_Feedback#1", "Feedback",
         juce::NormalisableRange<float>(0.0f, 100.0f, 0.1f), 50.0f));
-    flangerGroup->addChild(std::make_unique<juce::AudioParameterFloat>("_Flanger_EffectLevel02", "Effect Level",
+    flangerGroup->addChild(std::make_unique<juce::AudioParameterFloat>("_Flanger_EffectLevel#2", "Effect Level",
         juce::NormalisableRange<float>(0.0f, 100.0f, 0.1f), 50.0f));
-    flangerGroup->addChild(std::make_unique<juce::AudioParameterFloat>("_Flanger_DirectLevel03", "Direct Level",
+    flangerGroup->addChild(std::make_unique<juce::AudioParameterFloat>("_Flanger_DirectLevel#3", "Direct Level",
         juce::NormalisableRange<float>(0.0f, 100.0f, 0.1f), 50.0f));
-    flangerGroup->addChild(std::make_unique<juce::AudioParameterFloat>("_Flanger_Depth04", "Depth",
+    flangerGroup->addChild(std::make_unique<juce::AudioParameterFloat>("_Flanger_Depth#4", "Depth",
         juce::NormalisableRange<float>(0.0f, 100.0f, 0.1f), 50.0f));
-    flangerGroup->addChild(std::make_unique<juce::AudioParameterChoice>("Flanger_Waveform05", "Waveform",
+    flangerGroup->addChild(std::make_unique<juce::AudioParameterChoice>("Flanger_Waveform#5", "Waveform",
         juce::StringArray{ "SIN", "TRI", "SWT", "SWTI", "SQR", "PLS", "RMPU", "RMPD", "RND", "HRM" }, 0));
-    flangerGroup->addChild(std::make_unique<juce::AudioParameterFloat>("Flanger_Rate06", "Rate",
+    flangerGroup->addChild(std::make_unique<juce::AudioParameterFloat>("Flanger_Rate#6", "Rate",
         juce::NormalisableRange<float>(0.01f, 20.0f, 0.01f), 1.0f));
-    flangerGroup->addChild(std::make_unique<juce::AudioParameterFloat>("Flanger_InputSens07", "Input Sensitivity",
+    flangerGroup->addChild(std::make_unique<juce::AudioParameterFloat>("Flanger_InputSens#7", "Input Sensitivity",
         juce::NormalisableRange<float>(0.0f, 100.0f, 0.1f), 50.0f));
-    flangerGroup->addChild(std::make_unique<juce::AudioParameterChoice>("Flanger_Polarity08", "Polarity",
+    flangerGroup->addChild(std::make_unique<juce::AudioParameterChoice>("Flanger_Polarity#8", "Polarity",
         juce::StringArray{ "UP", "DOWN" }, 0));
-    flangerGroup->addChild(std::make_unique<juce::AudioParameterChoice>("Flanger_OutputMode09", "Output Mode",
+    flangerGroup->addChild(std::make_unique<juce::AudioParameterChoice>("Flanger_OutputMode#9", "Output Mode",
         juce::StringArray{ "MONO", "STER" }, 1));
-    flangerGroup->addChild(std::make_unique<juce::AudioParameterFloat>("Flanger_LowDamp10", "Low Damp",
+    flangerGroup->addChild(std::make_unique<juce::AudioParameterFloat>("Flanger_LowDamp#10", "Low Damp",
         juce::NormalisableRange<float>(-100.0f, 0.0f, 1.0f), -50.0f));
-    flangerGroup->addChild(std::make_unique<juce::AudioParameterFloat>("Flanger_HighDamp11", "High Damp",
+    flangerGroup->addChild(std::make_unique<juce::AudioParameterFloat>("Flanger_HighDamp#11", "High Damp",
         juce::NormalisableRange<float>(-100.0f, 0.0f, 1.0f), -50.0f));
-    flangerGroup->addChild(std::make_unique<juce::AudioParameterFloat>("Flanger_LowCut12", "Low Cut",
+    flangerGroup->addChild(std::make_unique<juce::AudioParameterFloat>("Flanger_LowCut#12", "Low Cut",
         juce::NormalisableRange<float>(-1.0f, 800.0f, 1.0f), -1.0f));  // -1 means FLAT
-    flangerGroup->addChild(std::make_unique<juce::AudioParameterFloat>("Flanger_HighCut13", "High Cut",
+    flangerGroup->addChild(std::make_unique<juce::AudioParameterFloat>("Flanger_HighCut#13", "High Cut",
         juce::NormalisableRange<float>(630.0f, 16000.0f, 1.0f), -1.0f)); // -1 means FLAT
 
 
