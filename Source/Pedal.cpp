@@ -258,7 +258,7 @@ void Pedal::sliderDragStarted(juce::Slider* slider)
 		return;
     else
     {
-        auto apvtsIndex = knob->getIndex() - 1;
+        auto apvtsIndex = knob->getIndex()-2;
 		knob->itsAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(pedalAPVTS,
 		    parameterGroups[selectedEffect][apvtsIndex]->getParameterID(), *knob);
         
