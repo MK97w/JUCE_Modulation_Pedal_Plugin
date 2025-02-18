@@ -15,23 +15,26 @@
 #include "FootswitchLookAndFeel.h" 
 #include "OLEDPageFactory.h" 
 
+#include "PluginProcessor.h" 
+
 #include "layout.h"
 
 
 class Pedal : public juce::Component, /*public juce::Button::Listener,*/ public juce::Slider::Listener
 {
 public:
-   Pedal(juce::AudioProcessorValueTreeState& apvts);
+   Pedal(Modulation_Pedal_PluginAudioProcessor&);
    ~Pedal();
    void paint(juce::Graphics& g) override;
    void resized() override;
    juce::Rectangle<int> getBounds() { return pedalBounds; };
-
    std::unordered_map<juce::String, std::vector<juce::RangedAudioParameter*>> parameterGroups;
 
 
 private:
-
+   Modulation_Pedal_PluginAudioProcessor& processor;
+   juce::AudioProcessorValueTreeState& pedalAPVTS;
+   
    std::unique_ptr<OLEDPage> currentOLEDPage;
    PageFactory pageFactory;
 
@@ -40,7 +43,8 @@ private:
    std::array<std::unique_ptr<FootswitchButton>, 3> footswitches; // this looks fine but maybe i should find a way to give them a name or individualize them
    std::array<std::unique_ptr<Knob>, 6> knobs;
    juce::TextButton upButton, downButton, editButton, exitButton;
-   juce::AudioProcessorValueTreeState& pedalAPVTS;
+   
+
    std::unordered_map<int, std::string> effects;
 
 

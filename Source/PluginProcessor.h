@@ -15,6 +15,8 @@
 //==============================================================================
 /**
 */
+
+
 class Modulation_Pedal_PluginAudioProcessor  : public juce::AudioProcessor
 {
 public:
@@ -54,10 +56,12 @@ public:
     //==============================================================================
     void getStateInformation (juce::MemoryBlock& destData) override;
     void setStateInformation (const void* data, int sizeInBytes) override;
+    void setEffect(const std::string& newEffect);
   
     Vibrato vibrato;
     Flanger flanger;
     juce::AudioProcessorValueTreeState params;
+    std::string currentEffect;
 
 
 private:

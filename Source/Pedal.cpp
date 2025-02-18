@@ -13,11 +13,12 @@
 #include <memory> 
 #include <iostream> 
 
-Pedal::Pedal(juce::AudioProcessorValueTreeState& apvts)
+Pedal::Pedal(Modulation_Pedal_PluginAudioProcessor& audioProcessor)
 : pedalBaseImage(juce::ImageCache::getFromMemory(BinaryData::pedal_base_darkestblue_lcd_png,
                 BinaryData::pedal_base_darkestblue_lcd_pngSize)),
   pedalBounds(0, 0, 0, 0),
-  pedalAPVTS(apvts)
+  processor(audioProcessor),
+  pedalAPVTS(processor.params)
 {
     if (pedalBaseImage.isNull())
         throw std::runtime_error("Failed to load pedal base image.");
@@ -38,6 +39,7 @@ Pedal::~Pedal()
 {
 
 }
+
 
 void Pedal::paint(juce::Graphics& g)
 {
@@ -225,6 +227,7 @@ void Pedal::sliderValueChanged(juce::Slider* slider)
     if (knobs[0].get() == slider)
     {
 		selectedEffect = effects[static_cast<int>(knobs[0].get()->getValue())];
+        processor.setEffect(selectedEffect);
         if (selectedPage == pageType::FULL_EDIT)
         {
             currentAPVTSIndex = 0;

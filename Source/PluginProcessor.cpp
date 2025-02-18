@@ -9,6 +9,7 @@
 #include "PluginProcessor.h"
 #include "PluginEditor.h"
 
+
 //==============================================================================
 Modulation_Pedal_PluginAudioProcessor::Modulation_Pedal_PluginAudioProcessor()
 #ifndef JucePlugin_PreferredChannelConfigurations
@@ -22,10 +23,16 @@ Modulation_Pedal_PluginAudioProcessor::Modulation_Pedal_PluginAudioProcessor()
                        ), params(*this, nullptr, "Parameters", createParameters())
 #endif
 {
+
 }
 
 Modulation_Pedal_PluginAudioProcessor::~Modulation_Pedal_PluginAudioProcessor()
 {
+}
+
+void Modulation_Pedal_PluginAudioProcessor::setEffect(const std::string& newEffect)
+{
+    currentEffect = newEffect;
 }
 
 //==============================================================================
@@ -130,8 +137,17 @@ bool Modulation_Pedal_PluginAudioProcessor::isBusesLayoutSupported (const BusesL
 
 void Modulation_Pedal_PluginAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juce::MidiBuffer& midiMessages)
 {
-    vibrato.fetchParametersFromAPVTS(params);
-    vibrato.processBlock(buffer, midiMessages ,getSampleRate());
+    if (currentEffect == "vibrato")
+    {
+        vibrato.fetchParametersFromAPVTS(params);
+        vibrato.processBlock(buffer, midiMessages, getSampleRate());
+    }
+    else if (currentEffect == "flanger")
+    {
+		flanger.fetchParametersFromAPVTS(params);
+		flanger.processBlock(buffer, midiMessages, getSampleRate());    
+    }
+
 }
 
 //==============================================================================
