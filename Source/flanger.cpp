@@ -47,22 +47,20 @@ std::unique_ptr<juce::AudioProcessorParameterGroup> Flanger::createFlangerParame
 
 void Flanger::fetchParametersFromAPVTS(const juce::AudioProcessorValueTreeState& apvts)
 {
-   /*
-        RENAME PARAMETERS
-   
-   rate = apvts.getRawParameterValue("_Flanger_Rate")->load();
-    depth = apvts.getRawParameterValue("Flanger_Depth")->load();
-    feedback = apvts.getRawParameterValue("Flanger_Feedback")->load();
-    waveform = static_cast<int>(apvts.getRawParameterValue("Flanger_Waveform")->load());
-    inputSensitivity = apvts.getRawParameterValue("Flanger_InputSens")->load();
-    polarityUp = (static_cast<int>(apvts.getRawParameterValue("Flanger_Polarity")->load()) == 0); // UP = 0
-    outputStereo = (static_cast<int>(apvts.getRawParameterValue("Flanger_OutputMode")->load()) == 1); // STEREO = 1
-    lowDamp = apvts.getRawParameterValue("Flanger_LowDamp")->load();
-    highDamp = apvts.getRawParameterValue("Flanger_HighDamp")->load();
-    lowCut = apvts.getRawParameterValue("Flanger_LowCut")->load();
-    highCut = apvts.getRawParameterValue("Flanger_HighCut")->load();
-    effectLevel = apvts.getRawParameterValue("Flanger_EffectLevel")->load();
-    effectLevel = apvts.getRawParameterValue("Flanger_DirectLevel")->load();*/
+    feedback = apvts.getRawParameterValue("_Flanger_Feedback#1")->load();
+    effectLevel = apvts.getRawParameterValue("_Flanger_EffectLevel#2")->load();
+    directLevel = apvts.getRawParameterValue("_Flanger_DirectLevel#3")->load();
+    depth = apvts.getRawParameterValue("_Flanger_Depth#4")->load();
+    waveform = static_cast<int>(apvts.getRawParameterValue("Flanger_Waveform#5")->load());
+    rate = apvts.getRawParameterValue("Flanger_Rate#6")->load();   
+    inputSensitivity = apvts.getRawParameterValue("Flanger_InputSens#7")->load();
+    polarityUp = (static_cast<int>(apvts.getRawParameterValue("Flanger_Polarity#8")->load()) == 0); // UP = 0
+    outputStereo = (static_cast<int>(apvts.getRawParameterValue("Flanger_OutputMode#9")->load()) == 1); // STEREO = 1
+    lowDamp = apvts.getRawParameterValue("Flanger_LowDamp#10")->load();
+    highDamp = apvts.getRawParameterValue("Flanger_HighDamp#11")->load();
+    lowCut = apvts.getRawParameterValue("Flanger_LowCut#12")->load();
+    highCut = apvts.getRawParameterValue("Flanger_HighCut#13")->load();
+ 
 }
 
 void Flanger::prepareToPlay(double sampleRate, int samplesPerBlock)
